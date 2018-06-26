@@ -1,9 +1,9 @@
-package  com.example.wang.goclient.api
+package  com.leowong.project.client.api
 
-import com.example.wang.goclient.BuildConfig
-import com.example.wang.goclient.utils.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.leowong.project.client.BuildConfig
+import com.leowong.project.client.utils.GsonUtils
 import okhttp3.FormBody
 import okhttp3.MediaType
 import okhttp3.OkHttpClient

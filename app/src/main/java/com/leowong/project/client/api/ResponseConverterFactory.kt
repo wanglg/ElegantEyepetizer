@@ -1,8 +1,8 @@
-package com.example.wang.goclient.api
+package com.leowong.project.client.api
 
-import com.example.wang.goclient.utils.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.leowong.project.client.utils.GsonUtils
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Converter

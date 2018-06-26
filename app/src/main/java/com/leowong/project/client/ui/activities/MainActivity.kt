@@ -1,8 +1,8 @@
-package com.example.wang.goclient.ui.activities
+package com.leowong.project.client.ui.activities
 
 import com.agile.android.leo.mvp.IPresenter
-import com.example.wang.goclient.R
-import com.example.wang.goclient.base.BaseActivity
+import com.leowong.project.client.R
+import com.leowong.project.client.base.BaseActivity
 
 class MainActivity : BaseActivity<IPresenter>() {
     override fun getLayoutId(): Int {

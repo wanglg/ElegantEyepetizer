@@ -1,4 +1,4 @@
-package com.example.wang.goclient.api
+package com.leowong.project.client.api
 
 /**
  * 服务器响应吗码

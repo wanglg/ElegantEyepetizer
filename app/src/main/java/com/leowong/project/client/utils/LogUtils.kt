@@ -1,7 +1,7 @@
-package com.example.wang.goclient.utils
+package com.leowong.project.client.utils
 
 import android.util.Log
-import com.example.wang.goclient.BuildConfig
+import com.leowong.project.client.BuildConfig
 
 object LogUtils {
     private var isPrintLog = BuildConfig.LOG_DEBUG

@@ -1,4 +1,4 @@
-package com.example.wang.goclient.api
+package com.leowong.project.client.api
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

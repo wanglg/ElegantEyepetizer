@@ -1,8 +1,8 @@
-package com.example.wang.goclient.api
+package com.leowong.project.client.api
 
 import android.text.TextUtils
-import com.example.wang.goclient.utils.LogUtils
 import com.google.gson.Gson
+import com.leowong.project.client.utils.LogUtils
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import java.io.IOException

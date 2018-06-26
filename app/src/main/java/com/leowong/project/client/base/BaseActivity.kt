@@ -1,4 +1,4 @@
-package com.example.wang.goclient.base
+package com.leowong.project.client.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle

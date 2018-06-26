@@ -1,4 +1,4 @@
-package com.example.wang.goclient.utils.rxjava
+package com.leowong.project.client.utils.rxjava
 
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,4 +1,4 @@
-package com.example.wang.goclient.utils
+package com.leowong.project.client.utils
 
 import com.google.gson.*
 import java.lang.reflect.Type
