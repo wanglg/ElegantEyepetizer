@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/bg_splash_def" />
+   <!-- <item android:bottom="45dp">
+        <bitmap
+            android:gravity="bottom"
+            android:src="@mipmap/icon_splash_bottom" />
+    </item>-->
+</layer-list>

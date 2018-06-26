@@ -1,1 +1,1 @@
-include ':app', ':agile_android'
+include ':app', ':agile_android',':recyclerpager'
