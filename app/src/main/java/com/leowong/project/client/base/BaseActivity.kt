@@ -17,9 +17,7 @@ import org.greenrobot.eventbus.EventBus
  * FIXME
  */
 @SuppressLint("Registered")
-abstract class BaseActivity<P : IPresenter> : AgileActivity() {
-    open var mPresenter: P? = null//如果当前页面逻辑简单, Presenter 可以为 null
-    open var mCompositeDisposable: CompositeDisposable? = null
+abstract class BaseActivity<P : IPresenter> : AgileActivity<P>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +36,6 @@ abstract class BaseActivity<P : IPresenter> : AgileActivity() {
         }
     }
 
-    fun addDispose(disposable: Disposable) {
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = CompositeDisposable()
-        }
-        mCompositeDisposable?.add(disposable)//将所有 Disposable 放入集中处理
-    }
 
     fun <T> getTransformer(): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
@@ -61,12 +53,6 @@ abstract class BaseActivity<P : IPresenter> : AgileActivity() {
         //super.onSaveInstanceState(outState)
     }
 
-    /**
-     * 停止集合中正在执行的 RxJava 任务
-     */
-    fun unDispose() {
-        mCompositeDisposable?.clear()//保证 Activity 结束时取消所有正在执行的订阅
-    }
 
     open fun useEventBus(): Boolean {
         return false

@@ -25,7 +25,7 @@ open class BasePresenter<M : IModel, V : IView> : IPresenter {
      * @param model
      * @param rootView
      */
-    constructor(model: M, rootView: V) {
+    public constructor(model: M, rootView: V) {
         Preconditions.checkNotNull(model, "%s cannot be null", IModel::class.java.name)
         Preconditions.checkNotNull(rootView, "%s cannot be null", IView::class.java.name)
         this.mModel = model
@@ -67,7 +67,7 @@ open class BasePresenter<M : IModel, V : IView> : IPresenter {
     }
 
     /**
-     * 是否使用 [EventBus],默认为使用(true)，
+     * 是否使用 [EventBus],默认为使用(false)，
      *
      * @return
      */

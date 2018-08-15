@@ -1,5 +1,7 @@
 package com.agile.android.leo.integration
 
+import android.os.Bundle
+
 /**
  * User: wanglg
  * Date: 2018-05-10
@@ -10,5 +12,6 @@ interface IActivity {
     fun getLayoutId(): Int
     fun initPresenter()
     fun configViews()
-    fun initData()
+    fun initData(savedInstanceState: Bundle?)
+    fun requestData()
 }
