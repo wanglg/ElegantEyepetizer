@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.leowong.project.client.ui.view.DZStickyNavLayouts
+    <com.leowong.project.eyepetizer.ui.view.DZStickyNavLayouts
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -12,5 +12,5 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.leowong.project.client.ui.view.DZStickyNavLayouts>
+    </com.leowong.project.eyepetizer.ui.view.DZStickyNavLayouts>
 </android.support.constraint.ConstraintLayout>

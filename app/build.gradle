@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -8,12 +7,17 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
-        applicationId "com.leowong.project.client"
+        applicationId "com.leowong.project.eyepetizer"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a"//, "armeabi"//, "arm64-v8a"//, //, "x86", "arm64-v8a"
+        }
+    }
+    repositories {
+        flatDir { dirs 'libs' }
     }
     buildTypes {
         release {
@@ -29,6 +33,9 @@ android {
     }
     buildToolsVersion '27.0.3'
 }
+kapt {
+    generateStubs = true
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -41,6 +48,8 @@ dependencies {
     //Ijkplayer
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
+
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
 }
