@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ElegantEyepetizer</string>
+    <string name="splash_guide1_chinese">每日编辑精选，一如既往</string>
+    <string name="splash_guide1_english">Daily appetizers for your eyes,as always</string>
+    <string name="splash_guide2_chinese">关注越多，发现越多</string>
+    <string name="splash_guide2_english">Subscribe more,discover a whole lot more</string>
+    <string name="splash_guide3_chinese">离线自动缓存，精彩永不下线</string>
+    <string name="splash_guide3_english">Off-line automatically replaced, wonderful never offline</string>
+    <string name="splash_guide4_chinese">登录即可订阅、评论和同步已收藏视频</string>
+    <string name="splash_guide4_english">Sign in to subscribe, comment and sync to bookmark video</string>
+
 </resources>

@@ -1,17 +1,18 @@
 package com.leowong.project.eyepetizer.ui.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.KeyEvent
 import com.agile.android.leo.mvp.IPresenter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
+import com.leowong.project.eyepetizer.showToast
 import com.leowong.project.eyepetizer.ui.adapters.VideoRecommendAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity : BaseActivity<IPresenter>() {
+class HomeActivity : BaseActivity<IPresenter>() {
     var adapter: VideoRecommendAdapter? = null
     var scrollState: Boolean = true
     override fun initData(savedInstanceState: Bundle?) {
@@ -28,7 +29,8 @@ class MainActivity : BaseActivity<IPresenter>() {
     }
 
     override fun configViews() {
-        val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val manager = ScrollSpeedLinearLayoutManger(this, LinearLayoutManager.HORIZONTAL, false)
+        manager.setSpeedSlow()
         adapter = VideoRecommendAdapter(R.layout.item_video_recommend, getlist())
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
@@ -38,6 +40,7 @@ class MainActivity : BaseActivity<IPresenter>() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && scrollState) {
                     scrollState = false
+                    manager.setSpeedFast()
                     recyclerView?.smoothScrollToPosition(0)
                 }
             }
@@ -80,9 +83,18 @@ class MainActivity : BaseActivity<IPresenter>() {
         return list
     }
 
-    fun dip2px(context: Context, dipValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
+    private var mExitTime: Long = 0
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
+                finish()
+            } else {
+                mExitTime = System.currentTimeMillis()
+                showToast("再按一次退出程序")
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }

@@ -52,4 +52,10 @@ dependencies {
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+
+    //leakCanary
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+
+    implementation 'me.relex:circleindicator:1.2.2@aar'
 }

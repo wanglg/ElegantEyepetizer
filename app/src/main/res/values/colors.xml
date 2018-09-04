@@ -4,4 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="window_bg">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="translucence">#b0000000</color>
+    <color name="transparent50">#80000000</color>
+    <color name="transparent70">#b3000000</color>
+    <color name="transparent60">#99000000</color>
+    <color name="transparent90">#e6000000</color>
+    <!--透明-->
+    <color name="transparent">#00000000</color>
 </resources>

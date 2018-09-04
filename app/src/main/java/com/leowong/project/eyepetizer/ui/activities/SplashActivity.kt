@@ -23,7 +23,8 @@ class SplashActivity : BaseActivity<IPresenter>() {
     override fun configViews() {
         window?.setBackgroundDrawable(null)
         StatusBarUtils.with(this).init()
-        if (true) {
+
+        if (PreferencesUtil.readPreferences(this, PreferencesConstant.IS_FIRST_LAUNCH, true)) {
             PreferencesUtil.writePreferences(this, PreferencesConstant.IS_FIRST_LAUNCH, false)
             val sf = SplashVideoFragment()
             supportFragmentManager.beginTransaction().add(R.id.container, sf).commit()

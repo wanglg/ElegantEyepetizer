@@ -91,7 +91,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun initSurface() {
         renderView = findViewById<View>(R.id.renderView) as IRenderView
-        renderView?.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT)
+        renderView?.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT)
         renderView?.addRenderCallback(this)
     }
 
