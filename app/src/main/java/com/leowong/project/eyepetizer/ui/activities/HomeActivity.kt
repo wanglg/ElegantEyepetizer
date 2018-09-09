@@ -29,8 +29,7 @@ class HomeActivity : BaseActivity<IPresenter>() {
     }
 
     override fun configViews() {
-        val manager = ScrollSpeedLinearLayoutManger(this, LinearLayoutManager.HORIZONTAL, false)
-        manager.setSpeedSlow()
+        val manager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter = VideoRecommendAdapter(R.layout.item_video_recommend, getlist())
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
@@ -40,7 +39,6 @@ class HomeActivity : BaseActivity<IPresenter>() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && scrollState) {
                     scrollState = false
-                    manager.setSpeedFast()
                     recyclerView?.smoothScrollToPosition(0)
                 }
             }
