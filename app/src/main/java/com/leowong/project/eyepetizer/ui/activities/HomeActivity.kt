@@ -43,29 +43,7 @@ class HomeActivity : BaseActivity<IPresenter>() {
                 }
             }
         })
-//        Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe({
-//            recyclerView.smoothScrollToPosition(4)
-//            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-//                    super.onScrollStateChanged(recyclerView, newState)
-//                    if (newState == RecyclerView.SCROLL_STATE_IDLE && scrollState) {
-//                        scrollState = false
-//                        manager.setSpeedFast()
-//                        recyclerView?.smoothScrollToPosition(0)
-//                    }
-//                }
-//            })
-//        })
 
-//        recyclerView.scrollBy(-dip2px(this, 800f),0)
-//        recyclerView.smoothScrollBy()
-//        val moveToLeftAnim = ObjectAnimator.ofFloat(recyclerView, "translationX", -dip2px(this, 800f).toFloat())
-//        moveToLeftAnim.duration = 1500
-////        moveToLeftAnim?.repeatMode = ValueAnimator.REVERSE;
-//        moveToLeftAnim.start()
-//        Observable.timer(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe({
-//
-//        })
     }
 
     private fun getlist(): ArrayList<String> {
