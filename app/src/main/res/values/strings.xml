@@ -9,4 +9,7 @@
     <string name="splash_guide4_chinese">登录即可订阅、评论和同步已收藏视频</string>
     <string name="splash_guide4_english">Sign in to subscribe, comment and sync to bookmark video</string>
 
+    <string name="splash_msg_cn">每日精选视频推介，让你大开眼界</string>
+    <string name="splash_msg_en">Daily appetizers for your eyes, Bon eye</string>
+
 </resources>

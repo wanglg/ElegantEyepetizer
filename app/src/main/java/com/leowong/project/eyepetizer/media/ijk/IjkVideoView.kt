@@ -375,7 +375,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }).map(object : Function<Long, Long> {
             override fun apply(t: Long): Long {
                 try {
-                    return mediaPlayer?.currentPosition!!//可能会有java.lang.IllegalStateException
+                    return mediaPlayer?.currentPosition ?: 0//可能会有java.lang.IllegalStateException
                 } catch (e: Exception) {
                     e.printStackTrace()
                     return 0L
@@ -461,7 +461,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun getDuration(): Long {
         if (isPrepared) {
-            return mediaPlayer?.duration!!
+            return mediaPlayer?.duration ?: 0
         } else {
             return 0
         }

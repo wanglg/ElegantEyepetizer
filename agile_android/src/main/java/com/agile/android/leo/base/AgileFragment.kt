@@ -51,7 +51,6 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
         super.onViewCreated(view, savedInstanceState)
         initData(savedInstanceState)
         configViews()
-        requestData()
     }
 
     override fun onResume() {
@@ -164,7 +163,10 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
      * @param isViewDestroyed Fragment 的 View 被回收，但是Fragment实例仍在。
      */
     open fun onFragmentResume(isFirst: Boolean, isViewDestroyed: Boolean) {
-
+        //TODO 重写此方法需要 调用onFragmentResume
+        if (isFirst) {
+            requestData()
+        }
     }
 
     /**

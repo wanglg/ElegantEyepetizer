@@ -14,28 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/bold"
-        android:text="每日精选视频"
-        android:textColor="@color/white" />
+    <!--<TextView-->
+    <!--android:id="@+id/center"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_above="@+id/bottom"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:fontFamily="@font/bold"-->
+    <!--android:text="每日精选视频"-->
+    <!--android:textColor="@color/white" />-->
 
-    <TextView
-        android:id="@+id/bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/indicator"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/lobster"
-        android:text="dsfsfsdf"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+    <!--<TextView-->
+    <!--android:id="@+id/bottom"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_above="@+id/indicator"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:fontFamily="@font/lobster"-->
+    <!--android:text="dsfsfsdf"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textStyle="bold" />-->
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
@@ -43,4 +43,15 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="48dp" />
+
+    <ImageView
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:padding="12dp"
+        android:src="@mipmap/ic_icon_guide_detail_slide_up"
+        android:visibility="gone" />
 </RelativeLayout>
