@@ -1,12 +1,11 @@
 package com.leowong.project.eyepetizer.api
 
-import android.preference.Preference
 import com.leowong.project.eyepetizer.BuildConfig
 import okhttp3.*
-import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -22,7 +21,6 @@ object RetrofitManager {
     }
     private val TIMEOUT: Long = 30
     private var token: String = ""
-//    private var token:String by Preference("token","")
 
     /**
      * 设置公共参数
@@ -105,7 +103,7 @@ object RetrofitManager {
                 .baseUrl(baseUrl)  //自己配置
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(ResponseConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
     }
@@ -143,7 +141,7 @@ object RetrofitManager {
             这里可以添加一个HttpLoggingInterceptor，因为Retrofit封装好了从Http请求到解析，
             出了bug很难找出来问题，添加HttpLoggingInterceptor拦截器方便调试接口
              */
-                .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) {
+                .addNetworkInterceptor(HttpLoggingInterceptor(HttpLogger()).setLevel(if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
                 } else {
                     HttpLoggingInterceptor.Level.NONE

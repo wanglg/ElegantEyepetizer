@@ -67,18 +67,18 @@ dependencies {
         exclude module: 'okhttp'
         exclude module: 'okio'
     }
-    implementation(rootProject.ext.dependencies["retrofit-converter-gson"]) {
+    api(rootProject.ext.dependencies["retrofit-converter-gson"]) {
         exclude module: 'gson'
         exclude module: 'okhttp'
         exclude module: 'okio'
         exclude module: 'retrofit'
     }
-//    implementation(rootProject.ext.dependencies["retrofit-adapter-rxjava2"]) {
-//        exclude module: 'rxjava'
-//        exclude module: 'okhttp'
-//        exclude module: 'retrofit'
-//        exclude module: 'okio'
-//    }
+    api(rootProject.ext.dependencies["retrofit-adapter-rxjava2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'okhttp'
+        exclude module: 'retrofit'
+        exclude module: 'okio'
+    }
 
     api rootProject.ext.dependencies["okhttp3"]
 

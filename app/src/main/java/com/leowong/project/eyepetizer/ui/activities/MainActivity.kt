@@ -9,6 +9,7 @@ import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
 import com.leowong.project.eyepetizer.entity.TabEntity
 import com.leowong.project.eyepetizer.ui.fragments.HomeFragment
+import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity<IPresenter>() {
     }
 
     override fun configViews() {
+        StatusBarUtils.with(this).init()
         initTab()
         switchFragment(mIndex)
     }

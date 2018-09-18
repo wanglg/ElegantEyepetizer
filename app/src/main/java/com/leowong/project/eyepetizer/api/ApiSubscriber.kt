@@ -19,19 +19,24 @@ import java.util.concurrent.TimeoutException
  */
 abstract class ApiSubscriber<T> : Observer<T> {
     override fun onError(t: Throwable) {
+        onFailure(wrapException(t))
         if (t is ConnectException ||
                 t is SocketTimeoutException ||
                 t is TimeoutException ||
                 t is UnknownHostException) {
-            onFailure(wrapException(t))
             onNetWorkError()
-        } else {
-            onFailure(wrapException(t))
         }
     }
 
-    abstract fun onFailure(t: ApiException?)
 
+    /**
+     * 所有的失败情况，自定义了异常信息
+     */
+    abstract fun onFailure(t: ApiException)
+
+    /**
+     * 网络异常情况单独提取出来，可以在此做相关处理
+     */
     open fun onNetWorkError() {
 
     }
