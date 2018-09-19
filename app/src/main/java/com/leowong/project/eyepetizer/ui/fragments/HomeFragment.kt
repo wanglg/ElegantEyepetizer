@@ -8,6 +8,7 @@ import com.leowong.project.eyepetizer.mvp.contract.HomeContract
 import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
+import com.leowong.project.eyepetizer.showToast
 
 class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View {
 
@@ -40,6 +41,10 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View {
 
     override fun requestData() {
         mPresenter?.requestHomeData(1)
+    }
+
+    override fun showNoNetWork() {
+        showToast(resources.getString(R.string.no_net_msg))
     }
 
     override fun setHomeData(homeBean: HomeBean) {

@@ -20,7 +20,7 @@ class HomeModel : HomeContract.Model {
 
     override fun requestHomeData(num: Int): Observable<HomeBean> {
         return RetrofitManager.service.getFirstHomeData(num)
-                .compose(SchedulersUtil.applyApiSchedulers())
+
     }
 
     /**

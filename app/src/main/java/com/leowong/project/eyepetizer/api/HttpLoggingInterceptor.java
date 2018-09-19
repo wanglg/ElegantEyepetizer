@@ -226,7 +226,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            logger.log("<-- HTTP FAILED: " + e);
+            logger.log("<-- END HTTP HTTP FAILED: " + e);
             throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);

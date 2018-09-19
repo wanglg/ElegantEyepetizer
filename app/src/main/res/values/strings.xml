@@ -12,4 +12,7 @@
     <string name="splash_msg_cn">每日精选视频推介，让你大开眼界</string>
     <string name="splash_msg_en">Daily appetizers for your eyes, Bon eye</string>
 
+    <!--TIPS -->
+    <string name="no_net_msg">网络不给力啊</string>
+    <!--TIPS-->
 </resources>

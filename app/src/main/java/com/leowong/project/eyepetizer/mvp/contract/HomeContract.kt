@@ -17,6 +17,8 @@ interface HomeContract {
          */
         fun setMoreData(itemList: ArrayList<HomeBean.Issue.Item>)
 
+        fun showNoNetWork()
+
 
     }
 
