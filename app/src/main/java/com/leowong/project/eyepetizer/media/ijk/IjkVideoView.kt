@@ -20,7 +20,6 @@ import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
-import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer
 import tv.danmaku.ijk.media.player.AndroidMediaPlayer
 import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
@@ -145,10 +144,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         return androidMediaPlayer
     }
 
-    fun createExoPlayer(): IjkExoMediaPlayer {
-        val androidMediaPlayer = IjkExoMediaPlayer(context)
-        return androidMediaPlayer
-    }
 
     fun createIjkPlayer(): IjkMediaPlayer {
         val ijkMediaPlayer = IjkMediaPlayer()

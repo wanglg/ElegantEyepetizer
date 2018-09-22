@@ -27,7 +27,7 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
             }
             mModel?.loadMoreData(homeBean.nextPageUrl)
 
-        })?.subscribe(object : ApiSubscriber<HomeBean>() {
+        })?.compose(SchedulersUtil.applyApiSchedulers())?.subscribe(object : ApiSubscriber<HomeBean>() {
             override fun onFailure(t: ApiException) {
                 mRootView?.dismissLoading()
             }

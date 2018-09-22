@@ -1,1 +1,1 @@
-include ':app', ':agile_android','multiple-status-view'
+include ':app', ':agile_android','multiple-status-view','imageloader'

@@ -55,9 +55,10 @@ dependencies {
     //Ijkplayer
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+//    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'//没有使用特殊Header，可以不加这行
     //leakCanary
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]
@@ -67,9 +68,10 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
 
     //glide
-//    implementation 'com.github.bumptech.glide:glide:4.8.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation 'com.ladingwu.library:glide:0.0.8'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'
+    kapt 'com.github.bumptech.glide:compiler:4.7.1'
+   // implementation 'com.ladingwu.library:glide:0.0.8'
     // 这个是必须的
-    implementation "com.ladingwu.library:imageloader-framework:0.0.8"
+    //implementation "com.ladingwu.library:imageloader-framework:0.0.8"
 }
