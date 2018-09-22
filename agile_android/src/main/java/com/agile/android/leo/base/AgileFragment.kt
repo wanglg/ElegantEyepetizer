@@ -26,6 +26,8 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
     private var isFirst = true
     private var isResuming = false
     private var isViewDestroyed = false
+    private var isLaz = false
+
     open var mCompositeDisposable: CompositeDisposable? = null
     open var mPresenter: P? = null//如果当前页面逻辑简单, Presenter 可以为 null
 

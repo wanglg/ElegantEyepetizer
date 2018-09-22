@@ -8,7 +8,6 @@ import okhttp3.FormBody
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

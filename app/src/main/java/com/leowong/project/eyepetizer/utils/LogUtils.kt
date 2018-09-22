@@ -5,6 +5,7 @@ import android.util.Log
 import com.leowong.project.eyepetizer.BuildConfig
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import com.orhanobut.logger.PrettyFormatStrategy
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -12,13 +13,14 @@ import org.json.JSONObject
 
 object LogUtils {
     private var isPrintLog = BuildConfig.LOG_DEBUG
+    private var TAG: String = "LEO"
     /**
      * It is used for json pretty print
      */
     private val JSON_INDENT = 2
 
     init {
-        Logger.addLogAdapter(object : AndroidLogAdapter() {
+        Logger.addLogAdapter(object : AndroidLogAdapter(PrettyFormatStrategy.newBuilder().tag(TAG).build()) {
             override fun isLoggable(priority: Int, tag: String?): Boolean {
                 return BuildConfig.LOG_DEBUG
             }
@@ -27,13 +29,27 @@ object LogUtils {
 
     fun d(tag: String, msg: String) {
         if (isPrintLog) {
-            Logger.log(Logger.DEBUG, tag, msg, null)
+            Log.d(tag, msg)
         }
+    }
+
+    fun log(priority: Int, tag: String, msg: String) {
+        if (isPrintLog) {
+            Logger.log(priority, tag, msg, null)
+        }
+    }
+
+    fun log(priority: Int, msg: String) {
+        log(priority, TAG, msg)
+    }
+
+    fun log(msg: String) {
+        log(Logger.DEBUG, TAG, msg)
     }
 
     fun d(msg: String) {
         if (isPrintLog) {
-            Log.d("CWT", msg)
+            Log.d(TAG, msg)
         }
     }
 
@@ -46,6 +62,12 @@ object LogUtils {
     fun e(tag: String, msg: String) {
         if (isPrintLog) {
             Log.e(tag, msg)
+        }
+    }
+
+    fun e(msg: String) {
+        if (isPrintLog) {
+            Log.e(TAG, msg)
         }
     }
 
@@ -76,13 +98,13 @@ object LogUtils {
                 if (json.startsWith("{")) {
                     val jsonObject = JSONObject(json)
                     val message = jsonObject.toString(JSON_INDENT)
-                    d(tag, message)
+                    log(Logger.DEBUG, tag, message)
                     return
                 }
                 if (json.startsWith("[")) {
                     val jsonArray = JSONArray(json)
                     val message = jsonArray.toString(JSON_INDENT)
-                    d(tag, message)
+                    log(Logger.DEBUG, tag, message)
                     return
                 }
                 e(tag, "Invalid Json")

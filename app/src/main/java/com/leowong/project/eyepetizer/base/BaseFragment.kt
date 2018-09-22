@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
+import com.classic.common.MultipleStatusView
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseFragment<P : IPresenter> : AgileFragment<P>() {
+    var multipleStatusView: MultipleStatusView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (useEventBus()) {

@@ -9,8 +9,12 @@ import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
 import com.leowong.project.eyepetizer.showToast
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View {
+class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener {
+
 
     private var mTitle: String? = null
 
@@ -33,6 +37,11 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View {
     }
 
     override fun configViews() {
+        multipleStatusView = homeMultipleStatusView;
+        multipleStatusView?.setOnRetryClickListener({
+            requestData()
+        })
+        mRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -45,6 +54,8 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View {
 
     override fun showNoNetWork() {
         showToast(resources.getString(R.string.no_net_msg))
+    }
+    override fun onRefresh(refreshLayout: RefreshLayout?) {
     }
 
     override fun setHomeData(homeBean: HomeBean) {

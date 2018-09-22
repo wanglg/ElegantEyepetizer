@@ -147,10 +147,12 @@ public class TextureRenderView extends TextureView implements IRenderView {
             mSurfaceTextureHost = surfaceTextureHost;
         }
 
+        @Override
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         public void bindToMediaPlayer(IMediaPlayer mp) {
-            if (mp == null)
+            if (mp == null) {
                 return;
+            }
 
             if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) &&
                     (mp instanceof ISurfaceTextureHolder)) {
@@ -238,14 +240,16 @@ public class TextureRenderView extends TextureView implements IRenderView {
 
             ISurfaceHolder surfaceHolder = null;
             if (mSurfaceTexture != null) {
-                if (surfaceHolder == null)
+                if (surfaceHolder == null) {
                     surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture, this);
+                }
                 callback.onSurfaceCreated(surfaceHolder, mWidth, mHeight);
             }
 
             if (mIsFormatChanged) {
-                if (surfaceHolder == null)
+                if (surfaceHolder == null) {
                     surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture, this);
+                }
                 callback.onSurfaceChanged(surfaceHolder, 0, mWidth, mHeight);
             }
         }

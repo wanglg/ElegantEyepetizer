@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.agile.android.leo.base.AgileActivity
 import com.agile.android.leo.mvp.IPresenter
+import com.classic.common.MultipleStatusView
 import io.reactivex.ObservableTransformer
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
@@ -18,7 +20,7 @@ import org.greenrobot.eventbus.EventBus
  */
 @SuppressLint("Registered")
 abstract class BaseActivity<P : IPresenter> : AgileActivity<P>() {
-
+    var multipleStatusView: MultipleStatusView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (useEventBus()) {
@@ -66,4 +68,6 @@ abstract class BaseActivity<P : IPresenter> : AgileActivity<P>() {
         }
         startActivity(intent)
     }
+
+
 }
