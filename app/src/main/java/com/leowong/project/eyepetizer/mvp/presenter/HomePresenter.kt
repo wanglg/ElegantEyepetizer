@@ -20,7 +20,7 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
             val bannerItemList = homeBean.issueList[0].itemList
             bannerHomeBean = homeBean;
             bannerItemList.filter { item ->
-                item.type == "banner2" || item.type == "horizontalScrollCard"
+                item.type != "video"
             }.forEach { item ->
                 //移除 item
                 bannerItemList.remove(item)
@@ -29,6 +29,7 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
 
         })?.compose(SchedulersUtil.applyApiSchedulers())?.subscribe(object : ApiSubscriber<HomeBean>() {
             override fun onFailure(t: ApiException) {
+                mRootView?.resultError(t)
                 mRootView?.dismissLoading()
             }
 
@@ -45,7 +46,7 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
                     val newBannerItemList = homeBean.issueList[0].itemList
 
                     newBannerItemList.filter { item ->
-                        item.type == "banner2" || item.type == "horizontalScrollCard"
+                        item.type != "video"
                     }.forEach { item ->
                         //移除 item
                         newBannerItemList.remove(item)
@@ -67,23 +68,5 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
 
         })
 
-        /*compose(SchedulersUtil.applyApiSchedulers())
-
-                ?.subscribe(object : ApiSubscriber<HomeBean>() {
-                    override fun onFailure(t: ApiException) {
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                        addDispose(d)
-                    }
-
-                    override fun onNext(t: HomeBean) {
-                    }
-
-                    override fun onNetWorkError() {
-                        mRootView?.showNoNetWork()
-                    }
-
-                })*/
     }
 }

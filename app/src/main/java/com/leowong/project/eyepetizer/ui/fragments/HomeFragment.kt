@@ -62,10 +62,13 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefresh
 
     override fun showNoNetWork() {
         showToast(resources.getString(R.string.no_net_msg))
+        if (homeAdapter == null || homeAdapter?.itemCount == 0) {
+            multipleStatusView?.showNoNetwork()
+        }
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        requestData()
     }
 
 
@@ -79,18 +82,18 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefresh
     }
 
     override fun setMoreData(itemList: ArrayList<HomeBean.Issue.Item>) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun resultError(exception: ApiException) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showLoading() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (homeAdapter == null || homeAdapter?.itemCount == 0) {
+            multipleStatusView?.showLoading()
+        }
     }
 
     override fun dismissLoading() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mRefreshLayout.finishRefresh()
     }
 }

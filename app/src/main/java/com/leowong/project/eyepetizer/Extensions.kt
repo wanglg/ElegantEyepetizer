@@ -1,8 +1,10 @@
 package com.leowong.project.eyepetizer
 
 import android.content.Context
+import android.graphics.Point
 import android.support.v4.app.Fragment
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 
 /**
@@ -21,6 +23,21 @@ fun Context.showToast(content: String): Toast {
     return toast
 }
 
+fun getScreenWidth(context: Context): Int {
+    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val display = wm.defaultDisplay
+    val size = Point()
+    display.getSize(size)
+    return size.x
+}
+
+fun getScreenHeight(context: Context): Int {
+    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val display = wm.defaultDisplay
+    val size = Point()
+    display.getSize(size)
+    return size.y
+}
 
 fun View.dip2px(dipValue: Float): Int {
     val scale = this.resources.displayMetrics.density

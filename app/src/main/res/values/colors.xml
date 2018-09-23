@@ -10,6 +10,8 @@
     <color name="black">#000000</color>
 
     <color name="color_gray">#9a9a9a</color>
+    <!-- title 半透明背景颜色 -->
+    <color name="color_title_bg">#CCFFFFFF</color>
 
     <color name="translucence">#b0000000</color>
     <color name="transparent50">#80000000</color>

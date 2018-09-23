@@ -6,6 +6,11 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.agile.android.leo.base.AgileApplication
+import com.lasingwu.baselibrary.ImageLoader
+import com.lasingwu.baselibrary.ImageLoaderConfig
+import com.lasingwu.baselibrary.LoaderEnum
+import com.leowong.project.eyepetizer.glide.GlideImageLocader
+import com.leowong.project.eyepetizer.utils.LogUtils
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import kotlin.properties.Delegates
@@ -32,21 +37,30 @@ class MyApplication : AgileApplication() {
         context = applicationContext
         refWatcher = setupLeakCanary()
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
+        initImageLoader()
+    }
+
+    fun initImageLoader() {
+        val config = ImageLoaderConfig.Builder(LoaderEnum.GLIDE, GlideImageLocader())
+                .maxMemory(40 * 1024 * 1024L)  // 单位为Byte
+                .build()
+        ImageLoader.init(this, config)
     }
 
     private fun setupLeakCanary(): RefWatcher {
         return if (LeakCanary.isInAnalyzerProcess(this)) {
             RefWatcher.DISABLED
-        } else LeakCanary.install(this)
+        } else {
+            LeakCanary.install(this)
+        }
     }
 
     private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            Log.d(TAG, "onCreated: " + activity.componentName.className)
+            LogUtils.d(TAG, "onCreated: " + activity.componentName.className)
         }
 
         override fun onActivityStarted(activity: Activity) {
-            Log.d(TAG, "onStart: " + activity.componentName.className)
         }
 
         override fun onActivityResumed(activity: Activity) {
@@ -66,7 +80,7 @@ class MyApplication : AgileApplication() {
         }
 
         override fun onActivityDestroyed(activity: Activity) {
-            Log.d(TAG, "onDestroy: " + activity.componentName.className)
+            LogUtils.d(TAG, "onDestroy: " + activity.componentName.className)
         }
     }
 }
