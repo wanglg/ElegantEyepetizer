@@ -34,11 +34,6 @@ class HomeVideoProvider : BaseItemProvider<HomeMultipleEntity, BaseViewHolder>()
             avatar = itemData?.provider?.icon
         }
         // 加载封页图
-        /*   GlideApp.with(mContext)
-                   .load(cover)
-                   .placeholder(R.drawable.placeholder_banner)
-                   .transition(DrawableTransitionOptions().crossFade())
-                   .into(holder.getView(R.id.iv_cover_feed))*/
         val imageWidth = getScreenWidth(mContext) - (mContext.resources.getDimensionPixelOffset(R.dimen.spacing_normal) * 2)
         val imageHeight = imageWidth * 0.6
         val coverOption = ImageLoaderOptions.Builder(helper.getView(R.id.iv_cover_feed), cover).override(imageWidth, imageHeight.toInt())

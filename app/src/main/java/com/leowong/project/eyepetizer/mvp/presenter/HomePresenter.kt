@@ -69,4 +69,41 @@ class HomePresenter(model: HomeContract.Model, rootView: HomeContract.View) :
         })
 
     }
+
+    fun loadMore() {
+        nextPageUrl?.let {
+            mModel?.loadMoreData(it)?.compose(SchedulersUtil.applyApiSchedulers())?.subscribe(object : ApiSubscriber<HomeBean>() {
+                override fun onFailure(t: ApiException) {
+                    mRootView?.resultError(t)
+                    mRootView?.loadMoreFailed()
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    addDispose(d)
+                }
+
+                override fun onNext(homeBean: HomeBean) {
+                    mRootView?.apply {
+                        //过滤掉 Banner2(包含广告,等不需要的 Type), 具体查看接口分析
+                        val newItemList = homeBean.issueList[0].itemList
+
+                        newItemList.filter { item ->
+                            item.type != "video"
+                        }.forEach { item ->
+                            //移除 item
+                            newItemList.remove(item)
+                        }
+
+                        nextPageUrl = homeBean.nextPageUrl
+                        setMoreData(newItemList)
+                    }
+                }
+
+                override fun onNetWorkError() {
+                    mRootView?.showNoNetWork()
+                }
+
+            })
+        }
+    }
 }

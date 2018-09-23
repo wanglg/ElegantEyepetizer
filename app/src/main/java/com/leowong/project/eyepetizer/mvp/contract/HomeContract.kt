@@ -18,6 +18,10 @@ interface HomeContract {
         fun setMoreData(itemList: ArrayList<HomeBean.Issue.Item>)
 
         fun showNoNetWork()
+        /**
+         * 加载更多失败
+         */
+        fun loadMoreFailed()
 
 
     }

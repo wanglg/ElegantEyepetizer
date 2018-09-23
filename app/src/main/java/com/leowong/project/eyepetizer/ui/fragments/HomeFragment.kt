@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import com.agile.android.leo.exception.ApiException
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseFragment
 import com.leowong.project.eyepetizer.mvp.contract.HomeContract
@@ -16,7 +17,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener {
+class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
 
     private var mTitle: String? = null
@@ -68,6 +69,7 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefresh
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        homeAdapter?.setEnableLoadMore(true);
         requestData()
     }
 
@@ -76,21 +78,36 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefresh
         multipleStatusView?.showContent()
         homeAdapter = HomeAdapter(ArrayList())
         homeAdapter?.addItemData(homeBean.issueList[0].itemList)
+        homeAdapter?.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = linearLayoutManager
         mRecyclerView.itemAnimator = DefaultItemAnimator()
         mRecyclerView.adapter = homeAdapter
     }
 
     override fun setMoreData(itemList: ArrayList<HomeBean.Issue.Item>) {
+        if (itemList.size == 0) {
+            homeAdapter?.loadMoreEnd()
+        } else {
+            homeAdapter?.loadMoreComplete()
+            homeAdapter?.addItemData(itemList)
+        }
     }
 
     override fun resultError(exception: ApiException) {
+    }
+
+    override fun loadMoreFailed() {
+        homeAdapter?.loadMoreFail()
     }
 
     override fun showLoading() {
         if (homeAdapter == null || homeAdapter?.itemCount == 0) {
             multipleStatusView?.showLoading()
         }
+    }
+
+    override fun onLoadMoreRequested() {
+        mPresenter?.loadMore()
     }
 
     override fun dismissLoading() {

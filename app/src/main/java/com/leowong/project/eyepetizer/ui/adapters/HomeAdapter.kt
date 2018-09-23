@@ -34,8 +34,7 @@ class HomeAdapter(data: ArrayList<HomeMultipleEntity>) : MultipleItemRvAdapter<H
      * 添加更多数据
      */
     fun addItemData(itemList: ArrayList<HomeBean.Issue.Item>) {
-        this.mData.addAll(wrapList(itemList))
-        notifyDataSetChanged()
+        addData(wrapList(itemList))
     }
 
     fun wrapList(itemList: List<HomeBean.Issue.Item>): ArrayList<HomeMultipleEntity> {
