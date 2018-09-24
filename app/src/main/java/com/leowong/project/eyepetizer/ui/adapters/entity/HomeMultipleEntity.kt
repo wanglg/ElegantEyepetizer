@@ -2,8 +2,9 @@ package com.leowong.project.eyepetizer.ui.adapters.entity
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
+import java.io.Serializable
 
-class HomeMultipleEntity : MultiItemEntity {
+class HomeMultipleEntity : MultiItemEntity ,Serializable{
     var homeBean: HomeBean.Issue.Item? = null
     var homeBeanList: List<HomeBean.Issue.Item>? = null
     var itemType: Int? = 0;

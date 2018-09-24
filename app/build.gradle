@@ -77,7 +77,5 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
 
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
-   // implementation 'com.ladingwu.library:glide:0.0.8'
-    // 这个是必须的
-    //implementation "com.ladingwu.library:imageloader-framework:0.0.8"
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
 }
