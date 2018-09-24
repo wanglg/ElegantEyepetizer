@@ -81,7 +81,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun setVideoPath(videoPath: String) {
-        this.mVideoUri = Uri.parse("common://" + "remote?path=" + videoPath)
+        this.mVideoUri = Uri.parse("common://" + "remote?path=" + Uri.encode(videoPath))
     }
 
     fun setAssertPath(videoPath: String) {
@@ -289,6 +289,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if (arg2 != 0) {
                 renderView?.setVideoRotation(arg2);
             }
+        }
+        if (arg1 == IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+            iMediaPlayerListener?.onFirstFrameStart()
         }
         return true
     }

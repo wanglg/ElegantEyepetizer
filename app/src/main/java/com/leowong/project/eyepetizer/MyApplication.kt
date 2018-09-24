@@ -31,7 +31,6 @@ class MyApplication : AgileApplication() {
         }
 
     }
-
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
