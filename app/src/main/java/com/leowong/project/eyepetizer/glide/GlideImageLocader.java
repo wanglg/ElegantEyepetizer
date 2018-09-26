@@ -21,7 +21,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
@@ -71,7 +73,7 @@ public class GlideImageLocader implements IImageLoaderstrategy {
             requestOptions.override(options.getImageSize().getWidth(), options.getImageSize().getHeight());
         }
 
-        List<Transformation> list = new ArrayList<Transformation>();
+        List<Transformation> list = new ArrayList<>();
         if (options.isBlurImage()) {
             list.add(new BlurTransformation(options.getBlurValue()));
 //            requestOptions.transforms(new BlurTransformation(options.getBlurValue()));
@@ -85,10 +87,12 @@ public class GlideImageLocader implements IImageLoaderstrategy {
 
 //            requestOptions.transforms(new CircleTransformation());
         }
+        /*if (options.isCrossFade()) {
+            requestOptions.format()
+        }*/
         if (list.size() > 0) {
             Transformation[] transformations = list.toArray(new Transformation[list.size()]);
             requestOptions.transforms(transformations);
-
         }
 
 
@@ -116,7 +120,7 @@ public class GlideImageLocader implements IImageLoaderstrategy {
     }
 
     private RequestManager getRequestManager(View view) {
-        return Glide.with(view);
+        return GlideApp.with(view);
 
     }
 
@@ -128,6 +132,9 @@ public class GlideImageLocader implements IImageLoaderstrategy {
             builder = getRequestManager(options.getViewContainer()).asBitmap();
         }
 
+        if (options.isCrossFade()) {
+            builder.transition(new BitmapTransitionOptions().crossFade());
+        }
         if (!TextUtils.isEmpty(options.getUrl())) {
             builder.load(options.getUrl());
         } else {

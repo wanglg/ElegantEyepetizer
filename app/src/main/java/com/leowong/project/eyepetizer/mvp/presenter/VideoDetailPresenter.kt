@@ -2,11 +2,11 @@ package com.leowong.project.eyepetizer.mvp.presenter
 
 import android.app.Activity
 import com.agile.android.leo.mvp.BasePresenter
-import com.leowong.project.eyepetizer.dataFormat
+import com.leowong.project.eyepetizer.*
 import com.leowong.project.eyepetizer.managers.NetworkManager
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
-import com.leowong.project.eyepetizer.showToast
+import com.scwang.smartrefresh.layout.util.DensityUtil
 
 class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDetailContract.View) :
         BasePresenter<VideoDetailContract.Model, VideoDetailContract.View>(model, rootView) {
@@ -43,8 +43,9 @@ class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDeta
         }
 
         //设置背景
-//        val backgroundUrl = itemInfo.data.cover.blurred + "/thumbnail/${DisplayManager.getScreenHeight()!! - DisplayManager.dip2px(250f)!!}x${DisplayManager.getScreenWidth()}"
-//        backgroundUrl.let { mRootView?.setBackground(it) }
+        val backgroundUrl = itemInfo.data.cover.blurred + "/thumbnail/${getScreenHeight(MyApplication.context) -
+                MyApplication.context.resources.getDimensionPixelOffset(R.dimen.detail_video_height)}x${getScreenWidth(MyApplication.context)}"
+        backgroundUrl.let { mRootView?.setBackground(it) }
 
         mRootView?.setVideoInfo(itemInfo)
 

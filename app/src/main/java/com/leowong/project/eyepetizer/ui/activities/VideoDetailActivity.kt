@@ -26,6 +26,8 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun setBackground(url: String) {
+        val imageLoaderOptions = ImageLoaderOptions.Builder(mVideoBackground, url).blurImage(true).isCrossFade(true).build()
+        ImageLoader.showImage(imageLoaderOptions)
     }
 
     override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
