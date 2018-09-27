@@ -3,10 +3,13 @@ package com.leowong.project.eyepetizer.ui.activities
 import android.os.Bundle
 import android.view.View
 import com.agile.android.leo.exception.ApiException
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
+import com.leowong.project.eyepetizer.glide.GlideApp
 import com.leowong.project.eyepetizer.media.SimpleMediaPlayerListener
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
@@ -26,7 +29,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun setBackground(url: String) {
-        val imageLoaderOptions = ImageLoaderOptions.Builder(mVideoBackground, url).blurImage(true).isCrossFade(true).build()
+        val imageLoaderOptions = ImageLoaderOptions.Builder(mVideoBackground, url).isCrossFade(true).build()
         ImageLoader.showImage(imageLoaderOptions)
     }
 

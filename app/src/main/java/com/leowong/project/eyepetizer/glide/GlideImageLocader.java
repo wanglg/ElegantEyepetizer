@@ -2,7 +2,6 @@ package com.leowong.project.eyepetizer.glide;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,20 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.engine.cache.LruResourceCache;
-import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -35,12 +28,8 @@ import com.lasingwu.baselibrary.ImageLoaderOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by wuzhao on 2018/1/28.
- */
 
 public class GlideImageLocader implements IImageLoaderstrategy {
-    private Handler mainHandler = new Handler();
 
     @SuppressLint("CheckResult")
     @Override
@@ -76,20 +65,14 @@ public class GlideImageLocader implements IImageLoaderstrategy {
         List<Transformation> list = new ArrayList<>();
         if (options.isBlurImage()) {
             list.add(new BlurTransformation(options.getBlurValue()));
-//            requestOptions.transforms(new BlurTransformation(options.getBlurValue()));
         }
         if (options.needImageRadius()) {
             list.add(new RoundedCorners(options.getImageRadius()));
-//            requestOptions.transforms(new RoundedCorners(options.getImageRadius()));
         }
         if (options.isCircle()) {
             list.add(new CircleTransformation());
 
-//            requestOptions.transforms(new CircleTransformation());
         }
-        /*if (options.isCrossFade()) {
-            requestOptions.format()
-        }*/
         if (list.size() > 0) {
             Transformation[] transformations = list.toArray(new Transformation[list.size()]);
             requestOptions.transforms(transformations);
@@ -161,12 +144,12 @@ public class GlideImageLocader implements IImageLoaderstrategy {
 
     @Override
     public void pause(Context context) {
-        Glide.with(context).pauseRequests();
+        GlideApp.with(context).pauseRequests();
     }
 
     @Override
     public void resume(Context context) {
-        Glide.with(context).resumeRequests();
+        GlideApp.with(context).resumeRequests();
 
     }
 

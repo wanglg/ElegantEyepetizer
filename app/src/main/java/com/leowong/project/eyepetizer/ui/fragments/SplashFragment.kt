@@ -7,6 +7,7 @@ import com.agile.android.leo.mvp.IPresenter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseFragment
 import com.leowong.project.eyepetizer.ui.activities.MainActivity
+import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_splash.*
 import java.util.concurrent.TimeUnit
@@ -32,7 +33,7 @@ class SplashFragment : BaseFragment<IPresenter>() {
     }
 
     override fun requestData() {
-        Observable.timer(1500, TimeUnit.MILLISECONDS).compose(bindToLifecycle())
+        Observable.timer(1500, TimeUnit.MILLISECONDS).compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe({
                     startActivity(MainActivity::class.java)
                     activity?.finish()
