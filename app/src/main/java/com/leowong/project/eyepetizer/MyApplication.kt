@@ -4,12 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.agile.android.leo.base.AgileApplication
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderConfig
 import com.lasingwu.baselibrary.LoaderEnum
 import com.leowong.project.eyepetizer.glide.GlideImageLocader
+import com.leowong.project.eyepetizer.managers.NetworkManager
 import com.leowong.project.eyepetizer.utils.LogUtils
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
@@ -31,10 +31,12 @@ class MyApplication : AgileApplication() {
         }
 
     }
+
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
         refWatcher = setupLeakCanary()
+        NetworkManager.instance.registerReceiver(this)
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
         initImageLoader()
     }
@@ -52,6 +54,11 @@ class MyApplication : AgileApplication() {
         } else {
             LeakCanary.install(this)
         }
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        NetworkManager.instance.unregisterReceiver(this)
     }
 
     private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {

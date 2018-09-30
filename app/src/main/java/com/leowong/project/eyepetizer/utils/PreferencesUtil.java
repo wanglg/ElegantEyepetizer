@@ -16,8 +16,9 @@ import java.util.Set;
 public class PreferencesUtil {
 
     public static void writePreferences(Context mContext, String key, Object value) {
-        if (value == null)
+        if (value == null) {
             return;
+        }
         String type = value.getClass().getSimpleName();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -40,8 +41,9 @@ public class PreferencesUtil {
     }
 
     public static void writePreferences(Context mContext, String fileName, String key, Object value) {
-        if (value == null)
+        if (value == null) {
             return;
+        }
         String type = value.getClass().getSimpleName();
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -64,8 +66,9 @@ public class PreferencesUtil {
     }
 
     public static void writePreferences(Context mContext, String fileName, String key, List<String> values) {
-        if (values == null)
+        if (values == null) {
             return;
+        }
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Set<String> stringSet = new HashSet<>(values.size());
@@ -77,8 +80,9 @@ public class PreferencesUtil {
     }
 
     public static void writePreferences(Context mContext, String key, List<String> values) {
-        if (values == null)
+        if (values == null) {
             return;
+        }
         String type = values.getClass().getSimpleName();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -20,4 +20,18 @@
     <color name="transparent90">#e6000000</color>
     <!--透明-->
     <color name="transparent">#00000000</color>
+
+
+    <!-- 默认背景色 -->
+    <color name="backgroundColor">#EEEEEE</color>
+
+    <!-- white -->
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_black">#000000</color>
+
+    <color name="color_blue">#87CEEB</color>
+
+
+    <color name="color_lighter_gray">#ddd</color>
+    <color name="color_darker_gray">#aaaaaa</color>
 </resources>

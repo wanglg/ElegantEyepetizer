@@ -39,10 +39,17 @@
         android:layout_below="@id/mVideoView"
         android:background="#5000" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/videoDetailMultipleStatusView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mVideoView" />
+        android:layout_below="@+id/mVideoView">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/mVideoView" />
+    </com.classic.common.MultipleStatusView>
 
 </RelativeLayout>

@@ -21,4 +21,8 @@
     <string name="search_title_tip">输入标题或描述中的关键词找到更多视频</string>
     <string name="search_hot_keywords_tip">- 热门搜索词 -</string>
     <string name="search_result_count">-「%1$s」搜索结果共%2$d个-</string>
+
+    <string name="video_offline">缓存</string>
+
+    <string name="video_attention">+ 关注</string>
 </resources>

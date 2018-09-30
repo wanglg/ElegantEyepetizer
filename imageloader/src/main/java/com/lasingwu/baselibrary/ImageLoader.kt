@@ -5,7 +5,6 @@ import android.view.View
 import java.util.*
 
 object ImageLoader {
-    private val loaderstrategy: IImageLoaderstrategy? = null
     private var imageloaderMap = HashMap<LoaderEnum, IImageLoaderstrategy>()
     private var curLoader: LoaderEnum? = null
     fun showImage(options: ImageLoaderOptions) {

@@ -126,6 +126,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         renderView?.setAspectRatio(aspectRatio)
     }
 
+    fun setLooping(isLooping: Boolean) {
+        mediaPlayer?.isLooping = isLooping
+    }
+
     fun creatPlayer(): IMediaPlayer {
 //        val scheme = mVideoUri?.scheme
 //        if (TextUtils.equals("common", scheme)) {

@@ -1,31 +1,37 @@
 package com.leowong.project.eyepetizer.ui.activities
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.agile.android.leo.exception.ApiException
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
-import com.leowong.project.eyepetizer.glide.GlideApp
 import com.leowong.project.eyepetizer.media.SimpleMediaPlayerListener
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
+import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
+    protected var videoDetailAdapter: VideoDetailAdapter? = null
+
+    private val linearLayoutManager by lazy {
+        LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
     override fun setVideo(url: String) {
         ijkvideo.setVideoPath(url)
         ijkvideo.startPlay()
     }
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {
+        videoDetailAdapter?.addItemData(itemInfo)
     }
 
     override fun setBackground(url: String) {
@@ -43,9 +49,11 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun showLoading() {
+        multipleStatusView?.showLoading()
     }
 
     override fun dismissLoading() {
+        multipleStatusView?.showContent()
     }
 
     /**
@@ -93,6 +101,10 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
                 vidoeCover.visibility = View.GONE
             }
         })
+        multipleStatusView = videoDetailMultipleStatusView
+        mRecyclerView.layoutManager = linearLayoutManager
+        videoDetailAdapter = VideoDetailAdapter(ArrayList())
+        mRecyclerView.adapter=videoDetailAdapter
     }
 
     override fun initData(savedInstanceState: Bundle?) {
