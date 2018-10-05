@@ -1,6 +1,9 @@
 package com.leowong.project.eyepetizer.media.ijk
 
+import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.text.TextUtils
@@ -40,7 +43,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     //TODO  ccvideo://local?path="http:ssajlasd"
     //TODO scheme 代表视频种类 host 代表 远程 本地 assert raw 等 参数path代表路径 可另外添加自定义参数
     var mVideoUri: Uri? = null
-    var iMediaPlayerListener: IMediaPlayerListener? = null
+    private var iMediaPlayerListeners: ArrayList<IMediaPlayerListener>? = null
     var isPrepared: Boolean = false
     var isTryPause: Boolean = false
     var isCompleted = false//是否播放完成
@@ -56,6 +59,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      */
     var isFreeze = false
     var renderView: IRenderView? = null
+    var controlView: View? = null
     var mSurfaceHolder: IRenderView.ISurfaceHolder? = null
     private var mVideoSarNum: Int = 0
     private var mVideoSarDen: Int = 0
@@ -119,7 +123,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun onCompletion(p0: IMediaPlayer?) {
         this.isCompleted = true
-        iMediaPlayerListener?.onCompletion()
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onCompletion()
+            }
+        }
     }
 
     fun setAspectRatio(aspectRatio: Int) {
@@ -131,15 +139,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun creatPlayer(): IMediaPlayer {
-//        val scheme = mVideoUri?.scheme
-//        if (TextUtils.equals("common", scheme)) {
-//            val host = mVideoUri?.host
-//            if (TextUtils.equals("remote", host)) {
-//                return createIjkPlayer();
-//            } else if (TextUtils.equals("assert", host)) {
-//                return createExoPlayer()
-//            }
-//        }
         return createIjkPlayer();
     }
 
@@ -154,13 +153,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
         }
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 5 * 1024 * 1024)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 5 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
         return ijkMediaPlayer
     }
 
-    fun setMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
-        this.iMediaPlayerListener = iMediaPlayerListener
+    fun addMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
+        if (iMediaPlayerListeners == null) {
+            iMediaPlayerListeners = ArrayList();
+        }
+        this.iMediaPlayerListeners?.add(iMediaPlayerListener)
     }
 
     fun startPlay() {
@@ -177,8 +179,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun onPrepared(p0: IMediaPlayer?) {
         LogUtils.d(TAG, "onPrepared  ")
         isPrepared = true
-        iMediaPlayerListener?.onPrepared()
-//        mediaPlayer!!.setDisplay(surfaceView?.holder)
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onPrepared()
+            }
+        }
         LogUtils.d(TAG, "mediaPlayer videoWidth->" + mediaPlayer!!.videoWidth + " mediaPlayer videoHeight->" + mediaPlayer!!.videoHeight)
         renderView?.setVideoSize(mediaPlayer!!.videoWidth, mediaPlayer!!.videoHeight)
         renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
@@ -230,7 +235,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun onBufferingUpdate(p0: IMediaPlayer?, p1: Int) {
         LogUtils.d(TAG, "onBufferingUpdate->" + p1)
         mCurrentBufferPercentage = p1
-        iMediaPlayerListener?.onBufferingUpdate(p1)
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onBufferingUpdate(p1)
+            }
+        }
     }
 
     override fun release() {
@@ -264,7 +273,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     if (!TextUtils.isEmpty(videoPath)) {
                         mediaPlayer?.dataSource = videoPath
                         mediaPlayer?.prepareAsync()
-                        iMediaPlayerListener?.startPrepare(videoDetail)
+                        iMediaPlayerListeners?.let {
+                            for (item in it) {
+                                item.startPrepare(videoDetail)
+                            }
+                        }
                     }
                 } else if (TextUtils.equals("assert", host)) {
                     val videoPath = videoDetail.getQueryParameter("path")
@@ -273,21 +286,26 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     val rawDataSourceProvider = RawDataSourceProvider(afd)
                     mediaPlayer?.setDataSource(rawDataSourceProvider);
                     mediaPlayer?.prepareAsync()
-                    iMediaPlayerListener?.startPrepare(videoDetail)
+                    iMediaPlayerListeners?.let {
+                        for (item in it) {
+                            item.startPrepare(videoDetail)
+                        }
+                    }
                 }
             }
         } catch (ex: Exception) {
             LogUtils.e(TAG, ex.message!!)
         }
 
-        if (iMediaPlayerListener != null) {
-            iMediaPlayerListener?.startPrepare(videoDetail)
-        }
 
     }
 
     override fun onInfo(p0: IMediaPlayer?, arg1: Int, arg2: Int): Boolean {
-        iMediaPlayerListener?.onInfo(arg1, arg2)
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onInfo(arg1, arg2)
+            }
+        }
         if (arg1 == IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED) {
             LogUtils.d(TAG, "视频角度为---》" + arg2)
             if (arg2 != 0) {
@@ -295,7 +313,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             }
         }
         if (arg1 == IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-            iMediaPlayerListener?.onFirstFrameStart()
+            iMediaPlayerListeners?.let {
+                for (item in it) {
+                    item.onFirstFrameStart()
+                }
+            }
         }
         return true
     }
@@ -395,7 +417,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 .subscribe(object : Consumer<Long> {
                     override fun accept(t: Long?) {
                         currentPosition = t;
-                        iMediaPlayerListener?.updatePlayDuration(currentPosition!!, mediaPlayer?.duration!!)
+                        iMediaPlayerListeners?.let {
+                            for (item in it) {
+                                item.updatePlayDuration(currentPosition!!, mediaPlayer?.duration!!)
+                            }
+                        }
                     }
 
                 }))
@@ -437,7 +463,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun stop() {
         if (isPrepared) {
             mediaPlayer?.stop()
-            iMediaPlayerListener?.stopPlayer(isPlayComplete)
+            iMediaPlayerListeners?.let {
+                for (item in it) {
+                    item.stopPlayer(isPlayComplete)
+                }
+            }
         }
     }
 
@@ -498,10 +528,63 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+    }
+
     override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
-        iMediaPlayerListener?.onError(p1, p2, "")
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onError(p1, p2, "")
+            }
+        }
         return true
     }
 
+    override fun isFullScreen(): Boolean {
+        return context != null && (context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    }
 
+    override fun toggleFullScreen() {
+        if (isFullScreen) {
+            switchScreenOrientation(1)
+        } else {
+            switchScreenOrientation(2)
+        }
+    }
+
+    /**
+     * 横竖屏切换
+     *
+     * @param type 1竖屏，2横屏，0自动切换
+     */
+    private fun switchScreenOrientation(type: Int) {
+        if (context == null) {
+            return
+        }
+        if (type == 1) {
+            if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+        } else if (type == 2) {
+            if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        } else {
+            if ((context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            } else {
+                (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        }
+    }
+
+    fun attachMediaControl(controlView: View) {
+        if (this.controlView != null) {
+            this.removeView(this.controlView)
+            this.controlView = null
+        }
+        this.controlView = controlView
+        addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+    }
 }

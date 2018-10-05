@@ -2,24 +2,24 @@ package com.leowong.project.eyepetizer.ui.activities
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.agile.android.leo.exception.ApiException
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
-import com.leowong.project.eyepetizer.media.SimpleMediaPlayerListener
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
+import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
     protected var videoDetailAdapter: VideoDetailAdapter? = null
+    protected var videoDetailMediaControlView: VideoDetailMediaControlView? = null
 
     private val linearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -91,20 +91,25 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     override fun configViews() {
         StatusBarUtils.with(this).init()
         initSlide()
-        val cover = itemData.data?.cover?.feed
-        val coverOption = ImageLoaderOptions.Builder(vidoeCover, cover)
-                .placeholder(R.drawable.placeholder_banner).isCrossFade(true).build()
-        ImageLoader.showImage(coverOption)
-        ijkvideo.setMediaPlayerListener(object : SimpleMediaPlayerListener() {
-            override fun onFirstFrameStart() {
-                super.onFirstFrameStart()
-                vidoeCover.visibility = View.GONE
-            }
-        })
+//        val cover = itemData.data?.cover?.feed
+
+
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
-        mRecyclerView.adapter=videoDetailAdapter
+        mRecyclerView.adapter = videoDetailAdapter
+        initVideoCover()
+    }
+
+    fun initVideoCover() {
+        videoDetailMediaControlView = VideoDetailMediaControlView(this)
+        videoDetailMediaControlView?.setMediaControl(ijkvideo)
+        val cover = itemData.data?.cover?.feed
+        cover?.let {
+            videoDetailMediaControlView?.setVideoCover(it)
+        }
+        ijkvideo?.addMediaPlayerListener(videoDetailMediaControlView!!)
+        ijkvideo?.attachMediaControl(videoDetailMediaControlView!!)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

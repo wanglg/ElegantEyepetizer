@@ -13,12 +13,15 @@ public interface IMediaPlayerControl {
 
     void start();
 
+    /**
+     * 清除尝试暂停状态,并开始播放视频
+     */
     void tryStart();
 
     void pause();
 
     /**
-     * 尝试暂停，播放器未准备好情况下，在onPrepared时调用暂停
+     * 尝试暂停，播放器未准备好情况下，标记播放器状态，在onPrepared时调用暂停
      */
     void tryPause();
 
@@ -40,6 +43,7 @@ public interface IMediaPlayerControl {
 
     int getBufferPercentage();
 
-//    boolean isFullScreen();
-//    void toggleFullScreen();
+    boolean isFullScreen();
+
+    void toggleFullScreen();
 }
