@@ -78,6 +78,16 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         ijkvideo.onPause()
     }
 
+    override fun onBackPressed() {
+        ijkvideo?.let {
+            if (it.isFullScreen) {
+                it.toggleFullScreen()
+                return
+            }
+        }
+        super.onBackPressed()
+    }
+
     override fun onResume() {
         super.onResume()
         ijkvideo.onResume()
@@ -91,9 +101,6 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     override fun configViews() {
         StatusBarUtils.with(this).init()
         initSlide()
-//        val cover = itemData.data?.cover?.feed
-
-
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())

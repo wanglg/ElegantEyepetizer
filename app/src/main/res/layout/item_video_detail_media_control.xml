@@ -52,17 +52,6 @@
             android:layout_alignParentBottom="true"
             android:clickable="true">
 
-            <!--  <ImageButton
-                  android:id="@+id/pause"
-                  android:layout_width="25dp"
-                  android:layout_height="25dp"
-                  android:layout_centerVertical="true"
-                  android:layout_marginLeft="15dp"
-                  android:background="@color/transparent"
-                  android:paddingRight="5dp"
-                  android:scaleType="fitXY"
-                  android:src="@mipmap/ic_player_play" />
-      -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -75,9 +64,10 @@
                     android:id="@+id/time_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dip"
+                    android:paddingLeft="5dip"
                     android:paddingRight="4dip"
-                    android:textColor="#bababa"
+                    android:text="00:00"
+                    android:textColor="@color/white"
                     android:textSize="9sp"
                     tools:text="00:00" />
 
@@ -87,37 +77,49 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:max="100"
                     android:maxHeight="3dp"
                     android:minHeight="3dp"
                     android:paddingBottom="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="0dp"
                     android:paddingTop="8dp"
                     android:progressDrawable="@drawable/video_seek_bar_style"
-                    android:thumb="@mipmap/ic_player_progress_handle" />
+                    android:thumb="@mipmap/ic_player_progress_handle"
+                    android:thumbOffset="0dp" />
 
                 <TextView
-                    android:id="@+id/time"
+                    android:id="@+id/duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="4dip"
-                    android:paddingRight="4dip"
-                    android:textColor="#727a7d"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="4dp"
+                    android:text="00:00"
+                    android:textColor="@color/white"
                     android:textSize="9sp"
                     tools:text="21:00" />
 
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/fullscreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
                 android:background="@android:color/transparent"
+                android:paddingEnd="8dp"
                 android:src="@mipmap/ic_action_full_screen" />
+
 
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/pauseOrPlay"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_player_pause" />
     </RelativeLayout>
     <!-- video cover 层-->
     <ImageView

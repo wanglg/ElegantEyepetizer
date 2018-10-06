@@ -6,10 +6,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.SeekBar
+import android.widget.*
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
@@ -18,6 +15,7 @@ import com.leowong.project.eyepetizer.media.IMediaPlayerListener
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
@@ -25,12 +23,18 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     var seekbar: SeekBar? = null
     var videoCover: ImageView? = null
     var backImg: ImageView? = null
+    var pauseOrPlay: ImageView? = null
+    var fullscreen: ImageView? = null
     var controlView: View? = null
     var isPrepared: Boolean = false
 
     var videoControl: IMediaPlayerControl? = null
     var coverPath: String? = null
     var controlDisposable: Disposable? = null
+    var mFormatBuilder: StringBuilder? = null
+    var mFormatter: Formatter? = null
+    var mVideoDuration: TextView? = null
+    var mCurrentTime: TextView? = null
 
     constructor(context: Context) : this(context, null) {
     }
@@ -41,16 +45,39 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     }
 
     fun configViews() {
+        mFormatBuilder = StringBuilder()
+        mFormatter = Formatter(mFormatBuilder, Locale.getDefault())
         progress = findViewById(R.id.loading_progress)
+        fullscreen = findViewById(R.id.fullscreen)
+        pauseOrPlay = findViewById(R.id.pauseOrPlay)
+        mCurrentTime = findViewById(R.id.time_current)
+        mVideoDuration = findViewById(R.id.duration)
         seekbar = findViewById(R.id.mediacontroller_progress)
         videoCover = findViewById(R.id.vidoeCover)
         backImg = findViewById(R.id.media_player_back)
         controlView = findViewById(R.id.control_hierarchy)
         backImg?.setOnClickListener {
-            if (context != null) {
-                (context as Activity).finish()
+            if (videoControl != null && videoControl?.isFullScreen!!) {
+                videoControl?.toggleFullScreen()
+            } else {
+                if (context != null) {
+                    (context as Activity).finish()
+                }
             }
 
+        }
+        pauseOrPlay?.setOnClickListener {
+            if (videoControl != null) {
+                if (videoControl?.isPlaying!!) {
+                    videoControl?.pause()
+                    pauseOrPlay?.setImageResource(R.mipmap.ic_player_play)
+                    cancel()
+                } else {
+                    videoControl?.start()
+                    showMediaControl()
+                    pauseOrPlay?.setImageResource(R.mipmap.ic_player_pause)
+                }
+            }
         }
         isClickable = true
         setOnClickListener {
@@ -60,7 +87,11 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
                 controlView?.visibility = View.GONE
             }
         }
-
+        fullscreen?.setOnClickListener {
+            if (isPrepared) {
+                videoControl?.toggleFullScreen()
+            }
+        }
         seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             }
@@ -70,7 +101,7 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                videoControl?.seekTo(seekBar.progress)
+                videoControl?.seekTo(seekBar.progress * videoControl?.duration!!.toInt() / 100)
                 showMediaControl()
             }
 
@@ -120,30 +151,34 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
 
     override fun onPrepared() {
         isPrepared = true
-        seekbar?.max = videoControl?.duration!!.toInt()
+//        seekbar?.max = videoControl?.duration!!.toInt()
+    }
+
+    private fun stringForTime(timeMs: Long): String {
+        val totalSeconds = timeMs / 1000
+        val seconds = totalSeconds % 60
+        val minutes = totalSeconds / 60 % 60
+        val hours = totalSeconds / 3600
+        mFormatBuilder?.setLength(0)
+        return if (hours > 0) {
+            mFormatter?.format("%d:%02d:%02d", hours, minutes, seconds).toString()
+        } else {
+            mFormatter?.format("%02d:%02d", minutes, seconds).toString()
+        }
     }
 
     override fun updatePlayDuration(currentDuration: Long, videoDuration: Long) {
-        seekbar?.setProgress(currentDuration.toInt())
+        seekbar?.setProgress((currentDuration * 100 / videoDuration).toInt())
         seekbar?.setSecondaryProgress((videoControl?.bufferPercentage!!))
+        mVideoDuration?.setText(stringForTime(videoDuration))
+        mCurrentTime?.setText(stringForTime(currentDuration))
+
     }
 
     override fun startPrepare(uri: Uri?) {
         isPrepared = false
         progress?.visibility = View.VISIBLE
     }
-
-    /* override fun onTouchEvent(event: MotionEvent): Boolean {
-         if (isPrepared) {
-             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                 toggleMediaControlsVisiblity()
-             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                 performClick()
-             }
-
-         }
-         return super.onTouchEvent(event)
-     }*/
 
 
     private fun toggleMediaControlsVisiblity() {

@@ -10,12 +10,15 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.widget.FrameLayout
 import com.leowong.project.eyepetizer.BuildConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.media.IMediaPlayerControl
 import com.leowong.project.eyepetizer.media.IMediaPlayerListener
 import com.leowong.project.eyepetizer.utils.LogUtils
+import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -63,6 +66,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     var mSurfaceHolder: IRenderView.ISurfaceHolder? = null
     private var mVideoSarNum: Int = 0
     private var mVideoSarDen: Int = 0
+    /**
+     * 初始父view
+     */
+    private var mInitialParent: ViewParent? = null
+    private var mInitWidth: Int = 0
+    private var mInitHeight: Int = 0
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -153,7 +162,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
         }
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 5 * 1024 * 1024)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
         return ijkMediaPlayer
     }
@@ -233,6 +242,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun onBufferingUpdate(p0: IMediaPlayer?, p1: Int) {
+        //p1 是百分比 0->100
         LogUtils.d(TAG, "onBufferingUpdate->" + p1)
         mCurrentBufferPercentage = p1
         iMediaPlayerListeners?.let {
@@ -528,8 +538,17 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        LogUtils.d(TAG, "onConfigurationChanged  " + mVideoUri?.toString())
+        if (context == null) {
+            return
+        }
+        if (isFullScreen) {
+            setScreenFull(true)
+        } else if (context != null && mediaPlayer != null) {
+            setScreenFull(false)
+        }
     }
 
     override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
@@ -549,6 +568,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isFullScreen) {
             switchScreenOrientation(1)
         } else {
+            mInitialParent = parent
+            mInitWidth = this.width
+            mInitHeight = this.height
             switchScreenOrientation(2)
         }
     }
@@ -586,5 +608,19 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
         this.controlView = controlView
         addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+    }
+
+    private fun setScreenFull(isEnterFullScreen: Boolean) {
+        val parent = this.parent ?: return
+        (parent as ViewGroup).removeView(this)
+        if (isEnterFullScreen) {
+            val mDecorView = (context as Activity).window.decorView
+            (mDecorView as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(-1, -1))
+
+        } else {
+            (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
+//            StatusBarUtils.with(context as Activity).init()
+        }
+        StatusBarUtils.setUiFlags(context as Activity, isEnterFullScreen)
     }
 }
