@@ -2,7 +2,9 @@ package com.leowong.project.eyepetizer.ui.view.widgets
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +32,14 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
 
     var videoControl: IMediaPlayerControl? = null
     var coverPath: String? = null
+    //    var videoTitle: String? = null
+    var title: String? = null
     var controlDisposable: Disposable? = null
     var mFormatBuilder: StringBuilder? = null
     var mFormatter: Formatter? = null
     var mVideoDuration: TextView? = null
     var mCurrentTime: TextView? = null
+    var videoTitleTv: TextView? = null
 
     constructor(context: Context) : this(context, null) {
     }
@@ -44,12 +49,31 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
         configViews()
     }
 
+    /**
+     * 全屏后切换布局
+     */
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        //记录控制器状态
+        val visable = controlView?.visibility == View.VISIBLE
+        removeAllViews()
+        LayoutInflater.from(context).inflate(R.layout.item_video_detail_media_control, this)
+        configViews()
+        if (visable) {
+            showMediaControl()
+        }
+    }
+
     fun configViews() {
         mFormatBuilder = StringBuilder()
         mFormatter = Formatter(mFormatBuilder, Locale.getDefault())
         progress = findViewById(R.id.loading_progress)
         fullscreen = findViewById(R.id.fullscreen)
         pauseOrPlay = findViewById(R.id.pauseOrPlay)
+        videoTitleTv = findViewById(R.id.videoText)
+        if (!TextUtils.isEmpty(title)) {
+            videoTitleTv?.setText(title)
+        }
         mCurrentTime = findViewById(R.id.time_current)
         mVideoDuration = findViewById(R.id.duration)
         seekbar = findViewById(R.id.mediacontroller_progress)
@@ -101,16 +125,26 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                videoControl?.seekTo(seekBar.progress * videoControl?.duration!!.toInt() / 100)
+                videoControl?.seekTo(seekBar.progress * videoControl?.duration!! / 100)
                 showMediaControl()
             }
 
         })
+
+        videoControl?.let {
+            if (it.isPlaying) {
+                pauseOrPlay?.setImageResource(R.mipmap.ic_player_pause)
+            } else {
+                pauseOrPlay?.setImageResource(R.mipmap.ic_player_play)
+            }
+            updatePlayDuration(it.currentPosition, it.duration)
+        }
     }
 
 
     fun setMediaControl(player: IMediaPlayerControl) {
         videoControl = player
+
     }
 
     fun setVideoCover(cover: String) {
@@ -118,6 +152,11 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
         val coverOption = ImageLoaderOptions.Builder(videoCover!!, coverPath)
                 .placeholder(R.drawable.placeholder_banner).isCrossFade(true).build()
         ImageLoader.showImage(coverOption)
+    }
+
+    fun setVideoTitle(title: String) {
+        this.title = title
+        videoTitleTv?.setText(title)
     }
 
     fun showMediaControl() {
@@ -151,7 +190,6 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
 
     override fun onPrepared() {
         isPrepared = true
-//        seekbar?.max = videoControl?.duration!!.toInt()
     }
 
     private fun stringForTime(timeMs: Long): String {

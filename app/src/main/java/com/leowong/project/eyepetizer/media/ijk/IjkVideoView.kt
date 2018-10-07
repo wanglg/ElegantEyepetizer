@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.text.TextUtils
@@ -72,6 +73,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     private var mInitialParent: ViewParent? = null
     private var mInitWidth: Int = 0
     private var mInitHeight: Int = 0
+    private var looping: Boolean = false
+
+    //满屏填充暂停为徒
+    private var mFullPauseBitmap: Bitmap? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -124,7 +129,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         mediaPlayer?.setOnErrorListener(this)
         mediaPlayer?.setOnVideoSizeChangedListener(this)
         mediaPlayer?.setScreenOnWhilePlaying(true)
-        mediaPlayer?.isLooping = true
+        mediaPlayer?.isLooping = looping
         bindSurfaceHolder(mediaPlayer, mSurfaceHolder)
         mediaPlayer?.setOnBufferingUpdateListener(this)
         mediaPlayer?.setOnInfoListener(this)
@@ -144,7 +149,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun setLooping(isLooping: Boolean) {
-        mediaPlayer?.isLooping = isLooping
+        this.looping = isLooping
     }
 
     fun creatPlayer(): IMediaPlayer {
@@ -221,7 +226,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if (isPlayingOnPause) {
                 start()
             } else {
-                mediaPlayer?.seekTo(currentPosition!!)
+//                seekTo(currentPosition!!)
                 pause()
             }
         }
@@ -243,7 +248,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun onBufferingUpdate(p0: IMediaPlayer?, p1: Int) {
         //p1 是百分比 0->100
-        LogUtils.d(TAG, "onBufferingUpdate->" + p1)
+//        LogUtils.d(TAG, "onBufferingUpdate->" + p1)
         mCurrentBufferPercentage = p1
         iMediaPlayerListeners?.let {
             for (item in it) {
@@ -387,6 +392,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
 
         holder.bindToMediaPlayer(mp)
+        //如果暂停状态下，surface被销毁,调用seekTo防止黑屏
+        if (isPrepared && !isPlayingOnPause) {
+            seekTo(currentPosition!!)
+        }
     }
 
     private fun resetPlayer() {
@@ -518,11 +527,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     }
 
-    override fun seekTo(pos: Int) {
+    override fun seekTo(pos: Long) {
+        LogUtils.d(TAG, "seekTo-->" + pos)
         if (!isPrepared) {
             return
         } else {
-            mediaPlayer?.seekTo(pos.toLong())
+            mediaPlayer?.seekTo(pos)
         }
     }
 
@@ -565,6 +575,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun toggleFullScreen() {
+        savePlayerState()
         if (isFullScreen) {
             switchScreenOrientation(1)
         } else {
@@ -619,8 +630,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
         } else {
             (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
-//            StatusBarUtils.with(context as Activity).init()
         }
         StatusBarUtils.setUiFlags(context as Activity, isEnterFullScreen)
     }
+
 }

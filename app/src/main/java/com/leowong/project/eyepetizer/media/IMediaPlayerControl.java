@@ -37,7 +37,7 @@ public interface IMediaPlayerControl {
 
     long getCurrentPosition();
 
-    void seekTo(int pos);
+    void seekTo(long pos);
 
     void play(Uri videoUri, Long position);
 

@@ -105,16 +105,17 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
         mRecyclerView.adapter = videoDetailAdapter
-        initVideoCover()
+        initVideoControl()
     }
 
-    fun initVideoCover() {
+    fun initVideoControl() {
         videoDetailMediaControlView = VideoDetailMediaControlView(this)
         videoDetailMediaControlView?.setMediaControl(ijkvideo)
         val cover = itemData.data?.cover?.feed
         cover?.let {
             videoDetailMediaControlView?.setVideoCover(it)
         }
+        videoDetailMediaControlView?.setVideoTitle(itemData.data!!.title)
         ijkvideo?.addMediaPlayerListener(videoDetailMediaControlView!!)
         ijkvideo?.attachMediaControl(videoDetailMediaControlView!!)
     }
