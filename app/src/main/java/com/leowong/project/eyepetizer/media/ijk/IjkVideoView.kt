@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.text.TextUtils
@@ -27,7 +26,6 @@ import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
-import tv.danmaku.ijk.media.player.AndroidMediaPlayer
 import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.util.concurrent.TimeUnit
@@ -75,8 +73,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     private var mInitHeight: Int = 0
     private var looping: Boolean = false
 
-    //满屏填充暂停为徒
-    private var mFullPauseBitmap: Bitmap? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -156,11 +152,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         return createIjkPlayer();
     }
 
-    fun createAndroidPlayer(): AndroidMediaPlayer {
-        val androidMediaPlayer = AndroidMediaPlayer()
-        return androidMediaPlayer
-    }
-
 
     fun createIjkPlayer(): IjkMediaPlayer {
         val ijkMediaPlayer = IjkMediaPlayer()
@@ -186,8 +177,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     }
 
-    fun startPlay(videoDetail: Uri) {
-        startPlay(videoDetail, 0)
+    fun startPlay(videoUri: Uri) {
+        startPlay(videoUri, 0)
     }
 
     override fun onPrepared(p0: IMediaPlayer?) {
