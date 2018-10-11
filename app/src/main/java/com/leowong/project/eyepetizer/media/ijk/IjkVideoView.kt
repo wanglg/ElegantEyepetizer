@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -95,7 +96,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun setVideoPath(videoPath: String) {
-        this.mVideoUri = Uri.parse("common://" + "remote?path=" + Uri.encode(videoPath))
+        this.mVideoUri = Uri.parse("common://" + "remote?path=" + "ijkhttphook:" + Uri.encode(videoPath))
     }
 
     fun setAssertPath(videoPath: String) {
@@ -160,6 +161,13 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
+        //断网自动重新连接
+        ijkMediaPlayer.setOnNativeInvokeListener(object : IjkMediaPlayer.OnNativeInvokeListener {
+            override fun onNativeInvoke(p0: Int, p1: Bundle?): Boolean {
+                return true
+            }
+
+        })
         return ijkMediaPlayer
     }
 
@@ -409,7 +417,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }).map(object : Function<Long, Long> {
             override fun apply(t: Long): Long {
                 try {
-                    return mediaPlayer?.currentPosition ?: 0//可能会有java.lang.IllegalStateException
+                    return mediaPlayer?.currentPosition ?: 0
                 } catch (e: Exception) {
                     e.printStackTrace()
                     return 0L
