@@ -15,8 +15,6 @@
  */
 package com.leowong.project.eyepetizer.api;
 
-import com.leowong.project.eyepetizer.utils.LogUtils;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.Charset;
