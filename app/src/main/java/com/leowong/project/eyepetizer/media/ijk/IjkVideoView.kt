@@ -333,6 +333,20 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 }
             }
         }
+        if (arg1 == IMediaPlayer.MEDIA_INFO_BUFFERING_START) {
+            iMediaPlayerListeners?.let {
+                for (item in it) {
+                    item.onLoadStart()
+                }
+            }
+        }
+        if (arg1 == IMediaPlayer.MEDIA_INFO_BUFFERING_END) {
+            iMediaPlayerListeners?.let {
+                for (item in it) {
+                    item.onLoadEnd()
+                }
+            }
+        }
         return true
     }
 
