@@ -82,7 +82,11 @@ object LogUtils {
             Log.w(tag, msg)
         }
     }
-
+    fun w( msg: String) {
+        if (isPrintLog) {
+            Log.w(TAG, msg)
+        }
+    }
     fun json(json: String) {
         Logger.json(json)
     }

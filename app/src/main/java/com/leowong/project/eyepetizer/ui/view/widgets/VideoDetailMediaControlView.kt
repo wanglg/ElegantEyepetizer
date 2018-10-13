@@ -12,11 +12,16 @@ import android.widget.*
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
+import com.leowong.project.eyepetizer.events.NetChangeEvent
 import com.leowong.project.eyepetizer.media.IMediaPlayerControl
 import com.leowong.project.eyepetizer.media.IMediaPlayerListener
+import com.leowong.project.eyepetizer.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -227,8 +232,26 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
         }
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        LogUtils.d("onAttachedToWindow")
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        LogUtils.d("onDetachedFromWindow")
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun stopPlayer(isPlayComplete: Boolean) {
         cancel()
+    }
+
+    //网络状态变化处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNetChangeEvent(event: NetChangeEvent) {
+        LogUtils.w("onNetChangeEvent-->")
     }
 
     override fun onInfo(what: Int, extra: Int) {
