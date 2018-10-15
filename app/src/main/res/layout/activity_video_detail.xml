@@ -2,6 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -34,17 +35,34 @@
         android:layout_below="@id/mVideoView"
         android:background="#5000" />
 
-    <com.classic.common.MultipleStatusView
-        android:id="@+id/videoDetailMultipleStatusView"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nest_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mVideoView">
+        android:layout_below="@+id/mVideoView"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecyclerView"
+        <!--android:descendantFocusability="blocksDescendants" 属性确保recyclerview刷新后NestedScrollView回到顶部-->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/mVideoView" />
-    </com.classic.common.MultipleStatusView>
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_video_detail_info" />
+
+            <com.classic.common.MultipleStatusView
+                android:id="@+id/videoDetailMultipleStatusView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.classic.common.MultipleStatusView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.leowong.project.eyepetizer.mvp.contract
 import com.agile.android.leo.mvp.IModel
 import com.agile.android.leo.mvp.IView
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
+import io.reactivex.Observable
 
 /**
  * Created by xuhao on 2017/11/25.
@@ -50,7 +51,7 @@ interface VideoDetailContract {
         /**
          * 请求相关的视频数据
          */
-        fun requestRelatedVideo(id: Long)
+        fun requestRelatedVideo(id: Long): Observable<HomeBean.Issue>
 
     }
 

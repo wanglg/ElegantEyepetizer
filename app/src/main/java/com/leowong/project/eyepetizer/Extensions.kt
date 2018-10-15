@@ -6,10 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import com.agile.android.leo.mvp.BasePresenter
 
-/**
- * Created by xuhao on 2017/11/14.
- */
 
 fun Fragment.showToast(content: String): Toast {
     val toast = Toast.makeText(this.activity?.applicationContext, content, Toast.LENGTH_SHORT)
@@ -18,6 +16,12 @@ fun Fragment.showToast(content: String): Toast {
 }
 
 fun Context.showToast(content: String): Toast {
+    val toast = Toast.makeText(MyApplication.context, content, Toast.LENGTH_SHORT)
+    toast.show()
+    return toast
+}
+
+fun BasePresenter<*, *>.showToast(content: String): Toast {
     val toast = Toast.makeText(MyApplication.context, content, Toast.LENGTH_SHORT)
     toast.show()
     return toast

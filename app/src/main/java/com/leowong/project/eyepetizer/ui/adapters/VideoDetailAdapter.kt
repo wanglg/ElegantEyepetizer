@@ -4,6 +4,8 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.MultipleItemRvAdapter
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
+import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiSmallCardProvider
+import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiTextCardProvider
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetailInfoProvider
 
 class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleItemRvAdapter<VideoDetailMultipleEntity, BaseViewHolder>(data) {
@@ -22,6 +24,8 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
 
     override fun registerItemProvider() {
         mProviderDelegate.registerProvider(VideoDetailInfoProvider())
+        mProviderDelegate.registerProvider(VideoDetaiSmallCardProvider())
+        mProviderDelegate.registerProvider(VideoDetaiTextCardProvider())
     }
 
 
@@ -29,7 +33,7 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
      * 添加相关推荐等数据 Item
      */
     fun addItemData(item: ArrayList<HomeBean.Issue.Item>) {
-        addData(wrapList(item))
+        replaceData(wrapList(item))
     }
 
     /**
@@ -44,11 +48,13 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
     fun wrapList(itemList: List<HomeBean.Issue.Item>): ArrayList<VideoDetailMultipleEntity> {
         val list: ArrayList<VideoDetailMultipleEntity> = ArrayList()
         for ((index, item) in itemList.withIndex()) {
-            if (index == 0) {
-                val homeMultipleEntity = VideoDetailMultipleEntity(item, ITEM_TYPE_DETAIL_INFO)
-                list.add(homeMultipleEntity)
-                continue
-            }
+            val homeMultipleEntity = VideoDetailMultipleEntity(item, if (item.type == "textCard") {
+                ITEM_TYPE_TEXT_HEADER
+            } else {
+                ITEM_TYPE_CONTENT
+            })
+            list.add(homeMultipleEntity)
+            continue
 
         }
         return list

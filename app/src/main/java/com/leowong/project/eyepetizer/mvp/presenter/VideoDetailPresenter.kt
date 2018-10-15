@@ -1,12 +1,15 @@
 package com.leowong.project.eyepetizer.mvp.presenter
 
 import android.app.Activity
+import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.mvp.BasePresenter
 import com.leowong.project.eyepetizer.*
+import com.leowong.project.eyepetizer.api.ApiSubscriber
 import com.leowong.project.eyepetizer.managers.NetworkManager
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
-import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.leowong.project.eyepetizer.utils.rxjava.SchedulersUtil
+import io.reactivex.disposables.Disposable
 
 class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDetailContract.View) :
         BasePresenter<VideoDetailContract.Model, VideoDetailContract.View>(model, rootView) {
@@ -31,9 +34,10 @@ class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDeta
                     if (i.type == "normal") {
                         val playUrl = i.url
                         mRootView?.setVideo(playUrl)
-                        //Todo 待完善
-                        (mRootView as Activity).showToast("本次消耗${(mRootView as Activity)
-                                .dataFormat(i.urlList[0].size)}流量")
+                        if(NetworkManager.instance.isMobileNetWorkConnected()){
+                            (mRootView as Activity).showToast("本次消耗${(mRootView as Activity)
+                                    .dataFormat(i.urlList[0].size)}流量")
+                        }
                         break
                     }
                 }
@@ -52,4 +56,33 @@ class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDeta
 
     }
 
+
+    /**
+     * 请求相关的视频数据
+     */
+    fun requestRelatedVideo(id: Long) {
+        mRootView?.showLoading()
+        mModel?.requestRelatedVideo(id)?.compose(SchedulersUtil.applyApiSchedulers())
+                ?.subscribe(object : ApiSubscriber<HomeBean.Issue>() {
+                    override fun onFailure(t: ApiException) {
+                        mRootView?.dismissLoading()
+                        mRootView?.resultError(t)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        addDispose(d)
+                    }
+
+
+                    override fun onNext(t: HomeBean.Issue) {
+                        mRootView?.dismissLoading()
+                        mRootView?.setRecentRelatedVideo(t.itemList)
+                    }
+
+                })
+
+    }
+
+
 }
+
