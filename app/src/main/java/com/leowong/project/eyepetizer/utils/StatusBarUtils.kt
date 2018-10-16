@@ -235,7 +235,7 @@ class StatusBarUtils(private val mActivity: Activity) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                 window.statusBarColor = Color.TRANSPARENT
                 //导航栏颜色也可以正常设置
-                //                window.setNavigationBarColor(Color.TRANSPARENT);
+//                window.setNavigationBarColor(Color.TRANSPARENT);
             } else {
                 val window = activity.window
                 val attributes = window.attributes
