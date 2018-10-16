@@ -10,6 +10,7 @@ import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
+import com.leowong.project.eyepetizer.utils.LogUtils
 import org.greenrobot.eventbus.EventBus
 
 class VideoDetaiSmallCardProvider : BaseItemProvider<VideoDetailMultipleEntity, BaseViewHolder>() {
@@ -27,10 +28,10 @@ class VideoDetaiSmallCardProvider : BaseItemProvider<VideoDetailMultipleEntity, 
             setText(R.id.tv_title, data?.data?.title!!)
             setText(R.id.tv_tag, "#${data.data.category} / ${durationFormat(data.data.duration)}")
             val avatarOption = ImageLoaderOptions.Builder(holder.getView(R.id.iv_video_small_card), data.data.cover.detail)
-                    .placeholder(R.drawable.placeholder_banner).isCrossFade(true).build()
+                    .placeholder(R.drawable.placeholder_banner).build()
             ImageLoader.showImage(avatarOption)
-
         }
+        LogUtils.d("convert-->" + position)
     }
 
     override fun onClick(helper: BaseViewHolder?, data: VideoDetailMultipleEntity, position: Int) {

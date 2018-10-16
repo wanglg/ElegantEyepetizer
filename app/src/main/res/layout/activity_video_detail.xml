@@ -16,8 +16,7 @@
         <com.leowong.project.eyepetizer.media.ijk.IjkVideoView
             android:id="@+id/ijkvideo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black" />
+            android:layout_height="match_parent" />
     </FrameLayout>
 
 
@@ -35,34 +34,41 @@
         android:layout_below="@id/mVideoView"
         android:background="#5000" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nest_scroll_view"
+    <!--<FrameLayout-->
+    <!--android:id="@+id/bottom_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/mVideoView">-->
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:id="@+id/nest_scroll_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <!--&lt;!&ndash;android:descendantFocusability="blocksDescendants" 属性确保recyclerview刷新后NestedScrollView回到顶部&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:descendantFocusability="blocksDescendants"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<include layout="@layout/item_video_detail_info" />-->
+
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/videoDetailMultipleStatusView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mVideoView"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_below="@+id/mVideoView">
 
-        <!--android:descendantFocusability="blocksDescendants" 属性确保recyclerview刷新后NestedScrollView回到顶部-->
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </com.classic.common.MultipleStatusView>
+    <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
-            <include layout="@layout/item_video_detail_info" />
-
-            <com.classic.common.MultipleStatusView
-                android:id="@+id/videoDetailMultipleStatusView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </com.classic.common.MultipleStatusView>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-
+    <!--</FrameLayout>-->
 </RelativeLayout>

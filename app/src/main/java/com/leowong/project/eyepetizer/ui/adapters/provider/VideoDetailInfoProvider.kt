@@ -40,7 +40,7 @@ class VideoDetailInfoProvider : BaseItemProvider<VideoDetailMultipleEntity, Base
                 setText(R.id.tv_author_name, data.data.author.name)
                 setText(R.id.tv_author_desc, data.data.author.description)
                 val avatarOption = ImageLoaderOptions.Builder(helper.getView(R.id.iv_avatar), data.data.author.icon)
-                        .placeholder(R.drawable.placeholder_banner).isCircle.isCrossFade(true).build()
+                        .placeholder(R.mipmap.default_avatar).isCircle.isCrossFade(true).build()
                 ImageLoader.showImage(avatarOption)
             }
         } else {

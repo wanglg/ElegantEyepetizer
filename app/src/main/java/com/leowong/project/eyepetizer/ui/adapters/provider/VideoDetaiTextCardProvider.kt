@@ -1,13 +1,8 @@
 package com.leowong.project.eyepetizer.ui.adapters.provider
 
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.provider.BaseItemProvider
-import com.lasingwu.baselibrary.ImageLoader
-import com.lasingwu.baselibrary.ImageLoaderOptions
-import com.leowong.project.eyepetizer.MyApplication
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.durationFormat
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity

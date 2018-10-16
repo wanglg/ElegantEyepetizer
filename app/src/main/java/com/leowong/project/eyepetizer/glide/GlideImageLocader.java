@@ -28,6 +28,8 @@ import com.lasingwu.baselibrary.ImageLoaderOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 
 public class GlideImageLocader implements IImageLoaderstrategy {
 
@@ -66,9 +68,7 @@ public class GlideImageLocader implements IImageLoaderstrategy {
         if (options.isBlurImage()) {
             list.add(new BlurTransformation(options.getBlurValue()));
         }
-        if (options.needImageRadius()) {
-            list.add(new RoundedCorners(options.getImageRadius()));
-        }
+
         if (options.isCircle()) {
             list.add(new CircleTransformation());
 
@@ -98,7 +98,10 @@ public class GlideImageLocader implements IImageLoaderstrategy {
                 return false;
             }
         });
-
+        //TODO isCrossFade 会造成圆角转换周边角有背景,并且圆角转换不了placeholder图片，可以自定义view处理
+        if (options.needImageRadius() && builder instanceof GlideRequest) {
+            ((GlideRequest) builder).optionalTransform(new RoundedCorners(options.getImageRadius()));
+        }
         builder.apply(requestOptions).into((ImageView) options.getViewContainer());
     }
 
@@ -114,7 +117,6 @@ public class GlideImageLocader implements IImageLoaderstrategy {
         } else {
             builder = getRequestManager(options.getViewContainer()).asBitmap();
         }
-
         if (options.isCrossFade()) {
             builder.transition(new BitmapTransitionOptions().crossFade());
         }
@@ -129,16 +131,13 @@ public class GlideImageLocader implements IImageLoaderstrategy {
 
     @Override
     public void hideImage(@NonNull View view, int visiable) {
-        if (view != null) {
-            view.setVisibility(visiable);
-        }
+        view.setVisibility(visiable);
     }
 
     @Override
     public void cleanMemory(Context context) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             Glide.get(context).clearMemory();
-
         }
     }
 
@@ -150,7 +149,6 @@ public class GlideImageLocader implements IImageLoaderstrategy {
     @Override
     public void resume(Context context) {
         GlideApp.with(context).resumeRequests();
-
     }
 
     @Override

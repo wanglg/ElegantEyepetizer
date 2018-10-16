@@ -1,7 +1,9 @@
 package com.leowong.project.eyepetizer.ui.adapters
 
+import android.view.View
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.MultipleItemRvAdapter
+import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiSmallCardProvider
@@ -33,7 +35,7 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
      * 添加相关推荐等数据 Item
      */
     fun addItemData(item: ArrayList<HomeBean.Issue.Item>) {
-        replaceData(wrapList(item))
+        addData(wrapList(item))
     }
 
     /**

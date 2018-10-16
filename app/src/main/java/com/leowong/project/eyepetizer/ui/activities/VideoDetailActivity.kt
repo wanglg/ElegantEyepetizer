@@ -8,7 +8,6 @@ import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
-import com.leowong.project.eyepetizer.durationFormat
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
@@ -16,18 +15,19 @@ import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
 import com.leowong.project.eyepetizer.showToast
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
-import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
 import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
-import kotlinx.android.synthetic.main.item_video_detail_info.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.util.concurrent.TimeUnit
 
 class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
     protected var videoDetailAdapter: VideoDetailAdapter? = null
     protected var videoDetailMediaControlView: VideoDetailMediaControlView? = null
+    protected var footView: View? = null
 
     private val linearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -40,21 +40,9 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {
-        tv_title.setText(itemInfo.data?.title)
-        expandable_text.setText(itemInfo.data?.description)
-        tv_action_favorites.setText(itemInfo.data?.consumption?.collectionCount.toString())
-        tv_action_share.setText(itemInfo.data?.consumption?.shareCount.toString())
-        tv_action_reply.setText(itemInfo.data?.consumption?.replyCount.toString())
-        tv_tag.setText("#${itemInfo?.data?.category} / ${durationFormat(itemInfo?.data?.duration)}")
-        if (itemInfo.data?.author != null) {
-            tv_author_name.setText(itemInfo.data.author.name)
-            tv_author_desc.setText(itemInfo.data.author.description)
-            val avatarOption = ImageLoaderOptions.Builder(iv_avatar, itemInfo.data.author.icon)
-                    .placeholder(R.drawable.placeholder_banner).isCircle.isCrossFade(true).build()
-            com.lasingwu.baselibrary.ImageLoader.showImage(avatarOption)
-        } else {
-            layout_author_view.visibility = View.GONE
-        }
+
+        multipleStatusView?.showContent()
+        videoDetailAdapter?.addItemData(itemInfo)
 
         // 请求相关的最新等视频
         mPresenter?.requestRelatedVideo(itemInfo.data?.id ?: 0)
@@ -68,8 +56,11 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
-        videoDetailAdapter?.setFooterView(View.inflate(this, R.layout.item_footer, null))
         videoDetailAdapter?.addItemData(itemList)
+        addDispose(Observable.timer(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    videoDetailAdapter?.setFooterView(View.inflate(this, R.layout.item_footer, null))
+                }))
     }
 
     override fun setErrorMsg(errorMsg: String) {
@@ -80,11 +71,12 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun showLoading() {
-        multipleStatusView?.showLoading()
+        footView = View.inflate(this, R.layout.item_video_detail_loading, null)
+        videoDetailAdapter?.setFooterView(footView)
     }
 
     override fun dismissLoading() {
-        multipleStatusView?.showContent()
+        videoDetailAdapter?.removeFooterView(footView)
     }
 
     /**
@@ -134,7 +126,6 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         initSlide()
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager
-        mRecyclerView.isNestedScrollingEnabled = false
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
         mRecyclerView.adapter = videoDetailAdapter
     }
@@ -153,9 +144,9 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
 
     override fun initData(savedInstanceState: Bundle?) {
         itemData = intent.getSerializableExtra(BUNDLE_VIDEO_DATA) as HomeBean.Issue.Item
-        // init player
-        IjkMediaPlayer.loadLibrariesOnce(null)
-        IjkMediaPlayer.native_profileBegin("libijkplayer.so")
+//        // init player
+//        IjkMediaPlayer.loadLibrariesOnce(null)
+//        IjkMediaPlayer.native_profileBegin("libijkplayer.so")
     }
 
     override fun requestData() {
@@ -171,7 +162,6 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onVideoDetailItemClickEvent(event: VideoDetailItemClickEvent) {
         itemData = event.itemInfo
-        nest_scroll_view.smoothScrollTo(0, 0)
         multipleStatusView?.showLoading()
         mPresenter?.loadVideoInfo(event.itemInfo)
     }

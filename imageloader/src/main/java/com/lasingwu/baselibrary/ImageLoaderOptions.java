@@ -26,8 +26,8 @@ public class ImageLoaderOptions {
     private boolean blurImage = false; //是否使用高斯模糊
     private LoaderResultCallBack loaderResultCallBack;   // 返回图片加载结果
     private int blurValue;   // 高斯模糊参数，越大越模糊
-    private int imageRadius = 0;
-    private boolean isCircle = false;
+    private int imageRadius;
+    private boolean isCircle;
 
     private ImageLoaderOptions(Builder builder) {
         this.asGif = builder.asGif;
@@ -171,7 +171,6 @@ public class ImageLoaderOptions {
 
         public Builder imageRadiusPx(@Dimension(unit = Dimension.PX) int rdius) {
             this.imageRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rdius, mViewContainer.getContext().getApplicationContext().getResources().getDisplayMetrics());
-
             return this;
         }
 
