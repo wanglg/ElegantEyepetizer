@@ -425,7 +425,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
         playScheduleSubscription?.add(Flowable.interval(1, TimeUnit.SECONDS).filter(object : Predicate<Long> {
             override fun test(t: Long): Boolean {
-                return mediaPlayer != null && isPrepared && !isSurfaceDestroy && isPlaying
+                return mediaPlayer != null && isPrepared && !isSurfaceDestroy && isPlaying && mediaPlayer?.duration!! > 0
             }
 
         }).map(object : Function<Long, Long> {
