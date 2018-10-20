@@ -29,6 +29,7 @@ import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import tv.danmaku.ijk.media.player.TextureMediaPlayer
 import java.util.concurrent.TimeUnit
 
 /**
@@ -125,7 +126,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         mediaPlayer?.setOnCompletionListener(this)
         mediaPlayer?.setOnErrorListener(this)
         mediaPlayer?.setOnVideoSizeChangedListener(this)
-        mediaPlayer?.setScreenOnWhilePlaying(true)
+//        mediaPlayer?.setScreenOnWhilePlaying(true) 测试这个方法和预期不符
         mediaPlayer?.isLooping = looping
         bindSurfaceHolder(mediaPlayer, mSurfaceHolder)
         mediaPlayer?.setOnBufferingUpdateListener(this)
@@ -133,12 +134,15 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun onCompletion(p0: IMediaPlayer?) {
+        LogUtils.d(TAG, "onCompletion--> " + mVideoUri?.toString())
         this.isCompleted = true
+        keepScreenOn = false
         iMediaPlayerListeners?.let {
             for (item in it) {
                 item.onCompletion()
             }
         }
+        currentPosition = 0
     }
 
     fun setAspectRatio(aspectRatio: Int) {
@@ -150,11 +154,28 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun creatPlayer(): IMediaPlayer {
-        return createIjkPlayer();
+        return createTextureMediaPlayer();
     }
 
 
-    fun createIjkPlayer(): IjkMediaPlayer {
+    fun createTextureMediaPlayer(): TextureMediaPlayer {
+        val ijkMediaPlayer = IjkMediaPlayer()
+        if (BuildConfig.DEBUG) {
+            IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
+        }
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
+        //断网自动重新连接
+        ijkMediaPlayer.setOnNativeInvokeListener(object : IjkMediaPlayer.OnNativeInvokeListener {
+            override fun onNativeInvoke(p0: Int, p1: Bundle?): Boolean {
+                return true
+            }
+
+        })
+        return TextureMediaPlayer(ijkMediaPlayer)
+    }
+
+    fun createIjkMediaPlayer(): IjkMediaPlayer {
         val ijkMediaPlayer = IjkMediaPlayer()
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
@@ -201,6 +222,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         renderView?.setVideoSize(mediaPlayer!!.videoWidth, mediaPlayer!!.videoHeight)
         renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
         if (!isFreeze) {
+            //恢复到原来位置
+            if (currentPosition!! > 0L) {
+                seekTo(currentPosition!!)
+            }
             if (isTryPause) {
                 pause()
                 isTryPause = false
@@ -236,7 +261,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isPrepared) {
             savePlayerState()
             currentPosition = mediaPlayer?.currentPosition
-            mediaPlayer?.pause()
+            pause()
         } else {
             // 如果播放器没有prepare完成，则设置isFreeze为true
             LogUtils.d(TAG, "播放器没有prepare完成")
@@ -406,9 +431,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
         holder.bindToMediaPlayer(mp)
         //如果暂停状态下，surface被销毁,调用seekTo防止黑屏
-        if (isPrepared && !isPlayingOnPause) {
-            seekTo(currentPosition!!)
-        }
+//        if (isPrepared && !isPlayingOnPause) {
+//            seekTo(currentPosition!!)
+//        }
     }
 
     private fun resetPlayer() {
@@ -473,7 +498,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun start() {
         if (isPrepared) {
+            LogUtils.d(TAG, "start-->" + mVideoUri?.toString())
             mediaPlayer?.start()
+            keepScreenOn = true
         }
     }
 
@@ -481,6 +508,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         isTryPause = false
         if (isPrepared) {
             mediaPlayer?.start()
+            keepScreenOn = true
         } else {
             startPlay()
         }
@@ -488,13 +516,17 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun pause() {
         if (isPrepared) {
+            LogUtils.d(TAG, "pause-->" + mVideoUri?.toString())
             mediaPlayer?.pause()
+            keepScreenOn = false
         }
     }
 
     override fun stop() {
         if (isPrepared) {
             mediaPlayer?.stop()
+            keepScreenOn = false
+            LogUtils.d(TAG, "stop-->" + mVideoUri?.toString())
             iMediaPlayerListeners?.let {
                 for (item in it) {
                     item.stopPlayer(isPlayComplete)
@@ -506,6 +538,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun tryPause() {
         if (isPrepared) {
             mediaPlayer?.pause()
+            keepScreenOn = false
         } else {
             isTryPause = true
         }

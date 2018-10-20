@@ -128,6 +128,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
         mRecyclerView.adapter = videoDetailAdapter
+//        ijkvideo?.setLooping(true)
     }
 
     fun initVideoControl() {
