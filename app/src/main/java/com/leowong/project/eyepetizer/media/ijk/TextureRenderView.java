@@ -192,8 +192,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
         @Nullable
         @Override
         public Surface openSurface() {
-            if (mSurfaceTexture == null)
+            if (mSurfaceTexture == null) {
                 return null;
+            }
             return new Surface(mSurfaceTexture);
         }
     }

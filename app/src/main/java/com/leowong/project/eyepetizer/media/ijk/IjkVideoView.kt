@@ -113,9 +113,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     fun initPlayer() {
         LogUtils.d(TAG, "initPlayer--> " + mVideoUri?.toString())
         if (mediaPlayer != null) {
-            mediaPlayer?.stop()
-            mediaPlayer?.reset()
-            mediaPlayer?.release()
+            resetPlayer()
             mediaPlayer = creatPlayer()
         } else {
             mediaPlayer = creatPlayer()
@@ -155,6 +153,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun creatPlayer(): IMediaPlayer {
         return createTextureMediaPlayer();
+//        return createIjkMediaPlayer();
     }
 
 
@@ -212,6 +211,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun onPrepared(p0: IMediaPlayer?) {
         LogUtils.d(TAG, "onPrepared  ")
+//        bindSurfaceHolder(mediaPlayer, mSurfaceHolder)
         isPrepared = true
         iMediaPlayerListeners?.let {
             for (item in it) {
@@ -437,9 +437,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     private fun resetPlayer() {
+        //TextureView不能复用，每次加载下一个video的时候都会把前一个TextureView移除掉，然后新建一个TextureView
+        renderView?.removeRenderCallback(this)
+        removeView(renderView as View)
+        LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
+        initSurface()
+        playScheduleSubscription?.clear()
         mediaPlayer?.pause()
         mediaPlayer?.stop()
         mediaPlayer?.reset()
+        mediaPlayer?.release()
     }
 
 

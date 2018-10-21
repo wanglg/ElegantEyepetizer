@@ -8,7 +8,7 @@ import com.agile.android.leo.base.AgileApplication
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderConfig
 import com.lasingwu.baselibrary.LoaderEnum
-import com.leowong.project.eyepetizer.glide.GlideImageLocader
+import com.leowong.project.eyepetizer.glide.GlideImageLoader
 import com.leowong.project.eyepetizer.managers.NetworkManager
 import com.leowong.project.eyepetizer.utils.LogUtils
 import com.squareup.leakcanary.LeakCanary
@@ -42,7 +42,7 @@ class MyApplication : AgileApplication() {
     }
 
     fun initImageLoader() {
-        val config = ImageLoaderConfig.Builder(LoaderEnum.GLIDE, GlideImageLocader())
+        val config = ImageLoaderConfig.Builder(LoaderEnum.GLIDE, GlideImageLoader())
                 .maxMemory(40 * 1024 * 1024L)  // 单位为Byte
                 .build()
         ImageLoader.init(this, config)

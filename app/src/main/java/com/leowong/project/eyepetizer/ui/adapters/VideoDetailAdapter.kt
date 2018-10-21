@@ -1,9 +1,7 @@
 package com.leowong.project.eyepetizer.ui.adapters
 
-import android.view.View
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.MultipleItemRvAdapter
-import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiSmallCardProvider

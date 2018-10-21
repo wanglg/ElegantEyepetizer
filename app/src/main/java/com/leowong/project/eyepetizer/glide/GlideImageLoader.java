@@ -31,7 +31,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 
-public class GlideImageLocader implements IImageLoaderstrategy {
+public class GlideImageLoader implements IImageLoaderstrategy {
 
     @SuppressLint("CheckResult")
     @Override
