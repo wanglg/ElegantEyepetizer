@@ -9,6 +9,7 @@ import com.agile.android.leo.mvp.IPresenter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseFragment
 import com.leowong.project.eyepetizer.media.ijk.IRenderView
+import com.leowong.project.eyepetizer.media.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.ui.activities.MainActivity
 import com.leowong.project.eyepetizer.ui.activities.SplashActivity
 import com.leowong.project.eyepetizer.ui.adapters.SplashVideoTextAdapter
@@ -31,6 +32,7 @@ class SplashVideoFragment : BaseFragment<IPresenter>(), ViewPager.OnPageChangeLi
     override fun configViews() {
         ijkvideo.setAssertPath("landing.mp4")
         ijkvideo.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT)
+        ijkvideo.setPlayerConfig(PlayerConfig.Builder().setLooping().disableAudioFocus().build())
         ijkvideo.startPlay()
         val adapter = SplashVideoTextAdapter()
         view_pager.adapter = adapter

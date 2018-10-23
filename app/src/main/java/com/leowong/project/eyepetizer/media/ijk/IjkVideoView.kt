@@ -73,8 +73,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     private var mInitialParent: ViewParent? = null
     private var mInitWidth: Int = 0
     private var mInitHeight: Int = 0
-    private var looping: Boolean = false
-
+    /**
+     * 是否静音
+     */
+    private var isMute: Boolean = false
+    private var mAudioManager: AudioManager? = null//系统音频管理器
+    /**
+     * 播放器配置
+     */
+    private var playerConfig: PlayerConfig = PlayerConfig.Builder().build()
+    private var mAudioFocusHelper: AudioFocusHelper? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -89,6 +97,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
+        PlayerConfig.Builder().enableCache().build()
     }
 
 
@@ -118,14 +127,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         } else {
             mediaPlayer = creatPlayer()
         }
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+        if (!playerConfig.disableAudioFocus) {
+            mAudioManager = context.applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            mAudioFocusHelper = AudioFocusHelper()
+        }
         mediaPlayer?.setOnPreparedListener(this)
         mediaPlayer?.setOnCompletionListener(this)
         mediaPlayer?.setOnErrorListener(this)
         mediaPlayer?.setOnVideoSizeChangedListener(this)
 //        mediaPlayer?.setScreenOnWhilePlaying(true) 测试这个方法和预期不符
-        mediaPlayer?.isLooping = looping
+        mediaPlayer?.isLooping = playerConfig.isLooping
         bindSurfaceHolder(mediaPlayer, mSurfaceHolder)
         mediaPlayer?.setOnBufferingUpdateListener(this)
         mediaPlayer?.setOnInfoListener(this)
@@ -147,8 +158,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         renderView?.setAspectRatio(aspectRatio)
     }
 
-    fun setLooping(isLooping: Boolean) {
-        this.looping = isLooping
+    fun setPlayerConfig(playerConfig: PlayerConfig) {
+        this.playerConfig = playerConfig
     }
 
     fun creatPlayer(): IMediaPlayer {
@@ -284,6 +295,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun release() {
         stop()
         mediaPlayer?.release()
+        LogUtils.d(TAG, "release->")
         mediaPlayer = null
         playScheduleSubscription?.clear()
         isPrepared = false
@@ -291,7 +303,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun onDestory() {
         release()
-        playScheduleSubscription?.clear()
     }
 
 
@@ -505,6 +516,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isPrepared) {
             LogUtils.d(TAG, "start-->" + mVideoUri?.toString())
             mediaPlayer?.start()
+            mAudioFocusHelper?.requestFocus()
             keepScreenOn = true
         }
     }
@@ -513,6 +525,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         isTryPause = false
         if (isPrepared) {
             mediaPlayer?.start()
+            mAudioFocusHelper?.requestFocus()
             keepScreenOn = true
         } else {
             startPlay()
@@ -523,6 +536,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isPrepared) {
             LogUtils.d(TAG, "pause-->" + mVideoUri?.toString())
             mediaPlayer?.pause()
+            mAudioFocusHelper?.abandonFocus()
             keepScreenOn = false
         }
     }
@@ -531,6 +545,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isPrepared) {
             mediaPlayer?.stop()
             keepScreenOn = false
+            mAudioFocusHelper?.abandonFocus()
             LogUtils.d(TAG, "stop-->" + mVideoUri?.toString())
             iMediaPlayerListeners?.let {
                 for (item in it) {
@@ -543,6 +558,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun tryPause() {
         if (isPrepared) {
             mediaPlayer?.pause()
+            mAudioFocusHelper?.abandonFocus()
             keepScreenOn = false
         } else {
             isTryPause = true
@@ -559,6 +575,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun isPlayComplete(): Boolean {
         return isCompleted
+    }
+
+    override fun setMute(isMute: Boolean) {
+        if (mediaPlayer != null) {
+            this.isMute = isMute
+            val volume = if (isMute) 0.0f else 1.0f
+            mediaPlayer?.setVolume(volume, volume)
+        }
     }
 
     override fun getDuration(): Long {
@@ -683,6 +707,82 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
         }
         StatusBarUtils.setUiFlags(context as Activity, isEnterFullScreen)
+    }
+
+    /**
+     * 音频焦点改变监听
+     */
+    inner class AudioFocusHelper : AudioManager.OnAudioFocusChangeListener {
+
+        internal var currentFocus = 0
+
+        /**
+         * Requests to obtain the audio focus
+         *
+         * @return True if the focus was granted
+         */
+        fun requestFocus(): Boolean {
+            if (currentFocus == AudioManager.AUDIOFOCUS_GAIN) {
+                return true
+            }
+
+            if (mAudioManager == null) {
+                return false
+            }
+
+            val status = mAudioManager?.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+            if (AudioManager.AUDIOFOCUS_REQUEST_GRANTED == status) {
+                currentFocus = AudioManager.AUDIOFOCUS_GAIN
+                return true
+            }
+
+            return false
+        }
+
+        /**
+         * Requests the system to drop the audio focus
+         *
+         * @return True if the focus was lost
+         */
+        fun abandonFocus(): Boolean {
+
+            if (mAudioManager == null) {
+                return false
+            }
+
+            val status = mAudioManager?.abandonAudioFocus(this)
+            currentFocus = 0
+            return AudioManager.AUDIOFOCUS_REQUEST_GRANTED == status
+        }
+
+        override fun onAudioFocusChange(focusChange: Int) {
+            if (currentFocus == focusChange) {
+                return
+            }
+
+            currentFocus = focusChange
+            when (focusChange) {
+                AudioManager.AUDIOFOCUS_GAIN//获得焦点
+                    , AudioManager.AUDIOFOCUS_GAIN_TRANSIENT//暂时获得焦点
+                -> {
+
+                    if (mediaPlayer != null && !isMute) {
+                        //恢复音量
+                        mediaPlayer?.setVolume(1.0f, 1.0f)
+                    }
+
+                }
+                AudioManager.AUDIOFOCUS_LOSS//焦点丢失
+                    , AudioManager.AUDIOFOCUS_LOSS_TRANSIENT//焦点暂时丢失
+                -> if (isPlaying()) {
+                    pause()
+                }
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK//此时需降低音量
+                -> if (mediaPlayer != null && isPlaying && !isMute) {
+                    mediaPlayer?.setVolume(0.1f, 0.1f)
+                }
+            }
+        }
     }
 
 }

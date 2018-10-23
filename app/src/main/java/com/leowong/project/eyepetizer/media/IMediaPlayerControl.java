@@ -39,6 +39,8 @@ public interface IMediaPlayerControl {
 
     void seekTo(long pos);
 
+    void setMute(boolean isMute);
+
     void play(Uri videoUri, Long position);
 
     int getBufferPercentage();
