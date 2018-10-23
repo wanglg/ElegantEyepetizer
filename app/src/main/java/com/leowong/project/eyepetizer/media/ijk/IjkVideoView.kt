@@ -437,16 +437,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     private fun resetPlayer() {
+        playScheduleSubscription?.clear()
+        stop()
+        mediaPlayer?.reset()
+        mediaPlayer?.release()
         //TextureView不能复用，每次加载下一个video的时候都会把前一个TextureView移除掉，然后新建一个TextureView
-        renderView?.removeRenderCallback(this)
         removeView(renderView as View)
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
-        playScheduleSubscription?.clear()
-        mediaPlayer?.pause()
-        mediaPlayer?.stop()
-        mediaPlayer?.reset()
-        mediaPlayer?.release()
     }
 
 
