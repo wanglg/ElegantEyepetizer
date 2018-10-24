@@ -88,12 +88,7 @@ object RetrofitManager {
 
     private fun getRetrofit(): Retrofit {
         // 获取retrofit的实例
-        return Retrofit.Builder()
-                .baseUrl(UrlConstants.BASE_URL)  //自己配置
-                .client(getOkHttpClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(ResponseConverterFactory.create())
-                .build()
+        return getRetrofit(UrlConstants.BASE_URL)
 
     }
 
