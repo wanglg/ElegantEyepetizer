@@ -7,6 +7,4 @@ package com.leowong.project.eyepetizer.api
 
 object UrlConstants {
     const val BASE_URL = "http://baobab.kaiyanapp.com/api/"//正式http://video.matrixunion.com
-
-
 }
