@@ -81,6 +81,7 @@ dependencies {
     }
 
     api rootProject.ext.dependencies["okhttp3"]
+    api rootProject.ext.dependencies["videoCache"]
 
     //tools
     compileOnly rootProject.ext.dependencies["javax.annotation"]

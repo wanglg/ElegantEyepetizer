@@ -9,6 +9,7 @@ import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
+import com.leowong.project.eyepetizer.media.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
@@ -128,7 +129,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
         mRecyclerView.adapter = videoDetailAdapter
-//        ijkvideo?.setLooping(true)
+        ijkvideo?.setPlayerConfig(PlayerConfig.Builder().enableCache().build())
     }
 
     fun initVideoControl() {

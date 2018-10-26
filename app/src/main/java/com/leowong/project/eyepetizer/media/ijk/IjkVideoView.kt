@@ -14,10 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.FrameLayout
+import com.danikula.videocache.CacheListener
+import com.danikula.videocache.HttpProxyCacheServer
 import com.leowong.project.eyepetizer.BuildConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.media.IMediaPlayerControl
 import com.leowong.project.eyepetizer.media.IMediaPlayerListener
+import com.leowong.project.eyepetizer.media.VideoCacheManager
 import com.leowong.project.eyepetizer.utils.LogUtils
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import io.reactivex.Flowable
@@ -84,6 +87,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     private var playerConfig: PlayerConfig = PlayerConfig.Builder().build()
     private var mAudioFocusHelper: AudioFocusHelper? = null
 
+    private var mCacheServer: HttpProxyCacheServer? = null
+
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
@@ -97,7 +102,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
-        PlayerConfig.Builder().enableCache().build()
     }
 
 
@@ -106,7 +110,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     fun setVideoPath(videoPath: String) {
-        this.mVideoUri = Uri.parse("common://" + "remote?path=" + "ijkhttphook:" + Uri.encode(videoPath))
+        this.mVideoUri = Uri.parse("common://" + "remote?path=" + Uri.encode(videoPath))
     }
 
     fun setAssertPath(videoPath: String) {
@@ -173,7 +177,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
         }
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 3 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
         //断网自动重新连接
         ijkMediaPlayer.setOnNativeInvokeListener(object : IjkMediaPlayer.OnNativeInvokeListener {
@@ -309,6 +313,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     //TODO 播放视频
     fun startPlay(videoDetail: Uri, seekPosition: Long) {
         LogUtils.d(videoDetail.toString())
+        if (context == null) {
+            return
+        }
         initPlayer()
         isPrepared = false
         isCompleted = false
@@ -319,8 +326,26 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if (TextUtils.equals(scheme, "common")) {
                 val host = videoDetail.host
                 if (TextUtils.equals("remote", host)) {
-                    val videoPath = videoDetail.getQueryParameter("path")
+                    var videoPath = videoDetail.getQueryParameter("path")
                     if (!TextUtils.isEmpty(videoPath)) {
+                        if (playerConfig.isCache) {//启用边播放边缓存功能
+                            if (mCacheServer == null) {
+                                mCacheServer = getCacheServer()
+                            }
+                            val preUrl = videoPath
+                            videoPath = mCacheServer?.getProxyUrl(videoPath)
+                            LogUtils.d(TAG, "ProxyUrl--》" + videoPath)
+                            mCacheServer?.registerCacheListener(cacheListener, preUrl)
+                            mediaPlayer?.setOnBufferingUpdateListener(null)
+                            if (mCacheServer?.isCached(preUrl)!!) {
+                                mCurrentBufferPercentage = 100
+                            } else {
+                                videoPath = "ijkhttphook:" + videoPath//自动重连播放功能
+                            }
+                        } else {
+                            videoPath = "ijkhttphook:" + videoPath//自动重连播放功能
+                        }
+                        LogUtils.d(TAG, "mediaPlayer path--》" + videoPath)
                         mediaPlayer?.dataSource = videoPath
                         mediaPlayer?.prepareAsync()
                         iMediaPlayerListeners?.let {
@@ -553,6 +578,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 }
             }
         }
+        mCacheServer?.unregisterCacheListener(cacheListener)
     }
 
     override fun tryPause() {
@@ -784,5 +810,18 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             }
         }
     }
+
+    private fun getCacheServer(): HttpProxyCacheServer {
+        return VideoCacheManager.getProxy(context.applicationContext)
+    }
+
+    /**
+     * 缓存监听
+     */
+    private val cacheListener = CacheListener { cacheFile, url, percentsAvailable ->
+        mCurrentBufferPercentage = percentsAvailable
+        LogUtils.d(TAG, url + " cache-->" + mCurrentBufferPercentage)
+    }
+
 
 }
