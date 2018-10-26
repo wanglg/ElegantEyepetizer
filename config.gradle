@@ -22,7 +22,8 @@ ext {
             canarySdkVersion           : "1.5.4",
             eventbusVersion            : "3.0.0",
             roundedimageviewVersion    : "2.3.0",
-            okhttpVersion              : "3.10.0"
+            okhttpVersion              : "3.10.0",
+            videoCacheVersion          : "2.7.1"
     ]
 
     dependencies = [
@@ -100,6 +101,8 @@ ext {
             "retrofit-url-manager"     : "me.jessyan:retrofit-url-manager:1.2.5",
             "lifecyclemodel"           : "me.jessyan:lifecyclemodel:1.0.1",
 
+            //video
+            "videoCache"               : "com.danikula:videocache:${version["videoCacheVersion"]}",
             //test
             "junit"                    : "junit:junit:4.12",
             "androidJUnitRunner"       : "android.support.test.runner.AndroidJUnitRunner",
