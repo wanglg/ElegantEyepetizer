@@ -152,6 +152,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         keepScreenOn = false
         iMediaPlayerListeners?.let {
             for (item in it) {
+                //更新播放进度
+                item.updatePlayDuration(mediaPlayer?.duration!!, mediaPlayer?.duration!!)
                 item.onCompletion()
             }
         }
@@ -177,7 +179,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
         }
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 3 * 1024 * 1024)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
         //断网自动重新连接
         ijkMediaPlayer.setOnNativeInvokeListener(object : IjkMediaPlayer.OnNativeInvokeListener {
@@ -336,9 +338,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                             videoPath = mCacheServer?.getProxyUrl(videoPath)
                             LogUtils.d(TAG, "ProxyUrl--》" + videoPath)
                             mCacheServer?.registerCacheListener(cacheListener, preUrl)
-                            mediaPlayer?.setOnBufferingUpdateListener(null)
                             if (mCacheServer?.isCached(preUrl)!!) {
                                 mCurrentBufferPercentage = 100
+                                //已缓存成功的去掉buff监听
+                                mediaPlayer?.setOnBufferingUpdateListener(null)
                             } else {
                                 videoPath = "ijkhttphook:" + videoPath//自动重连播放功能
                             }
@@ -663,6 +666,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
+        LogUtils.e(TAG, "p1-->" + p1 + "  p2->" + p2)
         iMediaPlayerListeners?.let {
             for (item in it) {
                 item.onError(p1, p2, "")
@@ -819,8 +823,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      * 缓存监听
      */
     private val cacheListener = CacheListener { cacheFile, url, percentsAvailable ->
-        mCurrentBufferPercentage = percentsAvailable
-        LogUtils.d(TAG, url + " cache-->" + mCurrentBufferPercentage)
+        //        mCurrentBufferPercentage = percentsAvailable
+        LogUtils.d(TAG, url + " cache-->" + percentsAvailable)
     }
 
 

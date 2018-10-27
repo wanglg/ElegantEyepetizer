@@ -10,7 +10,7 @@ class PlayerConfig private constructor() {
         var target: PlayerConfig = PlayerConfig()
 
         /**
-         * 开启缓存
+         * 开启缓存 PS:启用缓存可能对播放器事件回调有影响，除非列表小视频，其它不建议启用缓存
          */
         fun enableCache(): Builder {
             target.isCache = true
