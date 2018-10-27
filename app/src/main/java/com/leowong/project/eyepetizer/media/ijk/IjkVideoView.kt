@@ -705,21 +705,22 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (context == null) {
             return
         }
-        if (!isFullScreen) {//记录非全屏状态下一些数据
-            mInitialParent = parent
-            mInitWidth = this.width
-            mInitHeight = this.height
-        }
         if (type == 1) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
         } else if (type == 2) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                if (!isFullScreen) {//记录非全屏状态下一些数据
+                    savePortraitData()
+                }
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             }
         } else if (type == 3) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+                if (!isFullScreen) {//记录非全屏状态下一些数据
+                    savePortraitData()
+                }
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             }
         } else {
@@ -729,6 +730,13 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             }
         }
+    }
+
+    fun savePortraitData() {
+        mInitialParent = parent
+        mInitWidth = this.width
+        mInitHeight = this.height
+        LogUtils.d("mInitWidth->" + mInitWidth + ", mInitHeight->" + mInitHeight)
     }
 
     fun attachMediaControl(controlView: View) {
@@ -755,6 +763,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun setLock(isLocked: Boolean) {
         this.isLockFullScreen = isLocked
+    }
+
+    override fun getLockState(): Boolean {
+        return this.isLockFullScreen
     }
 
     /**

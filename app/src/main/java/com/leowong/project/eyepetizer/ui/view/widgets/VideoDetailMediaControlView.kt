@@ -31,6 +31,7 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     var videoCover: ImageView? = null
     var backImg: ImageView? = null
     var pauseOrPlay: ImageView? = null
+    var lockScreen: ImageView? = null
     var fullscreen: ImageView? = null
     var controlView: View? = null
     var isPrepared: Boolean = false
@@ -75,6 +76,7 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
         progress = findViewById(R.id.loading_progress)
         fullscreen = findViewById(R.id.fullscreen)
         pauseOrPlay = findViewById(R.id.pauseOrPlay)
+        lockScreen = findViewById(R.id.lockScreen)
         videoTitleTv = findViewById(R.id.videoText)
         if (!TextUtils.isEmpty(title)) {
             videoTitleTv?.setText(title)
@@ -135,7 +137,12 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
             }
 
         })
-
+        lockScreen?.setOnClickListener { it ->
+            videoControl?.let {
+                it.setLock(!it.lockState)
+                lockScreen?.setImageResource(if (it.lockState) R.mipmap.ic_action_lock_outline else R.mipmap.ic_action_lock_open)
+            }
+        }
         videoControl?.let {
             if (it.isPlaying) {
                 pauseOrPlay?.setImageResource(R.mipmap.ic_player_pause)
@@ -144,6 +151,11 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
             }
             if (isPrepared) {
                 updatePlayDuration(it.currentPosition, it.duration)
+            }
+            if (it.lockState) {
+                lockScreen?.setImageResource(R.mipmap.ic_action_lock_outline)
+            } else {
+                lockScreen?.setImageResource(R.mipmap.ic_action_lock_open)
             }
 
         }

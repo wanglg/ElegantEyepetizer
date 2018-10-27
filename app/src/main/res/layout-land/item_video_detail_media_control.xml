@@ -80,10 +80,10 @@
                     android:max="100"
                     android:maxHeight="3dp"
                     android:minHeight="3dp"
-                    android:paddingBottom="8dp"
-                    android:paddingEnd="0dp"
                     android:paddingStart="0dp"
                     android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="8dp"
                     android:progressDrawable="@drawable/video_seek_bar_style"
                     android:thumb="@mipmap/ic_player_progress_handle"
                     android:thumbOffset="0dp" />
@@ -92,8 +92,8 @@
                     android:id="@+id/duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="4dp"
                     android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:text="00:00"
                     android:textColor="@color/white"
                     android:textSize="9sp"
@@ -110,6 +110,16 @@
             android:layout_height="60dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/ic_player_pause" />
+
+        <ImageView
+            android:id="@+id/lockScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:padding="6dp"
+            android:src="@mipmap/ic_action_lock_open" />
     </RelativeLayout>
     <!-- video cover 层-->
     <ImageView

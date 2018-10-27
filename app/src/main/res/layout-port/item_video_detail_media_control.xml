@@ -89,6 +89,16 @@
             android:layout_height="60dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/ic_player_pause" />
+
+        <ImageView
+            android:id="@+id/lockScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:padding="6dp"
+            android:src="@mipmap/ic_action_lock_open" />
     </RelativeLayout>
     <!-- video cover 层-->
     <ImageView
