@@ -142,7 +142,10 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
             } else {
                 pauseOrPlay?.setImageResource(R.mipmap.ic_player_play)
             }
-            updatePlayDuration(it.currentPosition, it.duration)
+            if (isPrepared) {
+                updatePlayDuration(it.currentPosition, it.duration)
+            }
+
         }
     }
 
@@ -245,6 +248,7 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     }
 
     override fun stopPlayer(isPlayComplete: Boolean) {
+        isPrepared = false
         cancel()
     }
 
