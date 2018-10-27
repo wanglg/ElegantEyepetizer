@@ -48,4 +48,10 @@ public interface IMediaPlayerControl {
     boolean isFullScreen();
 
     void toggleFullScreen();
+
+    /**
+     * 设置是否锁定屏幕
+     * @param isLocked true 锁定屏幕，禁止自动旋转 false otherwise
+     */
+    void setLock(boolean isLocked);
 }

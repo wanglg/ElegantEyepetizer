@@ -129,7 +129,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())
         mRecyclerView.adapter = videoDetailAdapter
-        ijkvideo?.setPlayerConfig(PlayerConfig.Builder().enableCache().build())
+        ijkvideo?.setPlayerConfig(PlayerConfig.Builder().enableCache().autoRotate().build())
     }
 
     fun initVideoControl() {

@@ -9,10 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.widget.FrameLayout
 import com.danikula.videocache.CacheListener
 import com.danikula.videocache.HttpProxyCacheServer
@@ -88,6 +85,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     private var mAudioFocusHelper: AudioFocusHelper? = null
 
     private var mCacheServer: HttpProxyCacheServer? = null
+    /**
+     * 是否锁定屏幕
+     */
+    protected var isLockFullScreen: Boolean = false
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -238,6 +239,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d(TAG, "mediaPlayer videoWidth->" + mediaPlayer!!.videoWidth + " mediaPlayer videoHeight->" + mediaPlayer!!.videoHeight)
         renderView?.setVideoSize(mediaPlayer!!.videoWidth, mediaPlayer!!.videoHeight)
         renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
+        if (playerConfig.mAutoRotate) {
+            orientationEventListener.enable()
+        }
         if (!isFreeze) {
             //恢复到原来位置
             if (currentPosition!! > 0L) {
@@ -377,6 +381,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
 
     }
+
 
     override fun onInfo(p0: IMediaPlayer?, arg1: Int, arg2: Int): Boolean {
         iMediaPlayerListeners?.let {
@@ -582,6 +587,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             }
         }
         mCacheServer?.unregisterCacheListener(cacheListener)
+        if (playerConfig.mAutoRotate) {
+            orientationEventListener.enable()
+        }
     }
 
     override fun tryPause() {
@@ -676,17 +684,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun isFullScreen(): Boolean {
-        return context != null && (context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        return context != null && ((context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                || (context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
     }
 
     override fun toggleFullScreen() {
-        savePlayerState()
         if (isFullScreen) {
             switchScreenOrientation(1)
         } else {
-            mInitialParent = parent
-            mInitWidth = this.width
-            mInitHeight = this.height
             switchScreenOrientation(2)
         }
     }
@@ -694,11 +699,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     /**
      * 横竖屏切换
      *
-     * @param type 1竖屏，2横屏，0自动切换
+     * @param type 1竖屏，2横屏，3、横屏反向、0自动切换
      */
     private fun switchScreenOrientation(type: Int) {
         if (context == null) {
             return
+        }
+        if (!isFullScreen) {//记录非全屏状态下一些数据
+            mInitialParent = parent
+            mInitWidth = this.width
+            mInitHeight = this.height
         }
         if (type == 1) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -708,8 +718,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             }
+        } else if (type == 3) {
+            if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+                (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            }
         } else {
-            if ((context as Activity).requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             } else {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -737,6 +751,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
         }
         StatusBarUtils.setUiFlags(context as Activity, isEnterFullScreen)
+    }
+
+    override fun setLock(isLocked: Boolean) {
+        this.isLockFullScreen = isLocked
     }
 
     /**
@@ -827,5 +845,20 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d(TAG, url + " cache-->" + percentsAvailable)
     }
 
+    /**
+     * 加速度传感器监听
+     */
+    protected var orientationEventListener: OrientationEventListener = object : OrientationEventListener(context) { // 加速度传感器监听，用于自动旋转屏幕
+        override fun onOrientationChanged(orientation: Int) {
+            if (context == null || isLockFullScreen) return
+            if (orientation >= 340) { //屏幕顶部朝上
+                switchScreenOrientation(1)
+            } else if (orientation >= 260 && orientation <= 280) { //屏幕左边朝上
+                switchScreenOrientation(2)
+            } else if (orientation >= 70 && orientation <= 90) { //屏幕右边朝上
+                switchScreenOrientation(3)
+            }
+        }
+    }
 
 }
