@@ -1,8 +1,8 @@
 package  com.leowong.project.eyepetizer.api
 
 import com.agile.android.leo.exception.ApiException
+import com.agile.android.leo.utils.LogUtils
 import com.google.gson.JsonParseException
-import com.leowong.project.eyepetizer.utils.LogUtils
 import io.reactivex.Observer
 import org.json.JSONException
 import java.net.ConnectException

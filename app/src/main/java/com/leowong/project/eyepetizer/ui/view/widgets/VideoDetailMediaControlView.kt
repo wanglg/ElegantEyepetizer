@@ -9,13 +9,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import com.agile.android.leo.utils.LogUtils
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
+import com.leo.android.videplayer.core.IMediaPlayerControl
+import com.leo.android.videplayer.core.IMediaPlayerListener
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.events.NetChangeEvent
-import com.leowong.project.eyepetizer.media.IMediaPlayerControl
-import com.leowong.project.eyepetizer.media.IMediaPlayerListener
-import com.leowong.project.eyepetizer.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

@@ -6,10 +6,10 @@ import android.view.View
 import com.agile.android.leo.exception.ApiException
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
+import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseActivity
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
-import com.leowong.project.eyepetizer.media.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean

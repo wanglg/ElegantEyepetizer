@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import com.agile.android.leo.utils.LogUtils
 import com.leowong.project.eyepetizer.constants.GlobalConstants
 import com.leowong.project.eyepetizer.events.NetChangeEvent
 import com.leowong.project.eyepetizer.managers.NetworkManager
-import com.leowong.project.eyepetizer.utils.LogUtils
 import org.greenrobot.eventbus.EventBus
 
 /**

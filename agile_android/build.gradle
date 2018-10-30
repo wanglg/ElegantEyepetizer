@@ -17,6 +17,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -81,7 +87,6 @@ dependencies {
     }
 
     api rootProject.ext.dependencies["okhttp3"]
-    api rootProject.ext.dependencies["videoCache"]
 
     //tools
     compileOnly rootProject.ext.dependencies["javax.annotation"]
@@ -92,6 +97,8 @@ dependencies {
     api rootProject.ext.dependencies["gson"]
     api rootProject.ext.dependencies["eventbus"]
 
+    //log库
+    implementation 'com.orhanobut:logger:2.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

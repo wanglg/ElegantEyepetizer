@@ -42,11 +42,12 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':video_player')
     implementation project(':agile_android')
     implementation project(':multiple-status-view')
     implementation project(':imageloader')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+//    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // 底部菜单
     implementation('com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar') {
@@ -54,9 +55,6 @@ dependencies {
     }
     //圆角图片
     implementation rootProject.ext.dependencies["roundedimageview"]
-    //Ijkplayer
-    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
 //    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
@@ -67,8 +65,7 @@ dependencies {
     //引导viewpager指示器
     implementation 'me.relex:circleindicator:1.2.2@aar'
 
-    //log库
-    implementation 'com.orhanobut:logger:2.2.0'
+
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
@@ -79,4 +76,6 @@ dependencies {
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
     //侧滑效果activity
     implementation 'com.r0adkll:slidableactivity:2.0.6'
+
+
 }

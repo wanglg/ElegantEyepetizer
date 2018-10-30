@@ -10,7 +10,6 @@ import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
-import com.leowong.project.eyepetizer.utils.LogUtils
 import org.greenrobot.eventbus.EventBus
 
 class VideoDetaiSmallCardProvider : BaseItemProvider<VideoDetailMultipleEntity, BaseViewHolder>() {
@@ -31,7 +30,6 @@ class VideoDetaiSmallCardProvider : BaseItemProvider<VideoDetailMultipleEntity, 
                     .placeholder(R.drawable.placeholder_banner).build()
             ImageLoader.showImage(avatarOption)
         }
-        LogUtils.d("convert-->" + position)
     }
 
     override fun onClick(helper: BaseViewHolder?, data: VideoDetailMultipleEntity, position: Int) {

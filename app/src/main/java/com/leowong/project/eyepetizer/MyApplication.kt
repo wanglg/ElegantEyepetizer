@@ -5,12 +5,12 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import com.agile.android.leo.base.AgileApplication
+import com.agile.android.leo.utils.LogUtils
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderConfig
 import com.lasingwu.baselibrary.LoaderEnum
 import com.leowong.project.eyepetizer.glide.GlideImageLoader
 import com.leowong.project.eyepetizer.managers.NetworkManager
-import com.leowong.project.eyepetizer.utils.LogUtils
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import kotlin.properties.Delegates
@@ -80,6 +80,7 @@ class MyApplication : AgileApplication() {
         override fun onActivityStopped(activity: Activity) {
 
         }
+
 
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
 

@@ -14,6 +14,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
+import com.agile.android.leo.utils.LogUtils;
+
 import java.lang.reflect.Method;
 
 /**

@@ -1,19 +1,17 @@
 package com.leowong.project.eyepetizer.ui.fragments
 
 import android.os.Bundle
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import com.agile.android.leo.mvp.IPresenter
+import com.agile.android.leo.utils.LogUtils
+import com.leo.android.videplayer.ijk.IRenderView
+import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.BaseFragment
-import com.leowong.project.eyepetizer.media.ijk.IRenderView
-import com.leowong.project.eyepetizer.media.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.ui.activities.MainActivity
-import com.leowong.project.eyepetizer.ui.activities.SplashActivity
 import com.leowong.project.eyepetizer.ui.adapters.SplashVideoTextAdapter
-import com.leowong.project.eyepetizer.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_splash_video.*
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 

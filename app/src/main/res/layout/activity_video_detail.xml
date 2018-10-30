@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_video_height">
 
-        <com.leowong.project.eyepetizer.media.ijk.IjkVideoView
+        <com.leo.android.videplayer.IjkVideoView
             android:id="@+id/ijkvideo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
+import com.leo.android.videplayer.IjkVideoView
 import com.leowong.project.eyepetizer.R
 
 

@@ -1,6 +1,7 @@
 package com.leowong.project.eyepetizer.api;
 
-import com.leowong.project.eyepetizer.utils.LogUtils;
+
+import com.agile.android.leo.utils.LogUtils;
 
 public class HttpLogger implements HttpLoggingInterceptor.Logger {
     private StringBuilder mMessage = new StringBuilder();
