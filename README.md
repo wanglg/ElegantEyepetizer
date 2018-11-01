@@ -5,7 +5,7 @@ kotlin+mvp+retrofit+rxjava架构
 ### 功能
 1、视频feed流
 </br>
-2、视频详情,封装的IJK播放器，支持横竖屏切换
+2、视频详情,封装的IJK播放器，支持横竖屏切换,支持重力感应，支持边播边缓存
 </br>
 ## 效果Demo##
 ![image](https://github.com/wanglg/resource/blob/master/1C2E1E424835747C74A3ACB36998D464.jpg)
