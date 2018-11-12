@@ -9,13 +9,13 @@ import com.agile.android.leo.utils.LogUtils
 import com.leo.android.videplayer.ijk.IRenderView
 import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseFragment
-import com.leowong.project.eyepetizer.ui.activities.MainActivity
+import com.leowong.project.eyepetizer.base.AppBaseFragment
+import com.leowong.project.eyepetizer.ui.activities.MainActivityApp
 import com.leowong.project.eyepetizer.ui.adapters.SplashVideoTextAdapter
 import kotlinx.android.synthetic.main.fragment_splash_video.*
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
-class SplashVideoFragment : BaseFragment<IPresenter>(), ViewPager.OnPageChangeListener, View.OnTouchListener {
+class SplashVideoFragment : AppBaseFragment<IPresenter>(), ViewPager.OnPageChangeListener, View.OnTouchListener {
 
     var startX = 0f
     var pagerPosition = 0
@@ -81,7 +81,7 @@ class SplashVideoFragment : BaseFragment<IPresenter>(), ViewPager.OnPageChangeLi
     }
 
     fun jump() {
-        startActivity(MainActivity::class.java)
+        startActivity(MainActivityApp::class.java)
         activity?.finish()
     }
 

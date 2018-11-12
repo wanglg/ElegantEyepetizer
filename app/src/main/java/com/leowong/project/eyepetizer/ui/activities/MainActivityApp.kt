@@ -6,14 +6,14 @@ import com.agile.android.leo.mvp.IPresenter
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseActivity
+import com.leowong.project.eyepetizer.base.AppBaseActivity
 import com.leowong.project.eyepetizer.entity.TabEntity
 import com.leowong.project.eyepetizer.ui.fragments.HomeFragment
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity : BaseActivity<IPresenter>() {
+class MainActivityApp : AppBaseActivity<IPresenter>() {
 
     private val mTitles = arrayOf("每日精选", "发现", "热门", "我的")
     // 未被选中的图标

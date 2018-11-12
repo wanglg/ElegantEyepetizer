@@ -3,14 +3,14 @@ package com.leowong.project.eyepetizer.ui.activities
 import android.os.Bundle
 import com.agile.android.leo.mvp.IPresenter
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseActivity
+import com.leowong.project.eyepetizer.base.AppBaseActivity
 import com.leowong.project.eyepetizer.constants.PreferencesConstant
 import com.leowong.project.eyepetizer.ui.fragments.SplashFragment
 import com.leowong.project.eyepetizer.ui.fragments.SplashVideoFragment
 import com.leowong.project.eyepetizer.utils.PreferencesUtil
 import com.leowong.project.eyepetizer.utils.StatusBarUtils
 
-class SplashActivity : BaseActivity<IPresenter>() {
+class SplashActivityApp : AppBaseActivity<IPresenter>() {
     var isFirstLaunch = false;
     override fun getLayoutId(): Int {
         return R.layout.activity_splash

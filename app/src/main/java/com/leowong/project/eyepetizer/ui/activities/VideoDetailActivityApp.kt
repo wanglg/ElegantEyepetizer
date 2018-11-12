@@ -8,7 +8,7 @@ import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseActivity
+import com.leowong.project.eyepetizer.base.AppBaseActivity
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.concurrent.TimeUnit
 
-class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
+class VideoDetailActivityApp : AppBaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
     protected var videoDetailAdapter: VideoDetailAdapter? = null
     protected var videoDetailMediaControlView: VideoDetailMediaControlView? = null
     protected var footView: View? = null

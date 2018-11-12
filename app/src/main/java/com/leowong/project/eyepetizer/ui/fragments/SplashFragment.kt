@@ -5,14 +5,14 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import com.agile.android.leo.mvp.IPresenter
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseFragment
-import com.leowong.project.eyepetizer.ui.activities.MainActivity
+import com.leowong.project.eyepetizer.base.AppBaseFragment
+import com.leowong.project.eyepetizer.ui.activities.MainActivityApp
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_splash.*
 import java.util.concurrent.TimeUnit
 
-class SplashFragment : BaseFragment<IPresenter>() {
+class SplashFragment : AppBaseFragment<IPresenter>() {
     override fun getLayoutId(): Int {
         return R.layout.fragment_splash
     }
@@ -33,10 +33,10 @@ class SplashFragment : BaseFragment<IPresenter>() {
     }
 
     override fun requestData() {
-        Observable.timer(1500, TimeUnit.MILLISECONDS).compose(bindUntilEvent(FragmentEvent.DESTROY))
+        addDispose(Observable.timer(1500, TimeUnit.MILLISECONDS).compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe({
-                    startActivity(MainActivity::class.java)
+                    startActivity(MainActivityApp::class.java)
                     activity?.finish()
-                })
+                }))
     }
 }

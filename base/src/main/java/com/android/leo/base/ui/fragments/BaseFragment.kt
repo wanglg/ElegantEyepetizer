@@ -1,4 +1,4 @@
-package com.leowong.project.eyepetizer.base
+package com.android.leo.base.ui.fragments
 
 import android.app.Activity
 import android.content.Intent

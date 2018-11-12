@@ -36,8 +36,7 @@ public class BitmapUtils {
         float scaleHeight = (float) height / bitmapHeight;
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
-        return newBitmap;
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
     }
 
     /**
@@ -53,8 +52,7 @@ public class BitmapUtils {
 
         Matrix matrix = new Matrix();
         matrix.postScale(prop, prop);
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
-        return newBitmap;
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
     }
 
     /**

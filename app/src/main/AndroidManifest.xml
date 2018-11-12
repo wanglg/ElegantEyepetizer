@@ -15,17 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activities.MainActivityApp"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.VideoDetailActivity"
+            android:name=".ui.activities.VideoDetailActivityApp"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/VideoDetailTheme" />
         <activity
-            android:name=".ui.activities.SplashActivity"
+            android:name=".ui.activities.SplashActivityApp"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>

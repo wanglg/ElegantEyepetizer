@@ -8,20 +8,20 @@ import android.view.View
 import com.agile.android.leo.exception.ApiException
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.base.BaseFragment
+import com.leowong.project.eyepetizer.base.AppBaseFragment
 import com.leowong.project.eyepetizer.mvp.contract.HomeContract
 import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
 import com.leowong.project.eyepetizer.showToast
-import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivity
+import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivityApp
 import com.leowong.project.eyepetizer.ui.adapters.HomeAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.HomeMultipleEntity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
+class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
 
     private var mTitle: String? = null
@@ -107,8 +107,8 @@ class HomeFragment : BaseFragment<HomePresenter>(), HomeContract.View, OnRefresh
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
         val item = adapter.getItem(position) as HomeMultipleEntity;
-        val intent = Intent(activity, VideoDetailActivity::class.java)
-        intent.putExtra(VideoDetailActivity.BUNDLE_VIDEO_DATA, item.homeBean)
+        val intent = Intent(activity, VideoDetailActivityApp::class.java)
+        intent.putExtra(VideoDetailActivityApp.BUNDLE_VIDEO_DATA, item.homeBean)
         startActivity(intent)
 
     }

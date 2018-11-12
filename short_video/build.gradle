@@ -23,5 +23,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':agile_android')
+    implementation project(':base')
+    implementation project(':video_player')
 }
