@@ -2,8 +2,7 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-// 应用WMRouter插件
-//apply plugin: 'WMRouter'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
@@ -41,15 +40,12 @@ dependencies {
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]
 
-
-    //glide
-//    implementation 'com.github.bumptech.glide:glide:4.7.1'
-//    implementation 'jp.wasabeef:glide-transformations:3.0.1'
-//    kapt 'com.github.bumptech.glide:compiler:4.7.1'
+    kapt 'com.sankuai.waimai.router:compiler:1.1.0'
 
 
     //侧滑效果activity
     implementation 'com.r0adkll:slidableactivity:2.0.6'
+
 
 
 }

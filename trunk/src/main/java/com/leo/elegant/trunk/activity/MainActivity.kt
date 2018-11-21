@@ -28,9 +28,9 @@ class MainActivity : BaseActivity<IPresenter>() {
     //默认为0
     private var mIndex = 0
     //    private var fragmentList: ArrayList<Fragment> = ArrayList();
-    private val fragmentList by lazy {
-        TabManager.getFragments()
-    }
+    /* private val fragmentList by lazy {
+         TabManager.getFragments()
+     }*/
 
     override fun initData(savedInstanceState: Bundle?) {
     }
@@ -71,7 +71,13 @@ class MainActivity : BaseActivity<IPresenter>() {
     fun switchFragment(position: Int) {
         val transaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
-        val fragment = fragmentList.get(position)
+        val fragment = TabManager.getFragment(position)
+        if (fragment.isAdded) {
+            transaction.show(fragment)
+        } else {
+            transaction.add(R.id.container, fragment, fragment.javaClass.name)
+        }
+
 //        when (position) {
 //            0 // 首页
 //            -> mHomeFragment?.let {
@@ -118,7 +124,7 @@ class MainActivity : BaseActivity<IPresenter>() {
      * @param transaction transaction
      */
     private fun hideFragments(transaction: FragmentTransaction) {
-        for (fragment in fragmentList) {
+        for (fragment in TabManager.getFragments()) {
             transaction.hide(fragment)
         }
 //        mHomeFragment?.let { transaction.hide(it) }

@@ -4,6 +4,11 @@ import android.content.Context
 import com.agile.android.leo.base.AgileApplication
 import com.android.leo.base.delegate.AppDelegate
 import com.android.leo.base.delegate.AppLifecycles
+import com.android.leo.base.glide.GlideImageLoader
+import com.android.leo.base.manager.NetworkManager
+import com.lasingwu.baselibrary.ImageLoader
+import com.lasingwu.baselibrary.ImageLoaderConfig
+import com.lasingwu.baselibrary.LoaderEnum
 import kotlin.properties.Delegates
 
 open class BaseApplication : AgileApplication() {
@@ -28,14 +33,24 @@ open class BaseApplication : AgileApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        context = this
         mAppDelegate?.onCreate(this)
+        NetworkManager.instance.registerReceiver(this)
+        initImageLoader()
     }
 
     override fun onTerminate() {
         super.onTerminate()
         mAppDelegate?.onTerminate(this)
+        NetworkManager.instance.unregisterReceiver(this)
     }
 
+    fun initImageLoader() {
+        val config = ImageLoaderConfig.Builder(LoaderEnum.GLIDE, GlideImageLoader())
+                .maxMemory(40 * 1024 * 1024L)  // 单位为Byte
+                .build()
+        ImageLoader.init(this, config)
+    }
 //    private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
 //        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 //            LogUtils.d(TAG, "onCreated: " + activity.componentName.className)
