@@ -27,6 +27,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     kapt 'com.sankuai.waimai.router:compiler:1.1.0'
-    implementation 'com.sankuai.waimai.router:router:1.1.0'
+    api ('com.sankuai.waimai.router:router:1.1.0'){
+        exclude module: 'support-annotations'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
 
 }

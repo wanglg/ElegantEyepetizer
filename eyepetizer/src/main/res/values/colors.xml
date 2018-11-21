@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="window_bg">#000000</color>
+    <!-- item 标题颜色 -->
+    <color name="color_item_title">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="color_gray">#9a9a9a</color>
+    <!-- title 半透明背景颜色 -->
+    <color name="color_title_bg">#CCFFFFFF</color>
+
+    <color name="translucence">#b0000000</color>
+    <color name="transparent50">#80000000</color>
+    <color name="transparent70">#b3000000</color>
+    <color name="transparent60">#99000000</color>
+    <color name="transparent90">#e6000000</color>
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+
+
+    <!-- 默认背景色 -->
+    <color name="backgroundColor">#EEEEEE</color>
+
+    <!-- white -->
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_black">#000000</color>
+
+    <color name="color_blue">#87CEEB</color>
+
+
+    <color name="color_lighter_gray">#ddd</color>
+    <color name="color_darker_gray">#aaaaaa</color>
+</resources>

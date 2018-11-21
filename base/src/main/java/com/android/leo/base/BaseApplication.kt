@@ -1,17 +1,15 @@
 package com.android.leo.base
 
-import android.app.Activity
-import android.app.Application
 import android.content.Context
-import android.os.Bundle
-import com.agile.android.leo.utils.LogUtils
+import com.agile.android.leo.base.AgileApplication
 import com.android.leo.base.delegate.AppDelegate
 import com.android.leo.base.delegate.AppLifecycles
 import kotlin.properties.Delegates
 
-class BaseApplication : Application() {
+open class BaseApplication : AgileApplication() {
 
     private var mAppDelegate: AppLifecycles? = null
+
     companion object {
 
         private val TAG = "BaseApplication"
@@ -22,46 +20,49 @@ class BaseApplication : Application() {
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        if (mAppDelegate==null){
-            mAppDelegate=AppDelegate(base)
+        if (mAppDelegate == null) {
+            mAppDelegate = AppDelegate(base)
+            mAppDelegate?.attachBaseContext(base)
         }
     }
 
     override fun onCreate() {
         super.onCreate()
+        mAppDelegate?.onCreate(this)
     }
 
     override fun onTerminate() {
         super.onTerminate()
+        mAppDelegate?.onTerminate(this)
     }
 
-    private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            LogUtils.d(TAG, "onCreated: " + activity.componentName.className)
-        }
-
-        override fun onActivityStarted(activity: Activity) {
-        }
-
-        override fun onActivityResumed(activity: Activity) {
-
-        }
-
-        override fun onActivityPaused(activity: Activity) {
-
-        }
-
-        override fun onActivityStopped(activity: Activity) {
-
-        }
-
-
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-
-        }
-
-        override fun onActivityDestroyed(activity: Activity) {
-            LogUtils.d(TAG, "onDestroy: " + activity.componentName.className)
-        }
-    }
+//    private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
+//        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+//            LogUtils.d(TAG, "onCreated: " + activity.componentName.className)
+//        }
+//
+//        override fun onActivityStarted(activity: Activity) {
+//        }
+//
+//        override fun onActivityResumed(activity: Activity) {
+//
+//        }
+//
+//        override fun onActivityPaused(activity: Activity) {
+//
+//        }
+//
+//        override fun onActivityStopped(activity: Activity) {
+//
+//        }
+//
+//
+//        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+//
+//        }
+//
+//        override fun onActivityDestroyed(activity: Activity) {
+//            LogUtils.d(TAG, "onDestroy: " + activity.componentName.className)
+//        }
+//    }
 }

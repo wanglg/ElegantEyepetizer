@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'WMRouter'
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        applicationId "com.leo.elegant.gather"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        // 实现毛玻璃那种透明的效果需要添加的库
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true    // Enable RS support
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"//, "armeabi"//, "arm64-v8a"//, //, "x86", "arm64-v8a"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    packagingOptions {
+//        pickFirst 'lib/armeabi-v7a/libijkffmpeg.so'
+//        pickFirst 'lib/x86/libijkffmpeg.so'
+//        pickFirst 'lib/armeabi-v7a/libijkplayer.so'
+//        pickFirst 'lib/x86/libijkplayer.so'
+//        pickFirst 'lib/armeabi-v7a/libijksdl.so'
+//        pickFirst 'lib/x86/libijksdl.so'
+//        pickFirst 'lib/x86/librsjni.so'
+//        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+//    }
+
+}
+kapt {
+    generateStubs = true
+}
+//configurations.all {
+//
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//
+//        def requested = details.requested
+//
+//        if (requested.group == 'com.android.support') {
+//
+//            if (!requested.name.startsWith("multidex")) {
+//
+//                details.useVersion rootProject.ext.version["androidSupportSdkVersion"]//这里改为你项目使用的版本即可
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':base')
+    implementation project(':eyepetizer')
+    implementation project(':video_player')
+    //引导viewpager指示器
+    implementation ('me.relex:circleindicator:1.2.2@aar'){
+        exclude module: 'support-annotations'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //毛玻璃效果view
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
+    // 底部菜单
+    implementation('com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+}
+repositories {
+    mavenCentral()
+}

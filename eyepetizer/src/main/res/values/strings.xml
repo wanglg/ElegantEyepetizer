@@ -1,0 +1,28 @@
+<resources>
+    <string name="splash_guide1_chinese">每日编辑精选，一如既往</string>
+    <string name="splash_guide1_english">Daily appetizers for your eyes,as always</string>
+    <string name="splash_guide2_chinese">关注越多，发现越多</string>
+    <string name="splash_guide2_english">Subscribe more,discover a whole lot more</string>
+    <string name="splash_guide3_chinese">离线自动缓存，精彩永不下线</string>
+    <string name="splash_guide3_english">Off-line automatically replaced, wonderful never offline</string>
+    <string name="splash_guide4_chinese">登录即可订阅、评论和同步已收藏视频</string>
+    <string name="splash_guide4_english">Sign in to subscribe, comment and sync to bookmark video</string>
+
+    <string name="splash_msg_cn">每日精选视频推介，让你大开眼界</string>
+    <string name="splash_msg_en">Daily appetizers for your eyes, Bon eye</string>
+
+    <!--TIPS -->
+    <string name="no_net_msg">网络不给力啊</string>
+    <!--TIPS-->
+
+    <string name="search_transition_name">transition_reveal</string>
+    <string name="search_hint_text">帮你找到感兴趣的视频</string>
+    <string name="search_title_tip">输入标题或描述中的关键词找到更多视频</string>
+    <string name="search_hot_keywords_tip">- 热门搜索词 -</string>
+    <string name="search_result_count">-「%1$s」搜索结果共%2$d个-</string>
+
+    <string name="video_offline">缓存</string>
+
+    <string name="video_attention">+ 关注</string>
+    <string name="item_footer_text">- The End</string>
+</resources>

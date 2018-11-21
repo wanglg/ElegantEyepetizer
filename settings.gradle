@@ -1,1 +1,1 @@
-include ':app', ':agile_android', ':short_video', ':video_player', ':router', ':base', ':api','multiple-status-view','imageloader'
+include ':eyepetizer', ':agile_android', ':short_video', ':video_player', ':router', ':base', ':api', ':trunk','multiple-status-view','imageloader'

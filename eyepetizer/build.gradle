@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+// 应用WMRouter插件
+//apply plugin: 'WMRouter'
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    defaultConfig {
+//        applicationId "com.leowong.project.eyepetizer"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+    }
+    repositories {
+        flatDir { dirs 'libs' }
+    }
+
+}
+//kapt {
+//    generateStubs = true
+//}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':video_player')
+    implementation project(':imageloader')
+    implementation project(':base')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    //圆角图片
+    implementation rootProject.ext.dependencies["roundedimageview"]
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
+//    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'//没有使用特殊Header，可以不加这行
+    //leakCanary
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+
+
+    //glide
+//    implementation 'com.github.bumptech.glide:glide:4.7.1'
+//    implementation 'jp.wasabeef:glide-transformations:3.0.1'
+//    kapt 'com.github.bumptech.glide:compiler:4.7.1'
+
+
+    //侧滑效果activity
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
+
+
+}
