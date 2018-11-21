@@ -3,7 +3,7 @@ package com.leowong.project.eyepetizer.managers
 import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import com.leowong.project.eyepetizer.MyApplication
+import com.android.leo.base.BaseApplication
 import com.leowong.project.eyepetizer.constants.GlobalConstants
 import com.leowong.project.eyepetizer.receiver.NetChangeReceiver
 
@@ -26,7 +26,7 @@ class NetworkManager private constructor() {
     }
 
     init {
-        val manager = MyApplication.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        val manager = BaseApplication.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         val networkInfo = manager!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isAvailable) {
             if (networkInfo.type == ConnectivityManager.TYPE_WIFI) {

@@ -2,10 +2,10 @@ package com.leowong.project.eyepetizer.managers
 
 import android.content.Context
 import com.agile.android.leo.integration.IRepositoryManager
+import com.android.leo.base.BaseApplication
 import com.leo.android.api.retrofit.ApiConfig
 import com.leo.android.api.retrofit.RetrofitManager
 import com.leowong.project.eyepetizer.BuildConfig
-import com.leowong.project.eyepetizer.MyApplication
 import com.leowong.project.eyepetizer.api.HttpLogger
 import com.leowong.project.eyepetizer.api.HttpLoggingInterceptor
 import com.leowong.project.eyepetizer.api.UrlConstants
@@ -28,7 +28,7 @@ object RepositoryManager : IRepositoryManager {
     }
 
     override fun getContext(): Context {
-        return MyApplication.context
+        return BaseApplication.context
     }
 
     /**

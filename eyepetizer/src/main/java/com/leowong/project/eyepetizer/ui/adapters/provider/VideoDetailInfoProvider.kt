@@ -1,11 +1,11 @@
 package com.leowong.project.eyepetizer.ui.adapters.provider
 
 import android.widget.TextView
+import com.android.leo.base.BaseApplication
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
-import com.leowong.project.eyepetizer.MyApplication
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.durationFormat
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
@@ -49,13 +49,13 @@ class VideoDetailInfoProvider : BaseItemProvider<VideoDetailMultipleEntity, Base
 
         with(helper) {
             getView<TextView>(R.id.tv_action_favorites).setOnClickListener {
-                android.widget.Toast.makeText(MyApplication.context, "喜欢", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(BaseApplication.context, "喜欢", android.widget.Toast.LENGTH_SHORT).show()
             }
             getView<TextView>(R.id.tv_action_share).setOnClickListener {
-                android.widget.Toast.makeText(MyApplication.context, "分享", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(BaseApplication.context, "分享", android.widget.Toast.LENGTH_SHORT).show()
             }
             getView<TextView>(R.id.tv_action_reply).setOnClickListener {
-                android.widget.Toast.makeText(MyApplication.context, "评论", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(BaseApplication.context, "评论", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }

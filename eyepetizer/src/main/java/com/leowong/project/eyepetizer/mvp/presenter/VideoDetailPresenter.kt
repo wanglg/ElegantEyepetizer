@@ -3,6 +3,7 @@ package com.leowong.project.eyepetizer.mvp.presenter
 import android.app.Activity
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.mvp.BasePresenter
+import com.android.leo.base.BaseApplication
 import com.leowong.project.eyepetizer.*
 import com.leowong.project.eyepetizer.api.ApiSubscriber
 import com.leowong.project.eyepetizer.managers.NetworkManager
@@ -47,8 +48,8 @@ class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDeta
         }
 
         //设置背景
-        val backgroundUrl = itemInfo.data.cover.blurred + "/thumbnail/${getScreenHeight(MyApplication.context) -
-                MyApplication.context.resources.getDimensionPixelOffset(R.dimen.detail_video_height)}x${getScreenWidth(MyApplication.context)}"
+        val backgroundUrl = itemInfo.data.cover.blurred + "/thumbnail/${getScreenHeight(BaseApplication.context) -
+                BaseApplication.context.resources.getDimensionPixelOffset(R.dimen.detail_video_height)}x${getScreenWidth(BaseApplication.context)}"
         backgroundUrl.let { mRootView?.setBackground(it) }
 
         mRootView?.setVideoInfo(itemInfo)
