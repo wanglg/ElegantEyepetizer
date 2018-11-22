@@ -7,7 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.agile.android.leo.exception.ApiException
-import com.android.leo.base.Constant
+import com.android.leo.base.GlobalConstant
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseFragment
@@ -15,7 +15,7 @@ import com.leowong.project.eyepetizer.mvp.contract.HomeContract
 import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
-import com.leowong.project.eyepetizer.showToast
+import com.android.leo.base.showToast
 import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivityApp
 import com.leowong.project.eyepetizer.ui.adapters.HomeAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.HomeMultipleEntity
@@ -24,22 +24,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-@RouterService(interfaces = arrayOf(Fragment::class), key = arrayOf(Constant.Fragment.EYEPETIZER))
+@RouterService(interfaces = arrayOf(Fragment::class), key = arrayOf(GlobalConstant.Fragment.EYEPETIZER))
 public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
 
-    private var mTitle: String? = null
     protected var homeAdapter: HomeAdapter? = null
-
-    companion object {
-        fun getInstance(title: String): HomeFragment {
-            val fragment = HomeFragment()
-            val bundle = Bundle()
-            fragment.arguments = bundle
-            fragment.mTitle = title
-            return fragment
-        }
-    }
 
     private val linearLayoutManager by lazy {
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -58,6 +47,8 @@ public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View,
         multipleStatusView?.setOnRetryClickListener({
             requestData()
         })
+        mRecyclerView.layoutManager = linearLayoutManager
+        mRecyclerView.itemAnimator = DefaultItemAnimator()
         mRefreshLayout.setOnRefreshListener(this)
     }
 
@@ -88,8 +79,6 @@ public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View,
         homeAdapter?.addItemData(homeBean.issueList[0].itemList)
         homeAdapter?.setOnLoadMoreListener(this, mRecyclerView)
         homeAdapter?.onItemClickListener = this
-        mRecyclerView.layoutManager = linearLayoutManager
-        mRecyclerView.itemAnimator = DefaultItemAnimator()
         mRecyclerView.adapter = homeAdapter
     }
 

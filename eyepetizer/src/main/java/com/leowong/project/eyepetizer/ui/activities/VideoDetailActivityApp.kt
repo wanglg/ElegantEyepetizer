@@ -14,7 +14,7 @@ import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
-import com.leowong.project.eyepetizer.showToast
+import com.android.leo.base.showToast
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
 import com.android.leo.base.utils.StatusBarUtils
@@ -140,8 +140,8 @@ class VideoDetailActivityApp : AppBaseActivity<VideoDetailPresenter>(), VideoDet
             videoDetailMediaControlView?.setVideoCover(it)
         }
         videoDetailMediaControlView?.setVideoTitle(itemData.data!!.title)
-        ijkvideo?.addMediaPlayerListener(videoDetailMediaControlView!!)
-        ijkvideo?.attachMediaControl(videoDetailMediaControlView!!)
+//        ijkvideo?.addMediaPlayerListener(videoDetailMediaControlView!!)
+//        ijkvideo?.attachMediaControl(videoDetailMediaControlView!!)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

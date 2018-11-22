@@ -3,13 +3,13 @@ package com.leowong.project.eyepetizer.mvp.presenter
 import android.app.Activity
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.mvp.BasePresenter
-import com.android.leo.base.BaseApplication
-import com.leowong.project.eyepetizer.*
+import com.android.leo.base.*
+import com.android.leo.base.manager.NetworkManager
 import com.leowong.project.eyepetizer.api.ApiSubscriber
-import com.leowong.project.eyepetizer.managers.NetworkManager
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.android.leo.base.utils.rxjava.SchedulersUtil
+import com.leowong.project.eyepetizer.R
 import io.reactivex.disposables.Disposable
 
 class VideoDetailPresenter(model: VideoDetailContract.Model, rootView: VideoDetailContract.View) :

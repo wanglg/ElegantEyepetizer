@@ -1,4 +1,4 @@
-package com.leowong.project.eyepetizer
+package com.android.leo.base
 
 import android.content.Context
 import android.graphics.Point
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.agile.android.leo.mvp.BasePresenter
-import com.android.leo.base.BaseApplication
 
 
 fun Fragment.showToast(content: String): Toast {

@@ -16,6 +16,7 @@ import com.agile.android.leo.utils.LogUtils
 import com.danikula.videocache.CacheListener
 import com.danikula.videocache.HttpProxyCacheServer
 import com.leo.android.videplayer.cache.VideoCacheManager
+import com.leo.android.videplayer.core.BaseVideoController
 import com.leo.android.videplayer.core.IMediaPlayerControl
 import com.leo.android.videplayer.core.IMediaPlayerListener
 import com.leo.android.videplayer.ijk.IRenderView
@@ -64,7 +65,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      */
     var isFreeze = false
     var renderView: IRenderView? = null
-    var controlView: View? = null
+    var controlView: BaseVideoController? = null
     var mSurfaceHolder: IRenderView.ISurfaceHolder? = null
     private var mVideoSarNum: Int = 0
     private var mVideoSarDen: Int = 0
@@ -721,12 +722,22 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d("mInitWidth->" + mInitWidth + ", mInitHeight->" + mInitHeight)
     }
 
-    fun attachMediaControl(controlView: View) {
+//    fun attachMediaControl(controlView: View) {
+//        if (this.controlView != null) {
+//            this.removeView(this.controlView)
+//            this.controlView = null
+//        }
+//        this.controlView = controlView
+//        addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+//    }
+
+    override fun attachMediaControl(baseVideoController: BaseVideoController) {
         if (this.controlView != null) {
             this.removeView(this.controlView)
             this.controlView = null
         }
-        this.controlView = controlView
+        this.controlView = baseVideoController
+        addMediaPlayerListener(baseVideoController)
         addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
     }
 

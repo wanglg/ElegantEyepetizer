@@ -13,6 +13,7 @@ import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.events.NetChangeEvent
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
+import com.leo.android.videplayer.core.BaseVideoController
 import com.leo.android.videplayer.core.IMediaPlayerControl
 import com.leo.android.videplayer.core.IMediaPlayerListener
 import com.leowong.project.eyepetizer.R
@@ -25,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
+class VideoDetailMediaControlView : BaseVideoController {
     var progress: ProgressBar? = null
     var seekbar: SeekBar? = null
     var videoCover: ImageView? = null
@@ -36,7 +37,7 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     var controlView: View? = null
     var isPrepared: Boolean = false
 
-    var videoControl: IMediaPlayerControl? = null
+//    var videoControl: IMediaPlayerControl? = null
     var coverPath: String? = null
     //    var videoTitle: String? = null
     var title: String? = null
@@ -162,10 +163,10 @@ class VideoDetailMediaControlView : FrameLayout, IMediaPlayerListener {
     }
 
 
-    fun setMediaControl(player: IMediaPlayerControl) {
-        videoControl = player
-
-    }
+//    fun setMediaControl(player: IMediaPlayerControl) {
+//        videoControl = player
+//
+//    }
 
     fun setVideoCover(cover: String) {
         coverPath = cover

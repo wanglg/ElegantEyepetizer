@@ -4,7 +4,7 @@ import android.os.Environment
 import java.io.File
 
 //常量
-object GlobalConstants {
+object Constants {
     //统计回调地址 以后要改成自己服务器的域名？
     const val INNO_ADDRESS = "https://log.yiwantv.com"//http://report.test.amita.xin
     //设置缓存目录

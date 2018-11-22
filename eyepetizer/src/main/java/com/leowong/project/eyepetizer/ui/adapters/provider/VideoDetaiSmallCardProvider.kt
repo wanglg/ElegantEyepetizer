@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.durationFormat
+import com.android.leo.base.durationFormat
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter

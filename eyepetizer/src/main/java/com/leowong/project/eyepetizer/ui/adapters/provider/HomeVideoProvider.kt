@@ -5,8 +5,8 @@ import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leowong.project.eyepetizer.R
-import com.leowong.project.eyepetizer.durationFormat
-import com.leowong.project.eyepetizer.getScreenWidth
+import com.android.leo.base.durationFormat
+import com.android.leo.base.getScreenWidth
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.HomeAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.HomeMultipleEntity

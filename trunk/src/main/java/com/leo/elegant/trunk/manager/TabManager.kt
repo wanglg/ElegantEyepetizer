@@ -2,7 +2,7 @@ package com.leo.elegant.trunk.manager
 
 import android.support.v4.app.Fragment
 import android.util.SparseArray
-import com.android.leo.base.Constant
+import com.android.leo.base.GlobalConstant
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.entity.TabEntity
@@ -36,31 +36,31 @@ object TabManager {
             when (position) {
                 0 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            Constant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }
                 1 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            Constant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }
                 2 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            Constant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }
                 3 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            Constant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }
                 else -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            Constant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }

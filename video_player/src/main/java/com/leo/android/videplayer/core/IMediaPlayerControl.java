@@ -4,6 +4,7 @@ package com.leo.android.videplayer.core;
 import android.net.Uri;
 
 /**
+ * 抽象播放控制层,播放器实现
  * User: wanglg
  * Date: 2016-04-14
  * Time: 11:33
@@ -47,4 +48,11 @@ public interface IMediaPlayerControl {
     void setLock(boolean isLocked);
 
     boolean getLockState();
+
+    /**
+     *
+     * @param baseVideoController
+     */
+    void attachMediaControl(BaseVideoController baseVideoController);
+
 }
