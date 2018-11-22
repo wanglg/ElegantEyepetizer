@@ -9,4 +9,8 @@ class PlayerListManager {
     var nextPath: Uri? = null
     var preLoad: Boolean = false
     var playConfig: PlayerConfig? = null
+
+    class Builder {
+        var target: PlayerListManager = PlayerListManager()
+    }
 }

@@ -27,5 +27,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':base')
     implementation project(':video_player')
+    kapt 'com.sankuai.waimai.router:compiler:1.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

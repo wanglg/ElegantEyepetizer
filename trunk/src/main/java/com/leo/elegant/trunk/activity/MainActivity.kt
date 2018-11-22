@@ -46,6 +46,7 @@ class MainActivity : BaseActivity<IPresenter>() {
     }
 
     override fun configViews() {
+        window?.setBackgroundDrawable(null)
         StatusBarUtils.with(this).init()
         initTab()
         switchFragment(mIndex)

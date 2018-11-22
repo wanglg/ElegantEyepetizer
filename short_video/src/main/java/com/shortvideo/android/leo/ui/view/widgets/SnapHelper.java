@@ -154,6 +154,7 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
         }
         mRecyclerView.addOnScrollListener(mScrollListener);
         mRecyclerView.setOnFlingListener(this);
+        mRecyclerView.addOnChildAttachStateChangeListener(this);
     }
 
     /**
@@ -162,6 +163,7 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
     private void destroyCallbacks() {
         mRecyclerView.removeOnScrollListener(mScrollListener);
         mRecyclerView.setOnFlingListener(null);
+        mRecyclerView.removeOnChildAttachStateChangeListener(this);
     }
 
     public void addOnPageChangedListener(OnPageStateChangedListener listener) {
@@ -204,8 +206,6 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
                                 }
                             }
                         }
-                        //TODO 直接刷新onBindViewHolder 只调用了第一个，会造成下一页封面没及时显示，暂时方案为向下偏移一像素，有好方案可以替换
-                        mRecyclerView.scrollBy(0, 1);
                         mPositionBeforeScroll = position;
                     }
                 }

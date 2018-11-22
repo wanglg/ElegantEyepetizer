@@ -10,22 +10,22 @@ import android.view.ViewTreeObserver;
 /**
  *
  */
-public class PagerView extends RecyclerView implements OnPageStateChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class RecyclerPagerView extends RecyclerView implements OnPageStateChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     PagerSnapHelper pagerSnapHelper;
     private int currentPosition;
 
-    public PagerView(Context context) {
+    public RecyclerPagerView(Context context) {
         super(context);
         attachSnap();
     }
 
-    public PagerView(Context context, @Nullable AttributeSet attrs) {
+    public RecyclerPagerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         attachSnap();
     }
 
-    public PagerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public RecyclerPagerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         attachSnap();
     }
@@ -67,16 +67,6 @@ public class PagerView extends RecyclerView implements OnPageStateChangedListene
         if (pagerSnapHelper != null) {
             pagerSnapHelper.clearOnPageChangedListeners();
         }
-    }
-
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        if (pagerSnapHelper != null) {
-            addOnChildAttachStateChangeListener(pagerSnapHelper);
-        }
-
     }
 
     @Override

@@ -67,6 +67,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':base')
     implementation project(':eyepetizer')
+    implementation project(':short_video')
     implementation project(':video_player')
     //引导viewpager指示器
     implementation ('me.relex:circleindicator:1.2.2@aar'){

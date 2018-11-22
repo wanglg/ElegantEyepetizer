@@ -42,7 +42,7 @@ object TabManager {
                 }
                 1 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.LITTLE_VIDEO).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }

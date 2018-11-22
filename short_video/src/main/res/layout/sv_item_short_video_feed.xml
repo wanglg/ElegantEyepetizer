@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/videoCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/ic_video_bottom_shadow"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingBottom="41.33dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/videoTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="60dp"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="4dp"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    android:textSize="12.67sp"
+                    tools:text="王者荣耀王者荣耀王者荣耀王者荣耀王者荣耀王者荣耀王者荣耀王者荣耀" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/right_interaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:id="@+id/commentLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="14dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/btn_comment" />
+
+                    <TextView
+                        android:id="@+id/commentTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@android:color/white"
+                        tools:text="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/favorLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="14dp">
+
+                    <ImageView
+                        android:id="@+id/btnfavorImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:src="@mipmap/btn_favor_def" />
+
+                    <TextView
+                        android:id="@+id/favorTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/white"
+                        tools:text="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/relayLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="14dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:src="@mipmap/btn_relay" />
+
+                    <TextView
+                        android:id="@+id/relayTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@android:color/white"
+                        tools:text="150" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

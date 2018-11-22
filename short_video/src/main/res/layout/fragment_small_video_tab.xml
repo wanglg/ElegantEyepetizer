@@ -8,7 +8,7 @@
         android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         app:srlAccentColor="@android:color/white"
         app:srlEnableHeaderTranslationContent="false"
         app:srlPrimaryColor="@color/colorPrimary">
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.shortvideo.android.leo.ui.view.widgets.PagerView
+            <com.shortvideo.android.leo.ui.view.widgets.RecyclerPagerView
                 android:id="@+id/pager_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
