@@ -30,6 +30,11 @@ public interface IMediaPlayerControl {
 
     void seekTo(long pos);
 
+    /**
+     * 静音
+     *
+     * @param isMute
+     */
     void setMute(boolean isMute);
 
     void play(Uri videoUri, Long position);
@@ -50,9 +55,10 @@ public interface IMediaPlayerControl {
     boolean getLockState();
 
     /**
-     *
      * @param baseVideoController
      */
     void attachMediaControl(BaseVideoController baseVideoController);
+
+    void addMediaPlayerListener(IMediaPlayerListener iMediaPlayerListener);
 
 }

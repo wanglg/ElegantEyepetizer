@@ -55,4 +55,7 @@ class ShortVideoControlView : BaseVideoController {
 
     override fun onLoadEnd() {
     }
+
+    override fun reset() {
+    }
 }

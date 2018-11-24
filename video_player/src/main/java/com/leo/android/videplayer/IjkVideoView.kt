@@ -211,7 +211,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         return ijkMediaPlayer
     }
 
-    fun addMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
+    override fun addMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
         if (iMediaPlayerListeners == null) {
             iMediaPlayerListeners = ArrayList();
         }
@@ -324,6 +324,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (context == null) {
             return
         }
+        setVideoUri(videoDetail)
         initPlayer()
         isPrepared = false
         isCompleted = false
@@ -380,8 +381,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         } catch (ex: Exception) {
             LogUtils.e(TAG, ex.message!!)
         }
-
-
     }
 
 
@@ -631,8 +630,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
     }
 
-    override fun play(videoDetail: Uri?, position: Long) {
-        startPlay(videoDetail!!, position)
+    override fun play(videoDetail: Uri, position: Long) {
+        startPlay(videoDetail, position)
     }
 
     override fun getBufferPercentage(): Int {
@@ -722,23 +721,19 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d("mInitWidth->" + mInitWidth + ", mInitHeight->" + mInitHeight)
     }
 
-//    fun attachMediaControl(controlView: View) {
-//        if (this.controlView != null) {
-//            this.removeView(this.controlView)
-//            this.controlView = null
-//        }
-//        this.controlView = controlView
-//        addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
-//    }
 
     override fun attachMediaControl(baseVideoController: BaseVideoController) {
+        detachMediaControl()
+        this.controlView = baseVideoController
+        addMediaPlayerListener(baseVideoController)
+        addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+    }
+
+    fun detachMediaControl() {
         if (this.controlView != null) {
             this.removeView(this.controlView)
             this.controlView = null
         }
-        this.controlView = baseVideoController
-        addMediaPlayerListener(baseVideoController)
-        addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
     }
 
     private fun setScreenFull(isEnterFullScreen: Boolean) {

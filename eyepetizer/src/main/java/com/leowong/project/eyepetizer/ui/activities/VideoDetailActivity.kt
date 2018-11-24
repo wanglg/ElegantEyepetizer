@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.concurrent.TimeUnit
 
-class VideoDetailActivityApp : AppBaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
+class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
     protected var videoDetailAdapter: VideoDetailAdapter? = null
     protected var videoDetailMediaControlView: VideoDetailMediaControlView? = null
     protected var footView: View? = null

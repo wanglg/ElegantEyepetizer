@@ -37,9 +37,7 @@ class VideoDetailMediaControlView : BaseVideoController {
     var controlView: View? = null
     var isPrepared: Boolean = false
 
-//    var videoControl: IMediaPlayerControl? = null
     var coverPath: String? = null
-    //    var videoTitle: String? = null
     var title: String? = null
     var controlDisposable: Disposable? = null
     var mFormatBuilder: StringBuilder? = null
@@ -162,12 +160,6 @@ class VideoDetailMediaControlView : BaseVideoController {
         }
     }
 
-
-//    fun setMediaControl(player: IMediaPlayerControl) {
-//        videoControl = player
-//
-//    }
-
     fun setVideoCover(cover: String) {
         coverPath = cover
         val coverOption = ImageLoaderOptions.Builder(videoCover!!, coverPath)
@@ -263,6 +255,9 @@ class VideoDetailMediaControlView : BaseVideoController {
     override fun stopPlayer(isPlayComplete: Boolean) {
         isPrepared = false
         cancel()
+    }
+
+    override fun reset() {
     }
 
     //网络状态变化处理

@@ -16,7 +16,7 @@ import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
 import com.android.leo.base.showToast
-import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivityApp
+import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivity
 import com.leowong.project.eyepetizer.ui.adapters.HomeAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.HomeMultipleEntity
 import com.sankuai.waimai.router.annotation.RouterService
@@ -100,8 +100,8 @@ public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View,
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
         val item = adapter.getItem(position) as HomeMultipleEntity;
-        val intent = Intent(activity, VideoDetailActivityApp::class.java)
-        intent.putExtra(VideoDetailActivityApp.BUNDLE_VIDEO_DATA, item.homeBean)
+        val intent = Intent(activity, VideoDetailActivity::class.java)
+        intent.putExtra(VideoDetailActivity.BUNDLE_VIDEO_DATA, item.homeBean)
         startActivity(intent)
 
     }
