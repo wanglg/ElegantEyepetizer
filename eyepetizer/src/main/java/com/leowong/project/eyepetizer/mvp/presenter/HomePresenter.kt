@@ -2,7 +2,7 @@ package com.leowong.project.eyepetizer.mvp.presenter
 
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.mvp.BasePresenter
-import com.leowong.project.eyepetizer.api.ApiSubscriber
+import com.leo.android.api.ApiSubscriber
 import com.leowong.project.eyepetizer.mvp.contract.HomeContract
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.android.leo.base.utils.rxjava.SchedulersUtil

@@ -11,6 +11,6 @@ interface SmallVideoContract {
     }
 
     interface Model : IModel {
-        fun requestVideoData(): Observable<ArrayList<VideoBean>>
+        fun getVideoData(): Observable<ArrayList<VideoBean>>
     }
 }
