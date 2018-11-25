@@ -1,4 +1,4 @@
-package  com.leowong.project.eyepetizer.api
+package  com.leo.android.api
 
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.utils.LogUtils
@@ -15,7 +15,6 @@ import java.util.concurrent.TimeoutException
  * User: wanglg
  * Date: 2018-05-11
  * Time: 15:28
- * FIXME
  */
 abstract class ApiSubscriber<T> : Observer<T> {
     override fun onError(t: Throwable) {

@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <com.shortvideo.android.leo.ui.view.widgets.RecyclerPagerView
-                android:id="@+id/pager_view"
+                android:id="@+id/recycler_pager_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

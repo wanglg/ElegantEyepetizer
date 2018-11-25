@@ -5,7 +5,7 @@ import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.mvp.BasePresenter
 import com.android.leo.base.*
 import com.android.leo.base.manager.NetworkManager
-import com.leowong.project.eyepetizer.api.ApiSubscriber
+import com.leo.android.api.ApiSubscriber
 import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.android.leo.base.utils.rxjava.SchedulersUtil

@@ -1,9 +1,5 @@
-package com.leowong.project.eyepetizer.api
+package com.leo.android.api
 
-/**
- * Created by xuhao on 2017/12/5.
- * desc:
- */
 object ErrorCode {
 
 

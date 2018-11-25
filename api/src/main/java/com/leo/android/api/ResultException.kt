@@ -1,4 +1,4 @@
-package com.leowong.project.eyepetizer.api
+package com.leo.android.api
 
 /**
  * 自定义请求错误
