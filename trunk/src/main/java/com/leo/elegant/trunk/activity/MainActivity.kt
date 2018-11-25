@@ -13,24 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<IPresenter>() {
 
-    //    private val mTitles = arrayOf("每日精选", "发现", "热门", "我的")
-//    // 未被选中的图标
-//    private val mIconUnSelectIds = intArrayOf(R.mipmap.ic_home_normal, R.mipmap.ic_discovery_normal, R.mipmap.ic_hot_normal, R.mipmap.ic_mine_normal)
-//    // 被选中的图标
-//    private val mIconSelectIds = intArrayOf(R.mipmap.ic_home_selected, R.mipmap.ic_discovery_selected, R.mipmap.ic_hot_selected, R.mipmap.ic_mine_selected)
-//
-//    private val mTabEntities = ArrayList<CustomTabEntity>()
-//
-//    private var mHomeFragment: HomeFragment? = null
-//    private var mDiscoveryFragment: HomeFragment? = null
-//    private var mHotFragment: HomeFragment? = null
-//    private var mMineFragment: HomeFragment? = null
-    //默认为0
     private var mIndex = 0
-    //    private var fragmentList: ArrayList<Fragment> = ArrayList();
-    /* private val fragmentList by lazy {
-         TabManager.getFragments()
-     }*/
 
     override fun initData(savedInstanceState: Bundle?) {
     }
@@ -79,45 +62,15 @@ class MainActivity : BaseActivity<IPresenter>() {
             transaction.add(R.id.container, fragment, fragment.javaClass.name)
         }
 
-//        when (position) {
-//            0 // 首页
-//            -> mHomeFragment?.let {
-//                transaction.show(it)
-//            } ?: HomeFragment.getInstance(mTitles[position]).let {
-//                mHomeFragment = it
-//                transaction.add(R.id.container, it, "home")
-//            }
-//            1  //发现
-//            -> mDiscoveryFragment?.let {
-//                transaction.show(it)
-//            } ?: HomeFragment.getInstance(mTitles[position]).let {
-//                mDiscoveryFragment = it
-//                transaction.add(R.id.container, it, "discovery")
-//            }
-//            2  //热门
-//            -> mHotFragment?.let {
-//                transaction.show(it)
-//            } ?: HomeFragment.getInstance(mTitles[position]).let {
-//                mHotFragment = it
-//                transaction.add(R.id.container, it, "hot")
-//            }
-//            3 //我的
-//            -> mMineFragment?.let {
-//                transaction.show(it)
-//            } ?: HomeFragment.getInstance(mTitles[position]).let {
-//                mMineFragment = it
-//                transaction.add(R.id.container, it, "mine")
-//            }
-//
-//            else -> {
-//
-//            }
-//        }
-
         mIndex = position
         tab_layout.currentTab = mIndex
         transaction.commitAllowingStateLoss()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TabManager.clearFragment()
     }
 
     /**
@@ -128,10 +81,7 @@ class MainActivity : BaseActivity<IPresenter>() {
         for (fragment in TabManager.getFragments()) {
             transaction.hide(fragment)
         }
-//        mHomeFragment?.let { transaction.hide(it) }
-//        mDiscoveryFragment?.let { transaction.hide(it) }
-//        mHotFragment?.let { transaction.hide(it) }
-//        mMineFragment?.let { transaction.hide(it) }
+
     }
 
 

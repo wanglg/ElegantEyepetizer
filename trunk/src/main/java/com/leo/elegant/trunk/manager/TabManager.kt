@@ -28,6 +28,11 @@ object TabManager {
         return mTabEntities
     }
 
+    fun clearFragment() {
+        mFragmentsArray.clear()
+        mFragments.clear()
+    }
+
     public fun getFragment(position: Int): Fragment {
         var fragment = mFragmentsArray.get(position)
         if (fragment != null) {

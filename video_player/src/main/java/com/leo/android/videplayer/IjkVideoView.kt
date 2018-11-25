@@ -218,6 +218,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         this.iMediaPlayerListeners?.add(iMediaPlayerListener)
     }
 
+    fun removeMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
+        this.iMediaPlayerListeners?.remove(iMediaPlayerListener)
+    }
+
+    fun removeAllMediaPlayerListener() {
+        this.iMediaPlayerListeners?.clear()
+    }
+
     fun startPlay() {
         mVideoUri?.let {
             startPlay(it)
@@ -307,6 +315,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun release() {
         stop()
         mediaPlayer?.release()
+        removeAllMediaPlayerListener()
         LogUtils.d(TAG, "release->")
         mediaPlayer = null
         playScheduleSubscription?.clear()

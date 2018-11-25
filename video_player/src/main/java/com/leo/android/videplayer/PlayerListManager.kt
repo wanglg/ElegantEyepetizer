@@ -96,6 +96,7 @@ class PlayerListManager : IMediaPlayerControl {
 
     private constructor(context: Context) {
         videoView = IjkVideoView(context)
+        videoView.id = R.id.video_view
     }
 
     class Builder {
@@ -105,20 +106,14 @@ class PlayerListManager : IMediaPlayerControl {
             target = PlayerListManager(context)
         }
 
-        fun attachView(parentView: ViewGroup) {
-            target.parentView = parentView
-        }
-
-        fun playerConfig(playerConfig: PlayerConfig) {
+        fun playerConfig(playerConfig: PlayerConfig): Builder {
             target.playConfig = playerConfig
+            return this
         }
 
-//        fun setVideoController(videoController: BaseVideoController) {
-//            target.videoController = videoController
-//        }
-
-        fun preLoad(preLoad: Boolean) {
+        fun preLoad(preLoad: Boolean): Builder {
             target.preLoad = preLoad
+            return this
         }
 
         fun build(): PlayerListManager {
@@ -127,10 +122,26 @@ class PlayerListManager : IMediaPlayerControl {
 
     }
 
+    fun attachView(parentView: ViewGroup) {
+        this.parentView = parentView
+    }
+
+    //    fun currentPath(uri: Uri) {
+//        this.currentPath = uri
+//    }
+//    fun setCurrentPath(currentPath: Uri) {
+//        this.currentPath = currentPath
+//    }
+    fun onPause() {
+        videoView.onPause()
+    }
+
+    fun onResume() {
+        videoView.onResume()
+    }
 
     fun go() {
-        release()
-        parentView?.addView(videoView)
+        parentView?.addView(videoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         playConfig?.let {
             videoView.setPlayerConfig(it)
         }

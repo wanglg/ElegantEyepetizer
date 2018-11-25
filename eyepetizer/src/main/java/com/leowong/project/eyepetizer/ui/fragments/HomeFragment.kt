@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.RelativeLayout
 import com.agile.android.leo.exception.ApiException
 import com.android.leo.base.GlobalConstant
+import com.android.leo.base.showToast
+import com.android.leo.base.utils.StatusBarUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseFragment
@@ -15,7 +18,6 @@ import com.leowong.project.eyepetizer.mvp.contract.HomeContract
 import com.leowong.project.eyepetizer.mvp.model.HomeModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.HomePresenter
-import com.android.leo.base.showToast
 import com.leowong.project.eyepetizer.ui.activities.VideoDetailActivity
 import com.leowong.project.eyepetizer.ui.adapters.HomeAdapter
 import com.leowong.project.eyepetizer.ui.adapters.entity.HomeMultipleEntity
@@ -30,9 +32,7 @@ public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View,
 
     protected var homeAdapter: HomeAdapter? = null
 
-    private val linearLayoutManager by lazy {
-        LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-    }
+    private var linearLayoutManager: LinearLayoutManager? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -47,13 +47,16 @@ public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View,
         multipleStatusView?.setOnRetryClickListener({
             requestData()
         })
+        linearLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mRecyclerView.layoutManager = linearLayoutManager
         mRecyclerView.itemAnimator = DefaultItemAnimator()
         mRefreshLayout.setOnRefreshListener(this)
+        val lp = status_bar_view.layoutParams as RelativeLayout.LayoutParams
+        lp.height = StatusBarUtils.getStatusBarHeight(activity!!)
+        status_bar_view.layoutParams = lp
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun requestData() {
