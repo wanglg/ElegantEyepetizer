@@ -13,12 +13,11 @@ abstract class BaseVideoController(context: Context, attrs: AttributeSet?) : Fra
     open var videoControl: IMediaPlayerControl? = null
 
     fun setMediaControl(player: IMediaPlayerControl) {
-        videoControl = player
         player.attachMediaControl(this)
     }
 
     /**
      * 重置状态
      */
-    protected abstract fun reset()
+    abstract fun reset()
 }

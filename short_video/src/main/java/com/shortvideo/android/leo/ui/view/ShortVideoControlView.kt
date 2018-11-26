@@ -4,10 +4,16 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
 import com.leo.android.videplayer.core.BaseVideoController
 import com.leowang.shortvideo.R
+import com.shortvideo.android.leo.ui.view.widgets.ClipProgressBar
 
 class ShortVideoControlView : BaseVideoController {
+    var playImg: ImageView? = null
+    var clipProgressBar: ClipProgressBar? = null
+
     constructor(context: Context) : this(context, null) {
     }
 
@@ -17,7 +23,22 @@ class ShortVideoControlView : BaseVideoController {
     }
 
     fun configViews() {
+        playImg = findViewById(R.id.playImg)
+        clipProgressBar = findViewById(R.id.clipProgressBar)
+        playImg?.setOnClickListener({
+            videoControl?.start()
+            playImg?.visibility = View.GONE
+        })
+        playImg?.visibility = View.GONE
+        setOnClickListener({
+            if (videoControl?.isPlaying!!) {
+                videoControl?.pause()
+                playImg?.visibility = View.VISIBLE
+            }
+        })
+    }
 
+    override fun onFullScreenChange(isFullScreen: Boolean) {
     }
 
     override fun onBufferingUpdate(percent: Int) {
@@ -51,11 +72,14 @@ class ShortVideoControlView : BaseVideoController {
     }
 
     override fun onLoadStart() {
+        clipProgressBar?.visibility = View.VISIBLE
     }
 
     override fun onLoadEnd() {
+        clipProgressBar?.visibility = View.GONE
     }
 
     override fun reset() {
+        playImg?.visibility = View.GONE
     }
 }

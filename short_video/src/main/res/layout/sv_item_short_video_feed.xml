@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="60dp"
+                    android:layout_marginBottom="25dp"
                     android:ellipsize="end"
                     android:lineSpacingExtra="4dp"
                     android:maxLines="2"
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:paddingBottom="30dp">
 
                 <LinearLayout
                     android:id="@+id/commentLayout"

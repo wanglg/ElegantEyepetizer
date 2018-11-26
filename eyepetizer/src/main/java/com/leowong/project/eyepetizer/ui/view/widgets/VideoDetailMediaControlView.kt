@@ -60,9 +60,24 @@ class VideoDetailMediaControlView : BaseVideoController {
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         //记录控制器状态
+//        val visable = controlView?.visibility == View.VISIBLE
+//        removeAllViews()
+//        LayoutInflater.from(context).inflate(R.layout.item_video_detail_media_control, this)
+//        configViews()
+//        if (visable) {
+//            showMediaControl()
+//        }
+    }
+
+    override fun onFullScreenChange(isFullScreen: Boolean) {
+        //记录控制器状态
         val visable = controlView?.visibility == View.VISIBLE
         removeAllViews()
-        LayoutInflater.from(context).inflate(R.layout.item_video_detail_media_control, this)
+        LayoutInflater.from(context).inflate(if (isFullScreen) {
+            R.layout.item_video_detail_media_control_land
+        } else {
+            R.layout.item_video_detail_media_control
+        }, this)
         configViews()
         if (visable) {
             showMediaControl()

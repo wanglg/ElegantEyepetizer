@@ -4,6 +4,7 @@ class PlayerConfig private constructor() {
     var isLooping: Boolean = false//是否循环播放
     var mAutoRotate: Boolean = false//是否旋转屏幕
     var isCache: Boolean = false//是否开启缓存
+    var calculateMatch: Boolean = false//计算宽高填满View
     var disableAudioFocus: Boolean = false//关闭AudioFocus监听
 
     class Builder {
@@ -33,6 +34,10 @@ class PlayerConfig private constructor() {
             return this
         }
 
+        fun calculateMatch(): Builder {
+            target.calculateMatch = true
+            return this
+        }
 
         fun build(): PlayerConfig {
             return target

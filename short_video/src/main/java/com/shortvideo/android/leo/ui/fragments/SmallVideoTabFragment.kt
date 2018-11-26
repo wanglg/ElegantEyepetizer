@@ -21,6 +21,7 @@ import com.shortvideo.android.leo.mvp.model.SmallVideoModel
 import com.shortvideo.android.leo.mvp.model.entity.VideoBean
 import com.shortvideo.android.leo.mvp.presenter.ShortVideoPresenter
 import com.shortvideo.android.leo.ui.adapters.ShortVideoTabAdapter
+import com.shortvideo.android.leo.ui.view.ShortVideoControlView
 import com.shortvideo.android.leo.ui.view.widgets.OnPageStateChangedListener
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit
 class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoContract.View, OnPageStateChangedListener {
 
     private val playerListManager by lazy {
-        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().enableCache().build()).build()
+        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().calculateMatch().enableCache().build()).build()
     }
 
     private val linearLayoutManager by lazy {
@@ -90,6 +91,7 @@ class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoCon
                 baseViewHolder.setGone(R.id.videoCover, true)
             }
         })
+        playerListManager.attachMediaControl(ShortVideoControlView(activity!!))
         playerListManager.currentPath = VideoUrlUtils.convertRemoteUrl(videoBean!!.url)
         playerListManager.go()
     }
@@ -149,5 +151,8 @@ class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoCon
     }
 
     override fun onPageDetachedFromWindow(position: Int) {
+        if (havePlayer(position)) {
+            playerListManager.release()
+        }
     }
 }

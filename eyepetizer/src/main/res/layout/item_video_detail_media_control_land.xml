@@ -13,6 +13,38 @@
         android:visibility="gone"
         tools:visibility="visible">
 
+        <RelativeLayout
+            android:id="@+id/mediaplayer_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/fullscreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:padding="4dp"
+                android:src="@mipmap/ic_action_min_screen" />
+
+            <TextView
+                android:id="@+id/videoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_normal"
+                tools:text="title" />
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/video_controller"
@@ -25,7 +57,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/fullscreen"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -70,16 +101,6 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/fullscreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:paddingEnd="8dp"
-                android:src="@mipmap/ic_action_full_screen" />
-
 
         </RelativeLayout>
 
@@ -115,14 +136,14 @@
         android:visibility="gone"
         tools:visibility="visible" />
     <!-- back-->
-    <ImageView
-        android:id="@+id/media_player_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingStart="@dimen/spacing_normal"
-        android:paddingTop="10dp"
-        android:paddingEnd="@dimen/spacing_large"
-        android:paddingBottom="@dimen/spacing_normal"
-        android:src="@mipmap/ic_player_close_white" />
+    <!-- <ImageView
+         android:id="@+id/media_player_back"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_vertical"
+         android:paddingBottom="@dimen/spacing_normal"
+         android:paddingEnd="@dimen/spacing_large"
+         android:paddingStart="@dimen/spacing_normal"
+         android:paddingTop="@dimen/spacing_normal"
+         android:src="@mipmap/ic_player_close_white" />-->
 </RelativeLayout>

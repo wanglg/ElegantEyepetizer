@@ -39,4 +39,7 @@ open class SimpleMediaPlayerListener : IMediaPlayerListener {
 
     override fun onLoadEnd() {
     }
+
+    override fun onFullScreenChange(isFullScreen: Boolean) {
+    }
 }

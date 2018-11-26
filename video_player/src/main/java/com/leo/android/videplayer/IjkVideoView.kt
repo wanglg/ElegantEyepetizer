@@ -246,11 +246,26 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 item.onPrepared()
             }
         }
-        LogUtils.d(TAG, "mediaPlayer videoWidth->" + mediaPlayer!!.videoWidth + " mediaPlayer videoHeight->" + mediaPlayer!!.videoHeight)
-        renderView?.setVideoSize(mediaPlayer!!.videoWidth, mediaPlayer!!.videoHeight)
+        val videoWidth = mediaPlayer!!.videoWidth
+        val videoHeight = mediaPlayer!!.videoHeight
+        LogUtils.d(TAG, "mediaPlayer videoWidth->" + videoWidth + " mediaPlayer videoHeight->" + videoHeight)
+        renderView?.setVideoSize(videoWidth, videoHeight)
         renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
         if (playerConfig.mAutoRotate) {
             orientationEventListener.enable()
+        }
+        if (playerConfig.calculateMatch) {
+            val videoRate = videoWidth.toFloat() / videoHeight
+            LogUtils.d(TAG, "videoRate->" + videoRate)
+            val viewWidth = width
+            val viewHeight = height
+            val viewRate = viewWidth.toFloat() / viewHeight
+            if (Math.abs(viewRate - videoRate) < 0.15) {
+                renderView?.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT)
+            }
+            LogUtils.d(TAG, "viewRate->" + viewRate)
+
+
         }
         if (!isFreeze) {
             //恢复到原来位置
@@ -431,7 +446,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
 
     override fun onVideoSizeChanged(mp: IMediaPlayer?, width: Int, height: Int, sarNum: Int, sarDen: Int) {
-        LogUtils.d("onVideoSizeChanged width->" + width + " height->" + height + " sarNum->" + sarNum + " sarDen->" + sarDen)
+        LogUtils.d(TAG, "onVideoSizeChanged width->" + width + " height->" + height + " sarNum->" + sarNum + " sarDen->" + sarDen)
         mp?.let {
             val mVideoWidth = it.getVideoWidth()
             val mVideoHeight = it.getVideoHeight()
@@ -654,14 +669,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LogUtils.d(TAG, "onConfigurationChanged  " + mVideoUri?.toString())
-        if (context == null) {
-            return
-        }
-        if (isFullScreen) {
-            setScreenFull(true)
-        } else if (context != null && mediaPlayer != null) {
-            setScreenFull(false)
-        }
+//        if (context == null) {
+//            return
+//        }
+//        if (isFullScreen) {
+//            setScreenFull(true)
+//        } else if (context != null && mediaPlayer != null) {
+//            setScreenFull(false)
+//        }
     }
 
     override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
@@ -699,6 +714,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (type == 1) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                setScreenFull(false)
             }
         } else if (type == 2) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -706,6 +722,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     savePortraitData()
                 }
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                setScreenFull(true)
             }
         } else if (type == 3) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
@@ -713,12 +730,15 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     savePortraitData()
                 }
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                setScreenFull(true)
             }
         } else {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                setScreenFull(false)
             } else {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                setScreenFull(true)
             }
         }
     }
@@ -735,11 +755,13 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         detachMediaControl()
         this.controlView = baseVideoController
         addMediaPlayerListener(baseVideoController)
+        baseVideoController.videoControl = this
         addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
     }
 
     fun detachMediaControl() {
         if (this.controlView != null) {
+            this.controlView?.reset()
             this.removeView(this.controlView)
             this.controlView = null
         }
@@ -752,10 +774,15 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             val mDecorView = (context as Activity).window.decorView
             (mDecorView as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(-1, -1))
 
-        } else {
+        } else if (mInitialParent != null) {
             (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
         }
         setUiFlags(context as Activity, isEnterFullScreen)
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.onFullScreenChange(isEnterFullScreen)
+            }
+        }
     }
 
     override fun setLock(isLocked: Boolean) {

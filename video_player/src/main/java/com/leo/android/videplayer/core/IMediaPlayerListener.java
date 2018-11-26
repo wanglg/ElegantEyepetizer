@@ -34,4 +34,9 @@ public interface IMediaPlayerListener {
     void onLoadStart();
 
     void onLoadEnd();
+
+    /**
+     * @param isFullScreen true进入全屏 false otherwise
+     */
+    void onFullScreenChange(boolean isFullScreen);
 }
