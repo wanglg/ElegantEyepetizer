@@ -173,7 +173,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun creatPlayer(): IMediaPlayer {
         return createTextureMediaPlayer();
-//        return createIjkMediaPlayer();
     }
 
 
@@ -666,18 +665,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        LogUtils.d(TAG, "onConfigurationChanged  " + mVideoUri?.toString())
-//        if (context == null) {
-//            return
-//        }
-//        if (isFullScreen) {
-//            setScreenFull(true)
-//        } else if (context != null && mediaPlayer != null) {
-//            setScreenFull(false)
-//        }
-    }
 
     override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
         LogUtils.e(TAG, "p1-->" + p1 + "  p2->" + p2)

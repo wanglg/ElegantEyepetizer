@@ -4,6 +4,7 @@ class PlayerConfig private constructor() {
     var isLooping: Boolean = false//是否循环播放
     var mAutoRotate: Boolean = false//是否旋转屏幕
     var isCache: Boolean = false//是否开启缓存
+    var reConnect: Boolean = false//是否开启重连机制
     var calculateMatch: Boolean = false//计算宽高填满View
     var disableAudioFocus: Boolean = false//关闭AudioFocus监听
 
@@ -23,6 +24,11 @@ class PlayerConfig private constructor() {
          */
         fun autoRotate(): Builder {
             target.mAutoRotate = true
+            return this
+        }
+
+        fun reConnect(reconnect: Boolean): Builder {
+            target.reConnect = reconnect
             return this
         }
 

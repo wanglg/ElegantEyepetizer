@@ -126,12 +126,6 @@ class PlayerListManager : IMediaPlayerControl {
         this.parentView = parentView
     }
 
-    //    fun currentPath(uri: Uri) {
-//        this.currentPath = uri
-//    }
-//    fun setCurrentPath(currentPath: Uri) {
-//        this.currentPath = currentPath
-//    }
     fun onPause() {
         videoView.onPause()
     }
