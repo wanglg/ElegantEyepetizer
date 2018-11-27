@@ -93,13 +93,13 @@ public class SurfaceRenderView extends SurfaceView implements IRenderView {
         }
     }
 
-    @Override
-    public void setVideoSampleAspectRatio(int videoSarNum, int videoSarDen) {
-        if (videoSarNum > 0 && videoSarDen > 0) {
-            mMeasureHelper.setVideoSampleAspectRatio(videoSarNum, videoSarDen);
-            requestLayout();
-        }
-    }
+//    @Override
+//    public void setVideoSampleAspectRatio(int videoSarNum, int videoSarDen) {
+//        if (videoSarNum > 0 && videoSarDen > 0) {
+//            mMeasureHelper.setVideoSampleAspectRatio(videoSarNum, videoSarDen);
+//            requestLayout();
+//        }
+//    }
 
     @Override
     public void setVideoRotation(int degree) {

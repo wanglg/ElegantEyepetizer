@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
@@ -101,7 +102,7 @@ class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoCon
         if (baseViewHolder == null) {
             return false
         } else {
-            val viewGroup = baseViewHolder.itemView.findViewById<ViewGroup>(R.id.video_parent)
+            val viewGroup = baseViewHolder.itemView.findViewById<FrameLayout>(R.id.video_parent)
             for (index in 0..viewGroup.childCount - 1) {
                 if (viewGroup.getChildAt(index) is IjkVideoView) {
                     return true

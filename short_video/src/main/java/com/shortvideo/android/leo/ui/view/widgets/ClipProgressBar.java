@@ -50,7 +50,7 @@ public class ClipProgressBar extends FrameLayout implements Animatable {
         ImageView imageView = new ImageView(getContext());
         clip = (ClipDrawable) getResources().getDrawable(R.drawable.clip_progress);
         imageView.setImageDrawable(clip);
-        imageView.setBackgroundColor(Color.parseColor("#4cffffff"));
+        imageView.setBackgroundColor(Color.parseColor("#80ffffff"));
         addView(imageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         start();
     }
@@ -88,6 +88,16 @@ public class ClipProgressBar extends FrameLayout implements Animatable {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stop();
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == GONE || visibility == INVISIBLE) {
+            stop();
+        } else {
+            start();
+        }
     }
 
     @Override

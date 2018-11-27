@@ -52,7 +52,7 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
     protected List<OnPageStateChangedListener> mOnPageStateChangedListeners;
     protected int mSmoothScrollTargetPosition = -1;
     protected int mPositionBeforeScroll = 0;
-    private float mFlingFactor = 0.15f;
+    private float mFlingFactor = 0.35f;
     // Handles the snap on scroll case.
     private final RecyclerView.OnScrollListener mScrollListener =
             new RecyclerView.OnScrollListener() {
@@ -252,6 +252,13 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
 
         int targetPosition = findTargetSnapPosition(layoutManager, velocityX, velocityY);
         if (targetPosition == RecyclerView.NO_POSITION) {
+            return false;
+        }
+        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+        if (adapter == null) {
+            return false;
+        }
+        if (targetPosition >= adapter.getItemCount()) {
             return false;
         }
         //快速滑动回调

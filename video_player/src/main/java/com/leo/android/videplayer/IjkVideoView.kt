@@ -67,8 +67,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     var renderView: IRenderView? = null
     var controlView: BaseVideoController? = null
     var mSurfaceHolder: IRenderView.ISurfaceHolder? = null
-    private var mVideoSarNum: Int = 0
-    private var mVideoSarDen: Int = 0
     /**
      * 初始父view
      */
@@ -251,7 +249,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         val videoHeight = mediaPlayer!!.videoHeight
         LogUtils.d(TAG, "mediaPlayer videoWidth->" + videoWidth + " mediaPlayer videoHeight->" + videoHeight)
         renderView?.setVideoSize(videoWidth, videoHeight)
-        renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
         if (playerConfig.mAutoRotate) {
             orientationEventListener.enable()
         }
@@ -431,6 +428,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             }
         }
         if (arg1 == IMediaPlayer.MEDIA_INFO_BUFFERING_START) {
+            LogUtils.d(TAG, "BUFF---》start")
             iMediaPlayerListeners?.let {
                 for (item in it) {
                     item.onLoadStart()
@@ -438,6 +436,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             }
         }
         if (arg1 == IMediaPlayer.MEDIA_INFO_BUFFERING_END) {
+            LogUtils.d(TAG, "BUFF---》end")
             iMediaPlayerListeners?.let {
                 for (item in it) {
                     item.onLoadEnd()
@@ -453,12 +452,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         mp?.let {
             val mVideoWidth = it.getVideoWidth()
             val mVideoHeight = it.getVideoHeight()
-            mVideoSarNum = mp.videoSarNum
-            mVideoSarDen = mp.videoSarDen
             if (mVideoWidth != 0 && mVideoHeight != 0) {
                 if (renderView != null) {
                     renderView?.setVideoSize(mVideoWidth, mVideoHeight)
-                    renderView?.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen)
                 }
                 requestLayout()
             }

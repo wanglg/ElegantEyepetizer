@@ -51,6 +51,7 @@ class ShortVideoControlView : BaseVideoController {
     }
 
     override fun onFirstFrameStart() {
+        clipProgressBar?.visibility = View.GONE
     }
 
     override fun onPrepared() {
@@ -60,6 +61,7 @@ class ShortVideoControlView : BaseVideoController {
     }
 
     override fun startPrepare(uri: Uri?) {
+        clipProgressBar?.visibility = View.VISIBLE
     }
 
     override fun stopPlayer(isPlayComplete: Boolean) {
