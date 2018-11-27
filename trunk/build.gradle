@@ -19,13 +19,28 @@ android {
             abiFilters "armeabi-v7a", "x86"//, "armeabi"//, "arm64-v8a"//, //, "x86", "arm64-v8a"
         }
     }
-
+   //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            zipAlignEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            zipAlignEnabled false
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "Elegant-${variant.name}-${variant.versionName}-${releaseTime()}(${variant.versionCode}).apk"
         }
     }
 //    packagingOptions {
@@ -70,7 +85,7 @@ dependencies {
     implementation project(':short_video')
     implementation project(':video_player')
     //引导viewpager指示器
-    implementation ('me.relex:circleindicator:1.2.2@aar'){
+    implementation('me.relex:circleindicator:1.2.2@aar') {
         exclude module: 'support-annotations'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'
@@ -83,6 +98,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
     }
     kapt 'com.sankuai.waimai.router:compiler:1.1.0'
+}
+static def releaseTime() {
+    return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("UTC"))
 }
 repositories {
     mavenCentral()

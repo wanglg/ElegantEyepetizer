@@ -5,7 +5,7 @@
     android:layout_gravity="center">
 
 
-    <com.leowong.project.eyepetizer.ui.view.widgets.LoadingView
+    <com.android.leo.base.ui.widgets.LoadingView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center" />
