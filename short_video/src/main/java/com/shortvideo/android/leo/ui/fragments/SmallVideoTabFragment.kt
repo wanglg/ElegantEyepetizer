@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
 class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoContract.View, OnPageStateChangedListener {
 
     private val playerListManager by lazy {
-        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().calculateMatch().enableCache().build()).build()
+        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().calculateMatch().build()).build()
     }
 
     private val linearLayoutManager by lazy {

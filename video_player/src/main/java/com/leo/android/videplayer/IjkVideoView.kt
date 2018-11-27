@@ -173,14 +173,16 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun creatPlayer(): IMediaPlayer {
         return createTextureMediaPlayer();
+//        return createIjkMediaPlayer();
     }
 
 
     fun createTextureMediaPlayer(): TextureMediaPlayer {
         val ijkMediaPlayer = IjkMediaPlayer()
         if (BuildConfig.DEBUG) {
-            IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
+            IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_WARN)
         }
+        ijkMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
         //断网自动重新连接
@@ -198,9 +200,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (BuildConfig.DEBUG) {
             IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR)
         }
+        ijkMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 8 * 1024 * 1024)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);//重连模式
-        //断网自动重新连接
+//        //断网自动重新连接
         ijkMediaPlayer.setOnNativeInvokeListener(object : IjkMediaPlayer.OnNativeInvokeListener {
             override fun onNativeInvoke(p0: Int, p1: Bundle?): Boolean {
                 return true
@@ -238,7 +241,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun onPrepared(p0: IMediaPlayer?) {
         LogUtils.d(TAG, "onPrepared  ")
-//        bindSurfaceHolder(mediaPlayer, mSurfaceHolder)
         isPrepared = true
         iMediaPlayerListeners?.let {
             for (item in it) {
@@ -261,10 +263,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             val viewRate = viewWidth.toFloat() / viewHeight
             if (Math.abs(viewRate - videoRate) < 0.15) {
                 renderView?.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT)
+            } else {
+                renderView?.setAspectRatio(playerConfig.aspectRatio)
             }
             LogUtils.d(TAG, "viewRate->" + viewRate)
-
-
+        } else {
+            renderView?.setAspectRatio(playerConfig.aspectRatio)
         }
         if (!isFreeze) {
             //恢复到原来位置

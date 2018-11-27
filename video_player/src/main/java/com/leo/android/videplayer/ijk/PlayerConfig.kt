@@ -7,6 +7,7 @@ class PlayerConfig private constructor() {
     var reConnect: Boolean = false//是否开启重连机制
     var calculateMatch: Boolean = false//计算宽高填满View
     var disableAudioFocus: Boolean = false//关闭AudioFocus监听
+    var aspectRatio: Int = IRenderView.AR_ASPECT_FIT_PARENT//视频裁剪模式
 
     class Builder {
         var target: PlayerConfig = PlayerConfig()
@@ -29,6 +30,11 @@ class PlayerConfig private constructor() {
 
         fun reConnect(reconnect: Boolean): Builder {
             target.reConnect = reconnect
+            return this
+        }
+
+        fun setAspectRatio(aspectRatio: Int): Builder {
+            target.aspectRatio = aspectRatio
             return this
         }
 
