@@ -39,6 +39,3 @@ tmp
 .gradle
 /build
 /out
-libs/
-src/main/java/
-src/main/res/drawable/
