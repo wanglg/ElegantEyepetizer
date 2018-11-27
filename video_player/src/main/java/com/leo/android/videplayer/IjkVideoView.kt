@@ -389,7 +389,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                         }
                     }
                 } else if (TextUtils.equals("assert", host)) {
-                    val videoPath = videoDetail.getQueryParameter("path")
+                    val videoPath = videoDetail.getQueryParameter("path") as String
                     val am = context.getAssets()
                     val afd = am.openFd(videoPath)
                     val rawDataSourceProvider = RawDataSourceProvider(afd)

@@ -28,8 +28,8 @@ class SplashVideoFragment : BaseFragment<IPresenter>(), ViewPager.OnPageChangeLi
 
     override fun configViews() {
         ijkvideo.setAssertPath("landing.mp4")
-        ijkvideo.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT)
-        ijkvideo.setPlayerConfig(PlayerConfig.Builder().setLooping().disableAudioFocus().build())
+        ijkvideo.setPlayerConfig(PlayerConfig.Builder().setLooping().disableAudioFocus()
+                .setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT).build())
         ijkvideo.startPlay()
         val adapter = SplashVideoTextAdapter()
         view_pager.adapter = adapter
