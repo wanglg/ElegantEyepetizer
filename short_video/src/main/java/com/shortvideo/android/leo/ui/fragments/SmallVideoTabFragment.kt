@@ -33,7 +33,8 @@ import java.util.concurrent.TimeUnit
 class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoContract.View, OnPageStateChangedListener {
 
     private val playerListManager by lazy {
-        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().calculateMatch().build()).build()
+        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().enableCache().calculateMatch().build())
+                .preLoad(true).build()
     }
 
     private val linearLayoutManager by lazy {
@@ -92,6 +93,10 @@ class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoCon
                 baseViewHolder.setGone(R.id.videoCover, true)
             }
         })
+        if (position >= 0 && position < shortVideoTabAdapter.itemCount - 1) {
+            val nextVideoBean = shortVideoTabAdapter.getItem(position + 1)
+            playerListManager.nextPath = VideoUrlUtils.convertRemoteUrl(nextVideoBean!!.url)
+        }
         playerListManager.attachMediaControl(ShortVideoControlView(activity!!))
         playerListManager.currentPath = VideoUrlUtils.convertRemoteUrl(videoBean!!.url)
         playerListManager.go()

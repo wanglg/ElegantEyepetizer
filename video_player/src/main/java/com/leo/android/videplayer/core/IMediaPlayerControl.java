@@ -39,6 +39,8 @@ public interface IMediaPlayerControl {
 
     void play(Uri videoUri, Long position);
 
+    void preLoad(Uri videoUri);
+
     int getBufferPercentage();
 
     boolean isFullScreen();

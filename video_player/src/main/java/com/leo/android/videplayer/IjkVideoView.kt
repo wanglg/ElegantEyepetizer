@@ -237,6 +237,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         startPlay(videoUri, 0)
     }
 
+    override fun preLoad(videoUri: Uri?) {
+        videoUri?.let {
+
+        }
+    }
+
     override fun onPrepared(p0: IMediaPlayer?) {
         LogUtils.d(TAG, "onPrepared  ")
         isPrepared = true

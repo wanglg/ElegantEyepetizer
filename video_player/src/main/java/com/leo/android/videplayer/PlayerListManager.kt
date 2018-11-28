@@ -10,6 +10,7 @@ import com.leo.android.videplayer.core.IMediaPlayerListener
 import com.leo.android.videplayer.ijk.PlayerConfig
 
 class PlayerListManager : IMediaPlayerControl {
+    val TAG = "PlayerListManager"
     override fun start() {
         videoView.start()
     }
@@ -60,6 +61,10 @@ class PlayerListManager : IMediaPlayerControl {
 
     override fun toggleFullScreen() {
         videoView.toggleFullScreen()
+    }
+
+    override fun preLoad(videoUri: Uri?) {
+        videoView.preLoad(videoUri)
     }
 
     override fun setLock(isLocked: Boolean) {
@@ -134,13 +139,36 @@ class PlayerListManager : IMediaPlayerControl {
         videoView.onResume()
     }
 
+    fun onDestory() {
+        videoView.release()
+        if (preLoad) {
+
+        }
+    }
+
     fun go() {
         parentView?.addView(videoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         playConfig?.let {
             videoView.setPlayerConfig(it)
         }
         currentPath?.let {
-            videoView.startPlay(it)
+            videoView.play(it, 0)
+            if (preLoad) {
+//                nextPath?.let {
+//                    val videoPath = VideoUrlUtils.convertUrlToString(it)
+//                    val isCache = VideoCacheManager.getProxy(videoView.context).isCached(videoPath)
+//                    if (!isCache) {
+//                        VideoCacheManager.getProxy(videoView.context).registerCacheListener(object : CacheListener {
+//                            override fun onCacheAvailable(cacheFile: File?, url: String, percentsAvailable: Int) {
+//                                LogUtils.d(TAG, "url->" + url + " size ->" + percentsAvailable)
+//                            }
+//
+//                        }, videoPath)
+//                    }
+//                }
+
+
+            }
         }
     }
 }
