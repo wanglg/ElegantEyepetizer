@@ -56,7 +56,10 @@ dependencies {
         exclude module: 'jsr305'
     }
     api(rootProject.ext.dependencies["rxlifecycle2-components"]) {
-        exclude module: 'rxlifecycle2'
+        exclude module: 'support-annotations'
+        exclude module: 'rxjava'
+        exclude module: 'rxlifecycle'
+        exclude module: 'rxjava'
     }
     api(rootProject.ext.dependencies["rxlifecycle2-android"]) {
         exclude module: 'support-annotations'
