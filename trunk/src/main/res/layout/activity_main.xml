@@ -16,6 +16,12 @@
         android:layout_alignParentBottom="true"
         android:background="@color/color_title_bg" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/tab_layout"
+        android:background="@color/color_gray" />
+
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

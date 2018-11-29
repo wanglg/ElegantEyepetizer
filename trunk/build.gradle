@@ -84,6 +84,7 @@ dependencies {
     implementation project(':eyepetizer')
     implementation project(':short_video')
     implementation project(':video_player')
+    implementation project(':mine')
     //引导viewpager指示器
     implementation('me.relex:circleindicator:1.2.2@aar') {
         exclude module: 'support-annotations'

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -20,23 +22,25 @@
                 android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:background="@mipmap/icon_mine_head_bg" />
+                android:background="@mipmap/icon_mine_head_bg"
+                android:scaleType="centerCrop" />
 
             <!--头部用户信息-->
             <LinearLayout
                 android:id="@+id/ll_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/ll_count"
+                android:layout_alignBottom="@+id/iv_bg"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="90dp"
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/mine_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@mipmap/icon_mine_head" />
+                    tools:src="@mipmap/icon_mine_head" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -46,7 +50,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="ChayChan"
+                    android:text="LeoWang"
                     android:textColor="@color/white"
                     android:textSize="16.0sp" />
 
@@ -59,169 +63,60 @@
 
             </LinearLayout>
 
-            <!--头部动态、粉丝、7天访客-->
-            <LinearLayout
-                android:id="@+id/ll_count"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/iv_bg"
-                android:layout_marginTop="18.0dip"
-                android:layout_marginBottom="23.0dip"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-
-            </LinearLayout>
 
             <!--内容-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_count"
+                android:layout_below="@+id/iv_bg"
                 android:orientation="vertical">
 
-
                 <View style="@style/MineFunctionDivider" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/color_F3F5F4" />
-
-                <View style="@style/MineFunctionDivider" />
-
-                <!--消息通知-->
-                <RelativeLayout style="@style/MineFunctionRl">
-
-                    <TextView
-                        style="@style/MineFunctionTvLeft"
-                        android:text="@string/message_inform"
-                        android:textColor="@color/color_222222" />
-
-                    <ImageView
-                        style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
-
-                </RelativeLayout>
-
-                <View style="@style/MineFunctionDivider" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/color_F3F5F4" />
-
-                <View style="@style/MineFunctionDivider" />
-
                 <!--头条商城-->
                 <RelativeLayout style="@style/MineFunctionRl">
 
                     <TextView
                         style="@style/MineFunctionTvLeft"
-                        android:text="@string/mall"
+                        android:text="邮箱"
                         android:textColor="@color/color_222222" />
 
                     <ImageView
                         android:id="@+id/iv_mall_arrow"
                         style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
+                        android:background="@mipmap/icon_right_arrow" />
 
                     <TextView
                         style="@style/MineFunctionTvRight"
                         android:layout_toLeftOf="@+id/iv_mall_arrow"
-                        android:text="@string/mall_bonus" />
+                        android:text="@string/email" />
 
                 </RelativeLayout>
 
+                <View style="@style/MineFunctionDivider" />
+
                 <View
                     style="@style/MineFunctionDivider"
-                    android:layout_marginLeft="15dp" />
-
-                <!--京东特供-->
+                    android:layout_marginTop="@dimen/dp_10" />
+                <!--头条商城-->
                 <RelativeLayout style="@style/MineFunctionRl">
 
                     <TextView
                         style="@style/MineFunctionTvLeft"
-                        android:text="@string/JD"
+                        android:text="github"
                         android:textColor="@color/color_222222" />
 
                     <ImageView
-                        android:id="@+id/iv_jd_arrow"
+                        android:id="@+id/iv_github_arrow"
                         style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
+                        android:background="@mipmap/icon_right_arrow" />
 
                     <TextView
+                        android:id="@+id/github_jump"
                         style="@style/MineFunctionTvRight"
-                        android:layout_toLeftOf="@+id/iv_jd_arrow"
-                        android:text="@string/JD_bonus" />
+                        android:layout_toLeftOf="@+id/iv_github_arrow"
+                        android:text="@string/github" />
 
                 </RelativeLayout>
-
-                <View style="@style/MineFunctionDivider" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/color_F3F5F4" />
-
-                <View style="@style/MineFunctionDivider" />
-
-                <!--我要爆料-->
-                <RelativeLayout style="@style/MineFunctionRl">
-
-                    <TextView
-                        style="@style/MineFunctionTvLeft"
-                        android:text="@string/provide_news"
-                        android:textColor="@color/color_222222" />
-
-                    <ImageView
-                        style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
-
-                </RelativeLayout>
-
-                <View
-                    style="@style/MineFunctionDivider"
-                    android:layout_marginLeft="15dp" />
-
-                <!--用户反馈-->
-                <RelativeLayout style="@style/MineFunctionRl">
-
-                    <TextView
-                        style="@style/MineFunctionTvLeft"
-                        android:text="@string/feed_back"
-                        android:textColor="@color/color_222222" />
-
-                    <ImageView
-                        style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
-
-                </RelativeLayout>
-
-                <View
-                    style="@style/MineFunctionDivider"
-                    android:layout_marginLeft="15dp" />
-
-                <!--系统设置-->
-                <RelativeLayout style="@style/MineFunctionRl">
-
-                    <TextView
-                        style="@style/MineFunctionTvLeft"
-                        android:text="@string/settings"
-                        android:textColor="@color/color_222222" />
-
-                    <ImageView
-                        style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
-
-                </RelativeLayout>
-
-                <View style="@style/MineFunctionDivider" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/color_F3F5F4" />
 
             </LinearLayout>
 

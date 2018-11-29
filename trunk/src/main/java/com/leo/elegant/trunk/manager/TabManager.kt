@@ -59,16 +59,11 @@ object TabManager {
                 }
                 3 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.MINE).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }
-                else -> {
-                    fragment = Router.getServiceClass(Fragment::class.java,
-                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
-                    mFragmentsArray.append(position, fragment)
-                    mFragments.add(fragment)
-                }
+
             }
             return fragment
         }
