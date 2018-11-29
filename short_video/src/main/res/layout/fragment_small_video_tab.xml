@@ -29,4 +29,10 @@
 
         </com.classic.common.MultipleStatusView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@mipmap/ic_small_video_top_shadow" />
 </RelativeLayout>

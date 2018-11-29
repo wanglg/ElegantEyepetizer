@@ -1,7 +1,6 @@
 package com.leo.elegant.trunk.activity
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import com.agile.android.leo.mvp.IPresenter
 import com.android.leo.base.ui.activities.BaseActivity

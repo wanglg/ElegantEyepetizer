@@ -420,16 +420,16 @@ public abstract class SnapHelper extends RecyclerView.OnFlingListener implements
 
     @Override
     public void onChildViewDetachedFromWindow(View view) {
-        if (mOnPageStateChangedListeners != null && mRecyclerView != null) {
+        if (mOnPageStateChangedListeners != null && mRecyclerView != null && mOnPageStateChangedListeners.size() > 0) {
+            LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+            if (layoutManager == null) {
+                return;
+            }
+            int position = layoutManager.getPosition(view);
+            if (position < 0) {
+                return;
+            }
             for (OnPageStateChangedListener onPageStateChangedListener : mOnPageStateChangedListeners) {
-                LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-                if (layoutManager == null) {
-                    return;
-                }
-                int position = layoutManager.getPosition(view);
-                if (position < 0) {
-                    return;
-                }
                 onPageStateChangedListener.onPageDetachedFromWindow(position);
             }
         }
