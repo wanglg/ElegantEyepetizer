@@ -53,7 +53,7 @@ object TabManager {
                 }
                 2 -> {
                     fragment = Router.getServiceClass(Fragment::class.java,
-                            GlobalConstant.Fragment.EYEPETIZER).newInstance()
+                            GlobalConstant.Fragment.TOUTIAO).newInstance()
                     mFragmentsArray.append(position, fragment)
                     mFragments.add(fragment)
                 }

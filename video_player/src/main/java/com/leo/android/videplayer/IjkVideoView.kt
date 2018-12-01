@@ -298,11 +298,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 start()
             }
         } else if (isPrepared) {
-//            start()//暂停状态下会有黑屏情况，改为恢复状态继续播放
             if (isPlayingOnPause) {
                 start()
             } else {
-//                seekTo(currentPosition!!)
                 pause()
             }
         }
@@ -335,9 +333,11 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     override fun release() {
         stop()
+        mediaPlayer?.reset()
+        LogUtils.d(TAG, "start release->")
         mediaPlayer?.release()
+        LogUtils.d(TAG, "release over->")
         removeAllMediaPlayerListener()
-        LogUtils.d(TAG, "release->")
         mediaPlayer = null
         playScheduleSubscription?.clear()
         isPrepared = false
@@ -608,7 +608,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
         mCacheServer?.unregisterCacheListener(cacheListener)
         if (playerConfig.mAutoRotate) {
-            orientationEventListener.enable()
+            orientationEventListener.disable()
         }
     }
 

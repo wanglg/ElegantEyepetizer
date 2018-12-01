@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.agile.android.leo.mvp.BasePresenter
+import com.android.leo.base.utils.PreferencesUtil
 
 
 fun Fragment.showToast(content: String): Toast {
@@ -26,7 +27,20 @@ fun BasePresenter<*, *>.showToast(content: String): Toast {
     toast.show()
     return toast
 }
-
+//
+//fun BasePresenter<*, *>.readStringPreference(key: String): String {
+//    val vaule = PreferencesUtil.readString(BaseApplication.context, key, "")
+//    return vaule
+//}
+//
+//fun BasePresenter<*, *>.readIntPreference(key: String): Int {
+//    val vaule = PreferencesUtil.readString(BaseApplication.context, key, 0)
+//    return vaule
+//}
+//fun BasePresenter<*, *>.readLongPreference(key: String): String {
+//    val vaule = PreferencesUtil.readString(BaseApplication.context, key, "")
+//    return vaule
+//}
 fun getScreenWidth(context: Context): Int {
     val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val display = wm.defaultDisplay
