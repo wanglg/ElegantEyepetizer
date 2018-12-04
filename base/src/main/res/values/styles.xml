@@ -17,6 +17,8 @@
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--默认启动模式-->
+        <item name="android:launchMode">singleTop</item>
         <!--<item name="android:contentDescription">@string/app_name</item>-->
     </style>
     <!-- Base application theme. -->
