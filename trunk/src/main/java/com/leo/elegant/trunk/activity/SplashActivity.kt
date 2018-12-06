@@ -35,7 +35,7 @@ class SplashActivity : BaseActivity<IPresenter>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        isFirstLaunch = PreferencesUtil.readPreferences(this, IS_FIRST_LAUNCH, true)
+        isFirstLaunch = PreferencesUtil.readBoolean(this, IS_FIRST_LAUNCH, true)
     }
 
     override fun requestData() {

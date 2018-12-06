@@ -52,7 +52,7 @@ public class FileUtils {
      * <b>NOTE:</b> Can be null in some unpredictable cases (if SD card is unmounted and
      * {@link Context#getCacheDir() Context.getCacheDir()} returns null).
      */
-    private static File getCacheDirectory(Context context, boolean preferExternal) {
+    public static File getCacheDirectory(Context context, boolean preferExternal) {
         File appCacheDir = null;
         String externalStorageState;
         try {
@@ -74,7 +74,7 @@ public class FileUtils {
         return appCacheDir;
     }
 
-    private static File getExternalCacheDir(Context context) {
+    public static File getExternalCacheDir(Context context) {
         File dataDir = new File(new File(Environment.getExternalStorageDirectory(), "Android"), "data");
         File appCacheDir = new File(new File(dataDir, context.getPackageName()), "cache");
         if (!appCacheDir.exists()) {

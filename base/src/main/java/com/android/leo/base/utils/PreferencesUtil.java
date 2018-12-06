@@ -99,17 +99,17 @@ public class PreferencesUtil {
         return sharedPreferences.getString(key, defValue);
     }
 
-    public static String readPreferences(Context context, String fileName, String key, String defValue) {
+    public static String readString(Context context, String fileName, String key, String defValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defValue);
     }
 
-    public static int readPreferences(Context context, String key, int defValue) {
+    public static int readInt(Context context, String key, int defValue) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getInt(key, defValue);
     }
 
-    public static int readPreferences(Context context, String fileName, String key, int defValue) {
+    public static int readInt(Context context, String fileName, String key, int defValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(key, defValue);
     }
@@ -123,18 +123,16 @@ public class PreferencesUtil {
         return readLong(fileName, key, 0);
     }
 
-    //
     public static long readLong(String key) {
         return readLong(configName, key, 0);
     }
 
 
-    public static boolean readPreferences(Context context, String key, boolean defValue) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean(key, defValue);
+    public static boolean readBoolean(Context context, String key, boolean defValue) {
+        return readBoolean(context, configName, key, defValue);
     }
 
-    public static boolean readPreferences(Context context, String fileName, String key, boolean defValue) {
+    public static boolean readBoolean(Context context, String fileName, String key, boolean defValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(key, defValue);
     }

@@ -1,1 +1,2 @@
-include ':eyepetizer', ':agile_android', ':short_video', ':video_player', ':router', ':base', ':api', ':trunk', ':mine', ':toutiao','multiple-status-view','imageloader'
+include ':eyepetizer', ':agile_android', ':short_video', ':video_player', ':router', ':base', ':api', ':trunk', ':mine', ':patch',
+        ':toutiao','multiple-status-view','imageloader','patch'
