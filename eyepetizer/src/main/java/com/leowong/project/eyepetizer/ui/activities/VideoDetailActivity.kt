@@ -18,6 +18,7 @@ import com.android.leo.base.showToast
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
 import com.android.leo.base.utils.StatusBarUtils
+import com.android.leo.base.utils.statusbar.StatusBarUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
@@ -124,6 +125,7 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
 
     override fun configViews() {
         StatusBarUtils.with(this).init()
+//        StatusBarUtil.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
         initSlide()
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager

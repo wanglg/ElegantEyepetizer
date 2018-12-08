@@ -16,4 +16,6 @@
     <dimen name="padding_tab_layout_bottom">51dp</dimen>
     <dimen name="tool_bar_height">44dp</dimen>
     <dimen name="detail_video_height">230dp</dimen>
+
+    <dimen name="default_status_bar_height">30dp</dimen>
 </resources>

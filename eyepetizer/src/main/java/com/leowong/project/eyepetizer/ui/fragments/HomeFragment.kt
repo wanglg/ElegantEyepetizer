@@ -27,7 +27,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
 @RouterService(interfaces = arrayOf(Fragment::class), key = arrayOf(GlobalConstant.Fragment.EYEPETIZER))
-public class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
+class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
 
     protected var homeAdapter: HomeAdapter? = null

@@ -37,12 +37,12 @@ class MainActivity : BaseActivity<IPresenter>() {
         StatusBarUtils.with(this).init()
         initTab()
         switchFragment(mIndex)
-        addDispose(Observable.timer(5, TimeUnit.SECONDS).subscribe({
-            val result = PatchUtils.patch(FileUtils.getExternalCacheDir(this).absolutePath + "/template.zip"
-                    , FileUtils.getExternalCacheDir(this).absolutePath + "/abc.patch",
-                    FileUtils.getExternalCacheDir(this).absolutePath + "/demo.patch")
-            LogUtils.e("result->" + result)
-        }))
+//        addDispose(Observable.timer(5, TimeUnit.SECONDS).subscribe({
+//            val result = PatchUtils.patch(FileUtils.getExternalCacheDir(this).absolutePath + "/template.zip"
+//                    , FileUtils.getExternalCacheDir(this).absolutePath + "/abc.patch",
+//                    FileUtils.getExternalCacheDir(this).absolutePath + "/demo.patch")
+//            LogUtils.e("result->" + result)
+//        }))
     }
 
     //初始化底部菜单
