@@ -36,9 +36,10 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     }
 
     override fun setVideo(url: String) {
+        ijkvideo.release()
         ijkvideo.setVideoPath(url)
-        ijkvideo.startPlay()
         initVideoControl()
+        ijkvideo.startPlay()
     }
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {
