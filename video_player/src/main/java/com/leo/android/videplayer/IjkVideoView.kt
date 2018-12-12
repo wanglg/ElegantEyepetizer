@@ -23,8 +23,10 @@ import com.leo.android.videplayer.ijk.IRenderView
 import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leo.android.videplayer.ijk.RawDataSourceProvider
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.functions.Predicate
@@ -89,6 +91,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      * 是否锁定屏幕
      */
     protected var isLockFullScreen: Boolean = false
+    /**
+     * 是否锁定传感器，防止太快
+     */
+    protected var isLockOrientation: Boolean = false
+    /**
+     * 释放锁定传感器计时器
+     */
+    private var disposable: Disposable? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -256,6 +266,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d(TAG, "mediaPlayer videoWidth->" + videoWidth + " mediaPlayer videoHeight->" + videoHeight)
         renderView?.setVideoSize(videoWidth, videoHeight)
         if (playerConfig.mAutoRotate) {
+            isLockOrientation = false
             orientationEventListener.enable()
         }
         if (playerConfig.calculateMatch) {
@@ -609,6 +620,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         mCacheServer?.unregisterCacheListener(cacheListener)
         if (playerConfig.mAutoRotate) {
             orientationEventListener.disable()
+            isLockOrientation = false
+            disposable?.dispose()
         }
     }
 
@@ -704,6 +717,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (context == null) {
             return
         }
+
         if (type == 1) {
             if ((context as Activity).requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -734,6 +748,18 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 setScreenFull(true)
             }
         }
+        if (playerConfig.mAutoRotate) {
+            isLockOrientation = true
+            releaseOrientation()
+        }
+    }
+
+    private fun releaseOrientation() {
+        disposable?.dispose()
+        disposable = Observable.timer(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    isLockOrientation = false
+                })
     }
 
     fun savePortraitData() {
@@ -879,7 +905,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      */
     protected var orientationEventListener: OrientationEventListener = object : OrientationEventListener(context) { // 加速度传感器监听，用于自动旋转屏幕
         override fun onOrientationChanged(orientation: Int) {
-            if (context == null || isLockFullScreen) return
+            if (context == null || isLockFullScreen || isLockOrientation) return
             if (orientation >= 340) { //屏幕顶部朝上
                 switchScreenOrientation(1)
             } else if (orientation >= 260 && orientation <= 280) { //屏幕左边朝上

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
+import com.android.leo.base.R
 
 /**
  * Edit by wentao 2017/12/28
@@ -259,11 +260,42 @@ class StatusBarUtils(private val mActivity: Activity) {
         }
 
         /**
+         * 给指定view上方包裹一层类似statusbar的view
+         * 沉浸式开关开了才起作用
+         *
+         * @param view
+         * @param statusBarColor
+         */
+        fun wrapStatusBarView(view: View?, statusBarColor: Int) {
+            if (view == null) {
+                return
+            }
+            val parent = view.parent as ViewGroup
+            if (parent != null) {
+                val linearLayout = LinearLayout(view.context)
+                linearLayout.orientation = LinearLayout.VERTICAL
+                linearLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                val statusBarView = View(view.context)
+                statusBarView.id = R.id.status_bar_view
+                statusBarView.setBackgroundColor(statusBarColor)
+                linearLayout.addView(statusBarView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(view.context)))
+                parent.removeView(view)
+                linearLayout.addView(view)
+                parent.addView(linearLayout, -1, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            }
+        }
+
+        fun wrapStatusBarView(activity: Activity, statusBarColor: Int) {
+            val view = (activity.findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
+            wrapStatusBarView(view, statusBarColor)
+        }
+
+        /**
          * 利用反射获取状态栏高度
          *
          * @return
          */
-        fun getStatusBarHeight(activity: Activity): Int {
+        fun getStatusBarHeight(activity: Context): Int {
             var result = 0
             //获取状态栏高度的资源id
             val resourceId = activity.resources.getIdentifier("status_bar_height", "dimen", "android")

@@ -28,10 +28,11 @@ dependencies {
     implementation project(':base')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-
     //圆角图片
     implementation rootProject.ext.dependencies["roundedimageview"]
-
+    api('com.github.florent37:glidepalette:2.1.2') {
+        exclude module: 'glide'
+    }
 
     //leakCanary
     debugImplementation rootProject.ext.dependencies["canary-debug"]
@@ -39,10 +40,8 @@ dependencies {
 
     kapt 'com.sankuai.waimai.router:compiler:1.1.0'
 
-
     //侧滑效果activity
     implementation 'com.r0adkll:slidableactivity:2.0.6'
-
 
 
 }

@@ -11,9 +11,7 @@ import com.lasingwu.baselibrary.BitmapUtils;
 
 import java.security.MessageDigest;
 
-/**
- * Created by wuzhao on 2018/1/31 0031.
- */
+
 
 public class BlurTransformation extends BitmapTransformation {
     private static final String ID = BlurTransformation.class.getName();

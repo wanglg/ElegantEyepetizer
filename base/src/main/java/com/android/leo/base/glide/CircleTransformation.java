@@ -10,9 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
 
 import java.security.MessageDigest;
 
-/**
- * Created by wuzhao on 2018/1/31 0031.
- */
 
 public class CircleTransformation extends BitmapTransformation {
     private static final String ID = CircleTransformation.class.getName();

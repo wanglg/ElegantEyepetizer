@@ -1,9 +1,16 @@
 package com.leowong.project.eyepetizer.ui.activities
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.agile.android.leo.exception.ApiException
+import com.android.leo.base.glide.GlideApp
+import com.android.leo.base.showToast
+import com.android.leo.base.utils.StatusBarUtils
+import com.bumptech.glide.Glide
+import com.github.florent37.glidepalette.BitmapPalette
+import com.github.florent37.glidepalette.GlidePalette
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leo.android.videplayer.ijk.PlayerConfig
@@ -14,11 +21,8 @@ import com.leowong.project.eyepetizer.mvp.contract.VideoDetailContract
 import com.leowong.project.eyepetizer.mvp.model.VideoDetailModel
 import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
-import com.android.leo.base.showToast
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
-import com.android.leo.base.utils.StatusBarUtils
-import com.android.leo.base.utils.statusbar.StatusBarUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
@@ -54,8 +58,10 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     }
 
     override fun setBackground(url: String) {
-        val imageLoaderOptions = ImageLoaderOptions.Builder(mVideoBackground, url).isCrossFade(true).build()
-        ImageLoader.showImage(imageLoaderOptions)
+//        val imageLoaderOptions = ImageLoaderOptions.Builder(mVideoBackground, url).isCrossFade(true).build()
+//        ImageLoader.showImage(imageLoaderOptions)
+        Glide.with(this).load(url).listener(GlidePalette.with(url)
+                .use(BitmapPalette.Profile.MUTED_DARK).crossfade(true).intoBackground(findViewById(R.id.status_bar_view))).into(mVideoBackground)
     }
 
     override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
@@ -126,6 +132,7 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
 
     override fun configViews() {
         StatusBarUtils.with(this).init()
+        StatusBarUtils.wrapStatusBarView(this, Color.BLACK)
 //        StatusBarUtil.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
         initSlide()
         multipleStatusView = videoDetailMultipleStatusView

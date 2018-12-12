@@ -5,17 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/status_bar_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/black" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/status_bar_view"
         android:background="@android:color/white"
         app:srlAccentColor="@android:color/white"
         app:srlEnableHeaderTranslationContent="false"
@@ -86,5 +80,10 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <View
+        android:id="@+id/status_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/transparent50" />
 
 </RelativeLayout>
