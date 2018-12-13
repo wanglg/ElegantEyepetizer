@@ -6,6 +6,7 @@ import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.ui.adapters.entity.VideoDetailMultipleEntity
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiSmallCardProvider
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetaiTextCardProvider
+import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetailFooterProvider
 import com.leowong.project.eyepetizer.ui.adapters.provider.VideoDetailInfoProvider
 
 class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleItemRvAdapter<VideoDetailMultipleEntity, BaseViewHolder>(data) {
@@ -16,6 +17,7 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
         public const val ITEM_TYPE_DETAIL_INFO = 1
         public const val ITEM_TYPE_TEXT_HEADER = 2   //textHeader
         public const val ITEM_TYPE_CONTENT: Int = 3    //item
+        public const val ITEM_TYPE_FOOTER: Int = 4    //footer
     }
 
     init {
@@ -26,6 +28,7 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
         mProviderDelegate.registerProvider(VideoDetailInfoProvider())
         mProviderDelegate.registerProvider(VideoDetaiSmallCardProvider())
         mProviderDelegate.registerProvider(VideoDetaiTextCardProvider())
+        mProviderDelegate.registerProvider(VideoDetailFooterProvider())
     }
 
 
@@ -34,6 +37,7 @@ class VideoDetailAdapter(data: ArrayList<VideoDetailMultipleEntity>) : MultipleI
      */
     fun addItemData(item: ArrayList<HomeBean.Issue.Item>) {
         addData(wrapList(item))
+        addData(VideoDetailMultipleEntity(ITEM_TYPE_FOOTER))
     }
 
     /**

@@ -315,6 +315,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 pause()
             }
         }
+        if (playerConfig.mAutoRotate) {
+            orientationEventListener.enable()
+        }
     }
 
     fun onPause() {
@@ -328,7 +331,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             LogUtils.d(TAG, "播放器没有prepare完成")
             isFreeze = true
         }
-
+        if (playerConfig.mAutoRotate) {
+            orientationEventListener.disable()
+        }
     }
 
     override fun onBufferingUpdate(p0: IMediaPlayer?, p1: Int) {
@@ -748,10 +753,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 setScreenFull(true)
             }
         }
-        if (playerConfig.mAutoRotate) {
-            isLockOrientation = true
-            releaseOrientation()
-        }
+
     }
 
     private fun releaseOrientation() {
@@ -907,11 +909,26 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         override fun onOrientationChanged(orientation: Int) {
             if (context == null || isLockFullScreen || isLockOrientation) return
             if (orientation >= 340) { //屏幕顶部朝上
+                LogUtils.d(TAG, "屏幕顶部朝上")
+                isLockOrientation = true
                 switchScreenOrientation(1)
+                if (playerConfig.mAutoRotate) {
+                    releaseOrientation()
+                }
             } else if (orientation >= 260 && orientation <= 280) { //屏幕左边朝上
+                LogUtils.d(TAG, "屏幕左边朝上")
+                isLockOrientation = true
                 switchScreenOrientation(2)
+                if (playerConfig.mAutoRotate) {
+                    releaseOrientation()
+                }
             } else if (orientation >= 70 && orientation <= 90) { //屏幕右边朝上
+                LogUtils.d(TAG, "屏幕右边朝上")
+                isLockOrientation = true
                 switchScreenOrientation(3)
+                if (playerConfig.mAutoRotate) {
+                    releaseOrientation()
+                }
             }
         }
     }

@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.agile.android.leo.exception.ApiException
-import com.android.leo.base.glide.GlideApp
 import com.android.leo.base.showToast
 import com.android.leo.base.utils.StatusBarUtils
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette
 import com.github.florent37.glidepalette.GlidePalette
-import com.lasingwu.baselibrary.ImageLoader
-import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseActivity
@@ -23,12 +20,9 @@ import com.leowong.project.eyepetizer.mvp.model.entity.HomeBean
 import com.leowong.project.eyepetizer.mvp.presenter.VideoDetailPresenter
 import com.leowong.project.eyepetizer.ui.adapters.VideoDetailAdapter
 import com.leowong.project.eyepetizer.ui.view.widgets.VideoDetailMediaControlView
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.concurrent.TimeUnit
 
 class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetailContract.View {
     protected var videoDetailAdapter: VideoDetailAdapter? = null
@@ -66,10 +60,6 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
 
     override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
         videoDetailAdapter?.addItemData(itemList)
-        addDispose(Observable.timer(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    videoDetailAdapter?.setFooterView(View.inflate(this, R.layout.item_footer, null))
-                }))
     }
 
     override fun setErrorMsg(errorMsg: String) {
@@ -133,7 +123,6 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     override fun configViews() {
         StatusBarUtils.with(this).init()
         StatusBarUtils.wrapStatusBarView(this, Color.BLACK)
-//        StatusBarUtil.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
         initSlide()
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager
@@ -150,15 +139,10 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
             videoDetailMediaControlView?.setVideoCover(it)
         }
         videoDetailMediaControlView?.setVideoTitle(itemData.data!!.title)
-//        ijkvideo?.addMediaPlayerListener(videoDetailMediaControlView!!)
-//        ijkvideo?.attachMediaControl(videoDetailMediaControlView!!)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         itemData = intent.getSerializableExtra(BUNDLE_VIDEO_DATA) as HomeBean.Issue.Item
-//        // init player
-//        IjkMediaPlayer.loadLibrariesOnce(null)
-//        IjkMediaPlayer.native_profileBegin("libijkplayer.so")
     }
 
     override fun requestData() {
