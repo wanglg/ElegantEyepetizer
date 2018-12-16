@@ -23,8 +23,11 @@
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- Customize your theme here. -->
+        <item name="android:selectableItemBackground">@drawable/item_background</item>
+    </style>
 
+    <style name="selectableItemBackground">
+        <item name="android:background">@drawable/item_background</item>
     </style>
 
     <style name="Theme.NoTitle" parent="Theme.AppCompat.Light.NoActionBar">

@@ -10,6 +10,8 @@ import com.leo.android.videplayer.core.IMediaPlayerListener
 import com.leo.android.videplayer.ijk.PlayerConfig
 
 class PlayerListManager : IMediaPlayerControl {
+
+
     val TAG = "PlayerListManager"
     override fun start() {
         videoView.start()
@@ -21,6 +23,10 @@ class PlayerListManager : IMediaPlayerControl {
 
     override fun stop() {
         videoView.stop()
+    }
+
+    override fun reset() {
+        videoView.reset()
     }
 
     override fun isPlaying(): Boolean {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.LinearLayout
 import com.agile.android.leo.mvp.IPresenter
+import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.android.leo.base.utils.StatusBarUtils
@@ -36,6 +37,7 @@ class TouTiaoFragment : BaseFragment<IPresenter>() {
     }
 
     override fun configViews() {
+        LogUtils.w("TouTiaoFragment configViews")
         val lp = status_bar_view.layoutParams as LinearLayout.LayoutParams
         lp.height = StatusBarUtils.getStatusBarHeight(activity!!)
         status_bar_view.layoutParams = lp
@@ -46,6 +48,7 @@ class TouTiaoFragment : BaseFragment<IPresenter>() {
     }
 
     private fun initChannelFragments() {
+        LogUtils.w("TouTiaoFragment initChannelFragments start")
         for (channel in mSelectedChannels) {
             val newsFragment = NewsListFragment()
             val bundle = Bundle()
@@ -54,6 +57,7 @@ class TouTiaoFragment : BaseFragment<IPresenter>() {
             newsFragment.arguments = bundle
             mChannelFragments.add(newsFragment)//添加到集合中
         }
+        LogUtils.w("TouTiaoFragment initChannelFragments end")
     }
 
     override fun initData(savedInstanceState: Bundle?) {

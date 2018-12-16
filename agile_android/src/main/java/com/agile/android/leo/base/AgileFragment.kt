@@ -37,6 +37,7 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
         hidden = false
         isFirst = true
         isViewDestroyed = false
+        initData(arguments)
     }
 
     override fun onAttach(context: Context?) {
@@ -51,7 +52,6 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData(savedInstanceState)
         configViews()
     }
 

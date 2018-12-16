@@ -31,7 +31,7 @@
 
     <color name="color_blue">#87CEEB</color>
 
-
+    <color name="grey_e0">#e0e0e0</color>
     <color name="color_lighter_gray">#ddd</color>
     <color name="color_darker_gray">#aaaaaa</color>
 </resources>

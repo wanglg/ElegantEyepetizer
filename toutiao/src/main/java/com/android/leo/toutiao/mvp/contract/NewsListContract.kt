@@ -9,7 +9,7 @@ import io.reactivex.Observable
 
 interface NewsListContract {
     interface View : IView {
-        fun onGetNewsListSuccess(newList: List<News>, tipInfo: String)
+        fun onGetNewsListSuccess(newList: ArrayList<News>, tipInfo: String)
     }
 
     interface Model : IModel {

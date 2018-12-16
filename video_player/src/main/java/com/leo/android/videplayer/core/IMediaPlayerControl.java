@@ -18,6 +18,8 @@ public interface IMediaPlayerControl {
 
     void stop();
 
+    void reset();
+
     void release();
 
     boolean isPlaying();

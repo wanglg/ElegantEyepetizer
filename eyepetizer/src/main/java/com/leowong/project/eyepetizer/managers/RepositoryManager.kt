@@ -3,11 +3,11 @@ package com.leowong.project.eyepetizer.managers
 import android.content.Context
 import com.agile.android.leo.integration.IRepositoryManager
 import com.android.leo.base.BaseApplication
+import com.leo.android.api.logger.HttpLogger
+import com.leo.android.api.logger.HttpLoggingInterceptor
 import com.leo.android.api.retrofit.ApiConfig
 import com.leo.android.api.retrofit.RetrofitManager
 import com.leowong.project.eyepetizer.BuildConfig
-import com.leowong.project.eyepetizer.api.HttpLogger
-import com.leowong.project.eyepetizer.api.HttpLoggingInterceptor
 import com.leowong.project.eyepetizer.api.UrlConstants
 import okhttp3.*
 import okio.BufferedSink

@@ -130,14 +130,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun initSurface() {
         renderView = findViewById<View>(R.id.renderView) as IRenderView
-        renderView?.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT)
+//        renderView?.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT)
         renderView?.addRenderCallback(this)
     }
 
     fun initPlayer() {
         LogUtils.d(TAG, "initPlayer--> " + mVideoUri?.toString())
         if (mediaPlayer != null) {
-            resetPlayer()
+            release()
             mediaPlayer = creatPlayer()
         } else {
             mediaPlayer = creatPlayer()
@@ -348,9 +348,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun release() {
-        stop()
-        mediaPlayer?.reset()
         LogUtils.d(TAG, "start release->")
+        reset()
         mediaPlayer?.release()
         LogUtils.d(TAG, "release over->")
         removeAllMediaPlayerListener()
@@ -365,23 +364,23 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
 
     //TODO 播放视频
-    fun startPlay(videoDetail: Uri, seekPosition: Long) {
-        LogUtils.d(videoDetail.toString())
+    fun startPlay(videoUri: Uri, seekPosition: Long) {
+        LogUtils.d(videoUri.toString())
         if (context == null) {
             return
         }
-        setVideoUri(videoDetail)
+        setVideoUri(videoUri)
         initPlayer()
         isPrepared = false
         isCompleted = false
         currentPosition = seekPosition
         mCurrentBufferPercentage = 0
         try {
-            val scheme = videoDetail.scheme;
+            val scheme = videoUri.scheme;
             if (TextUtils.equals(scheme, "common")) {
-                val host = videoDetail.host
+                val host = videoUri.host
                 if (TextUtils.equals("remote", host)) {
-                    var videoPath = videoDetail.getQueryParameter("path")
+                    var videoPath = videoUri.getQueryParameter("path")
                     if (!TextUtils.isEmpty(videoPath)) {
                         if (playerConfig.isCache) {//启用边播放边缓存功能
                             if (mCacheServer == null) {
@@ -406,12 +405,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                         mediaPlayer?.prepareAsync()
                         iMediaPlayerListeners?.let {
                             for (item in it) {
-                                item.startPrepare(videoDetail)
+                                item.startPrepare(videoUri)
                             }
                         }
                     }
                 } else if (TextUtils.equals("assert", host)) {
-                    val videoPath = videoDetail.getQueryParameter("path") as String
+                    val videoPath = videoUri.getQueryParameter("path") as String
                     val am = context.getAssets()
                     val afd = am.openFd(videoPath)
                     val rawDataSourceProvider = RawDataSourceProvider(afd)
@@ -419,7 +418,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     mediaPlayer?.prepareAsync()
                     iMediaPlayerListeners?.let {
                         for (item in it) {
-                            item.startPrepare(videoDetail)
+                            item.startPrepare(videoUri)
                         }
                     }
                 }
@@ -522,16 +521,25 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         holder.bindToMediaPlayer(mp)
     }
 
-    private fun resetPlayer() {
+    override fun reset() {
         playScheduleSubscription?.clear()
         stop()
         mediaPlayer?.reset()
-        mediaPlayer?.release()
-        //TextureView不能复用，每次加载下一个video的时候都会把前一个TextureView移除掉，然后新建一个TextureView
         removeView(renderView as View)
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
     }
+
+//    private fun resetPlayer() {
+//        playScheduleSubscription?.clear()
+//        stop()
+//        mediaPlayer?.reset()
+//        mediaPlayer?.release()
+//        //TextureView不能复用，每次加载下一个video的时候都会把前一个TextureView移除掉，然后新建一个TextureView
+//        removeView(renderView as View)
+//        LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
+//        initSurface()
+//    }
 
 
     fun sendPlayPosition() {
@@ -677,8 +685,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
     }
 
-    override fun play(videoDetail: Uri, position: Long) {
-        startPlay(videoDetail, position)
+    override fun play(videoUri: Uri, position: Long) {
+        startPlay(videoUri, position)
     }
 
     override fun getBufferPercentage(): Int {

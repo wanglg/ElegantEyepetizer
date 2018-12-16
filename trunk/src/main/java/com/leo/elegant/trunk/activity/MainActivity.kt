@@ -63,6 +63,9 @@ class MainActivity : BaseActivity<IPresenter>() {
     }
 
     fun switchFragment(position: Int) {
+        if (position == 2) {
+            LogUtils.w("position->3")
+        }
         val transaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
         val fragment = TabManager.getFragment(position)

@@ -28,6 +28,7 @@ dependencies {
     implementation project(':base')
     testImplementation 'junit:junit:4.12'
     kapt 'com.sankuai.waimai.router:compiler:1.1.0'
+    implementation project(':video_player')
     // 底部菜单
     implementation('com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar') {
         exclude group: 'com.android.support', module: 'support-v4'
