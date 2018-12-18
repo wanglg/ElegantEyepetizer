@@ -257,7 +257,7 @@ class VideoDetailMediaControlView : BaseVideoController {
         cancel()
     }
 
-    override fun reset() {
+    override fun resetView() {
     }
 
     //网络状态变化处理

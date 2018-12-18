@@ -21,7 +21,7 @@ abstract class AppBaseActivity<P : IPresenter> : BaseActivity<P>() {
 
 
     protected fun initSlide() {
-        val primary = resources.getColor(R.color.colorAccent)
+//        val primary = resources.getColor(R.color.colorAccent)
 //        val secondary = resources.getColor(R.color.translucence)
         val config = SlidrConfig.Builder()
 //                .primaryColor(primary)

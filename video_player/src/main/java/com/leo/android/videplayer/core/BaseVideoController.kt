@@ -19,5 +19,5 @@ abstract class BaseVideoController(context: Context, attrs: AttributeSet?) : Fra
     /**
      * 重置状态
      */
-    abstract fun reset()
+    abstract fun resetView()
 }

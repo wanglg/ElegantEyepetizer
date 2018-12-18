@@ -790,7 +790,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun detachMediaControl() {
         if (this.controlView != null) {
-            this.controlView?.reset()
+            this.controlView?.resetView()
             this.removeView(this.controlView)
             this.controlView = null
         }

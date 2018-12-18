@@ -81,7 +81,7 @@ class ShortVideoControlView : BaseVideoController {
         clipProgressBar?.visibility = View.GONE
     }
 
-    override fun reset() {
+    override fun resetView() {
         playImg?.visibility = View.GONE
     }
 }
