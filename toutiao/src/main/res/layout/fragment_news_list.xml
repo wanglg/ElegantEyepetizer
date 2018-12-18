@@ -21,9 +21,14 @@
         android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlAccentColor="@android:color/white"
-        app:srlEnableHeaderTranslationContent="false"
-        app:srlPrimaryColor="@color/colorPrimary">
+        app:srlAccentColor="@android:color/white">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/smart_refresh_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@color/black33"
+            app:srlPrimaryColor="@color/color_F3F5F4" />
 
         <com.classic.common.MultipleStatusView
             android:id="@+id/feedMultipleStatusView"
@@ -34,9 +39,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/padding_tab_layout_bottom" />
         </com.classic.common.MultipleStatusView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>
