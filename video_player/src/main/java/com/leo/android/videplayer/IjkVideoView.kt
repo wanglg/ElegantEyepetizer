@@ -3,7 +3,6 @@ package com.leo.android.videplayer
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -790,6 +789,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun haveControlView(): Boolean {
         return this.controlView != null
+    }
+
+    fun getVideoController(): BaseVideoController? {
+        return this.controlView
     }
 
     fun detachMediaControl() {

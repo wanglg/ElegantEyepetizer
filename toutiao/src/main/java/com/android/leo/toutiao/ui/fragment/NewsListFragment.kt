@@ -2,7 +2,10 @@ package com.android.leo.toutiao.ui.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.View
+import android.widget.ImageView
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.utils.ListUtils
 import com.agile.android.leo.utils.LogUtils
@@ -10,11 +13,14 @@ import com.android.leo.base.showToast
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.android.leo.toutiao.Constant
 import com.android.leo.toutiao.R
+import com.android.leo.toutiao.TouTiaoApp
 import com.android.leo.toutiao.mvp.contract.NewsListContract
 import com.android.leo.toutiao.mvp.model.NewsListModel
 import com.android.leo.toutiao.mvp.model.entity.News
 import com.android.leo.toutiao.mvp.presenter.NewsListPresenter
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter
+import com.leo.android.videplayer.IjkVideoView
+import com.leo.android.videplayer.PlayerListManager
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import java.util.*
 
@@ -30,6 +36,9 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
     protected var mNewsAdapter: NewsListAdapter? = null
     private val linearLayoutManager by lazy {
         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+    private val videoListManager by lazy {
+        PlayerListManager()
     }
 
     override fun resultError(exception: ApiException) {
@@ -60,6 +69,44 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mNewsAdapter?.setData(mNewsList)
         mRecyclerView.layoutManager = linearLayoutManager
         mRecyclerView.adapter = mNewsAdapter
+        mNewsAdapter?.setOnItemClickListener({ adapter, view, position ->
+            LogUtils.d("position->" + position)
+        })
+        mRecyclerView.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewDetachedFromWindow(p0: View) {
+                val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
+                if (ijkVideoView != null && !ijkVideoView.isFullScreen) {
+                    ijkVideoView.release()
+                }
+            }
+
+            override fun onChildViewAttachedToWindow(p0: View) {
+                val videoPlayImg = p0.findViewById<ImageView>(R.id.video_play_img)
+                if (videoPlayImg != null) {
+                    videoPlayImg.setOnClickListener({
+                        if (videoPlayImg.visibility == View.VISIBLE) {
+                            val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
+                            videoListManager.setCurrentVideoView(ijkVideoView)
+                            videoListManager.start()
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    override fun onFragmentPause() {
+        super.onFragmentPause()
+        if (TextUtils.equals(mChannelCode, TouTiaoApp.context.mChannelCodes[1])) {
+            videoListManager.onPause()
+        }
+    }
+
+    override fun onFragmentResume(isFirst: Boolean, isViewDestroyed: Boolean) {
+        super.onFragmentResume(isFirst, isViewDestroyed)
+        if (TextUtils.equals(mChannelCode, TouTiaoApp.context.mChannelCodes[1])) {
+            videoListManager.onResume()
+        }
     }
 
     override fun initData(savedInstanceState: Bundle?) {

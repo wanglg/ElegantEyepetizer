@@ -2,11 +2,13 @@ package com.android.leo.toutiao.ui.adapter.entity
 
 import android.text.TextUtils
 import com.agile.android.leo.utils.ListUtils
+import com.android.leo.toutiao.TouTiaoApp
 import com.android.leo.toutiao.mvp.model.entity.News
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter.Companion.CENTER_SINGLE_PIC_NEWS
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter.Companion.RIGHT_PIC_VIDEO_NEWS
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter.Companion.TEXT_NEWS
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter.Companion.THREE_PICS_NEWS
+import com.android.leo.toutiao.ui.adapter.NewsListAdapter.Companion.VIDEO_FEED
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import java.io.Serializable
 
@@ -20,12 +22,21 @@ class NewsFeedMultipleEntity : MultiItemEntity, Serializable {
         itemType = getViewType(news)
     }
 
+    constructor(news: News, mChannelCode: String) {
+        this.news = news
+        this.mChannelCode = mChannelCode
+        itemType = getViewType(news)
+    }
+
     override fun getItemType(): Int {
         return itemType!!
     }
 
     protected fun getViewType(news: News): Int {
-        if (TextUtils.equals(mChannelCode,""))
+        val videoCode = TouTiaoApp.context.mChannelCodes[1]
+        if (TextUtils.equals(mChannelCode, videoCode)) {
+            return VIDEO_FEED
+        }
         if (news.has_video) {
             //如果有视频
             if (news.video_style == 0) {

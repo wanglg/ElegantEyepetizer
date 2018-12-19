@@ -166,6 +166,7 @@ class VideoFeedItemController : BaseVideoController {
     }
 
     override fun onPrepared() {
+        isPrepared = true
     }
 
     override fun updatePlayDuration(currentDuration: Long, videoDuration: Long) {

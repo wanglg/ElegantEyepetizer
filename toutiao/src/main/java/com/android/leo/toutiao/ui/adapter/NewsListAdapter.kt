@@ -2,14 +2,12 @@ package com.android.leo.toutiao.ui.adapter
 
 import com.android.leo.toutiao.mvp.model.entity.News
 import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
-import com.android.leo.toutiao.ui.adapter.provider.CenterPicNewsItemProvider
-import com.android.leo.toutiao.ui.adapter.provider.RightPicNewsItemProvider
-import com.android.leo.toutiao.ui.adapter.provider.TextNewsItemProvider
-import com.android.leo.toutiao.ui.adapter.provider.ThreePicNewsItemProvider
+import com.android.leo.toutiao.ui.adapter.provider.*
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.MultipleItemRvAdapter
 
 class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultipleEntity>) : MultipleItemRvAdapter<NewsFeedMultipleEntity, BaseViewHolder>(data) {
+
     init {
         finishInitialize()
     }
@@ -19,6 +17,7 @@ class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultiple
         mProviderDelegate.registerProvider(TextNewsItemProvider(mChannelCode))
         mProviderDelegate.registerProvider(ThreePicNewsItemProvider(mChannelCode))
         mProviderDelegate.registerProvider(RightPicNewsItemProvider(mChannelCode))
+        mProviderDelegate.registerProvider(VideoFeedItemProvider(mChannelCode))
     }
 
     override fun getViewType(t: NewsFeedMultipleEntity): Int {
@@ -41,7 +40,7 @@ class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultiple
     fun wrapList(itemList: List<News>): ArrayList<NewsFeedMultipleEntity> {
         val list: ArrayList<NewsFeedMultipleEntity> = ArrayList()
         for (item in itemList) {
-            val homeMultipleEntity = NewsFeedMultipleEntity(item)
+            val homeMultipleEntity = NewsFeedMultipleEntity(item, mChannelCode)
             list.add(homeMultipleEntity)
             continue
         }
@@ -66,6 +65,10 @@ class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultiple
          * 三张图片布局(文章、广告)
          */
         val THREE_PICS_NEWS = 400
+        /**
+         *视频feed
+         */
+        val VIDEO_FEED = 500
 
     }
 

@@ -11,7 +11,7 @@ import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leo.android.videplayer.IjkVideoView
-import com.leo.android.videplayer.PlayerListManager
+import com.leo.android.videplayer.PlayerAttachListManager
 import com.leo.android.videplayer.SimpleMediaPlayerListener
 import com.leo.android.videplayer.ijk.PlayerConfig
 import com.leo.android.videplayer.utils.VideoUrlUtils
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoContract.View, OnPageStateChangedListener {
 
     private val playerListManager by lazy {
-        PlayerListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().enableCache().calculateMatch().build())
+        PlayerAttachListManager.Builder(activity!!).playerConfig(PlayerConfig.Builder().setLooping().enableCache().calculateMatch().build())
                 .preLoad(true).build()
     }
 
