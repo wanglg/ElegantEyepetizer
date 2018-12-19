@@ -788,6 +788,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         addView(controlView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
     }
 
+    fun haveControlView(): Boolean {
+        return this.controlView != null
+    }
+
     fun detachMediaControl() {
         if (this.controlView != null) {
             this.controlView?.resetView()

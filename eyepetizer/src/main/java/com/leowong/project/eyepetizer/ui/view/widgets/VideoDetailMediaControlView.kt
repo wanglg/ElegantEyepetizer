@@ -231,15 +231,6 @@ class VideoDetailMediaControlView : BaseVideoController {
         progress?.visibility = View.VISIBLE
     }
 
-
-    private fun toggleMediaControlsVisiblity() {
-        if (controlView?.visibility == View.GONE) {
-            showMediaControl()
-        } else {
-            controlView?.visibility = View.GONE
-        }
-    }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         LogUtils.d("onAttachedToWindow")

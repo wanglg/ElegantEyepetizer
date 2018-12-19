@@ -1,67 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/white">
 
-    <FrameLayout
+    <!--<FrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp">-->
+
+    <com.leo.android.videplayer.IjkVideoView
+        android:id="@+id/video_player"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:background="@color/black" />
 
-        <com.leo.android.videplayer.IjkVideoView
-            android:id="@+id/video_player"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <!--<LinearLayout-->
+    <!--android:id="@+id/ll_title"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/jc_title_bg"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingLeft="15dp"-->
+    <!--android:paddingTop="10dp"-->
+    <!--android:paddingRight="30dp">-->
 
-        <LinearLayout
-            android:id="@+id/ll_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/jc_title_bg"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:paddingRight="30dp">
+    <!--<TextView-->
+    <!--android:id="@+id/tv_title"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="14sp" />-->
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+    <!--<TextView-->
+    <!--android:id="@+id/tv_watch_count"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:textColor="@color/color_C1C1C1"-->
+    <!--android:textSize="12sp" />-->
 
-            <TextView
-                android:id="@+id/tv_watch_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/color_C1C1C1"
-                android:textSize="12sp" />
+    <!--</LinearLayout>-->
 
-        </LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:id="@+id/ll_duration"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_margin="5dp"-->
+    <!--android:background="@drawable/shape_rectangle_translucent"-->
+    <!--android:padding="5dp">-->
 
-        <LinearLayout
-            android:id="@+id/ll_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_rectangle_translucent"
-            android:padding="5dp">
+    <!--<TextView-->
+    <!--android:id="@+id/tv_duration"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawablePadding="2dp"-->
+    <!--android:gravity="center"-->
+    <!--android:minWidth="30dp"-->
+    <!--android:text="02:11"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="8sp" />-->
+    <!--</LinearLayout>-->
 
-            <TextView
-                android:id="@+id/tv_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="2dp"
-                android:gravity="center"
-                android:minWidth="30dp"
-                android:text="02:11"
-                android:textColor="@color/white"
-                android:textSize="8sp" />
-        </LinearLayout>
-
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
 
     <LinearLayout

@@ -12,6 +12,7 @@ import java.io.Serializable
 
 class NewsFeedMultipleEntity : MultiItemEntity, Serializable {
     var itemType: Int? = 0;
+    var mChannelCode: String? = null;
     var news: News? = null
 
     constructor(news: News) {
@@ -24,6 +25,7 @@ class NewsFeedMultipleEntity : MultiItemEntity, Serializable {
     }
 
     protected fun getViewType(news: News): Int {
+        if (TextUtils.equals(mChannelCode,""))
         if (news.has_video) {
             //如果有视频
             if (news.video_style == 0) {

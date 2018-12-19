@@ -6,12 +6,11 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import com.android.leo.toutiao.R
 import com.android.leo.toutiao.mvp.model.entity.News
+import com.lasingwu.baselibrary.ImageLoader
+import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leo.android.videplayer.core.BaseVideoController
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +18,7 @@ import io.reactivex.disposables.Disposable
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VideoItemController : BaseVideoController {
+class VideoFeedItemController : BaseVideoController {
     var news: News? = null
     var progress: ProgressBar? = null
     var seekbar: SeekBar? = null
@@ -35,6 +34,8 @@ class VideoItemController : BaseVideoController {
     var mVideoDuration: TextView? = null
     var mCurrentTime: TextView? = null
     var videoTitleTv: TextView? = null
+    var videoCoverTitle: TextView? = null
+    var videoCoverLayout: RelativeLayout? = null
 
     constructor(context: Context) : this(context, null) {
     }
@@ -54,6 +55,7 @@ class VideoItemController : BaseVideoController {
         fullscreen = findViewById(R.id.fullscreen)
         pauseOrPlay = findViewById(R.id.pauseOrPlay)
         videoTitleTv = findViewById(R.id.videoText)
+        videoCoverTitle = findViewById(R.id.video_cover_title)
 //        if (!TextUtils.isEmpty(title)) {
 //            videoTitleTv?.setText(title)
 //        }
@@ -62,6 +64,7 @@ class VideoItemController : BaseVideoController {
         seekbar = findViewById(R.id.mediacontroller_progress)
         videoCover = findViewById(R.id.vidoeCover)
         backImg = findViewById(R.id.media_player_back)
+        videoCoverLayout = findViewById(R.id.video_cover_layout)
         controlView = findViewById(R.id.control_hierarchy)
         backImg?.setOnClickListener {
             if (videoControl != null && videoControl?.isFullScreen!!) {
@@ -137,6 +140,17 @@ class VideoItemController : BaseVideoController {
                 })
     }
 
+    fun setNew(news: News) {
+        this.news = news
+        videoCoverTitle?.setText(news.title)
+        videoTitleTv?.setText(news.title)
+        videoCover?.let {
+            val coverOption = ImageLoaderOptions.Builder(it, news.video_detail_info.detail_video_large_image.url)
+                    .isCrossFade(true).build()
+            ImageLoader.showImage(coverOption)
+        }
+    }
+
     override fun onBufferingUpdate(percent: Int) {
     }
 
@@ -147,21 +161,47 @@ class VideoItemController : BaseVideoController {
     }
 
     override fun onFirstFrameStart() {
+        progress?.visibility = View.GONE
+        videoCover?.visibility = View.GONE
     }
 
     override fun onPrepared() {
     }
 
     override fun updatePlayDuration(currentDuration: Long, videoDuration: Long) {
+        seekbar?.setProgress((currentDuration * 100 / videoDuration).toInt())
+        seekbar?.setSecondaryProgress((videoControl?.bufferPercentage!!))
+        mVideoDuration?.setText(stringForTime(videoDuration))
+        mCurrentTime?.setText(stringForTime(currentDuration))
     }
 
     override fun startPrepare(uri: Uri?) {
+        videoCoverLayout?.visibility = View.GONE
+        isPrepared = false
+        progress?.visibility = View.VISIBLE
     }
 
     override fun stopPlayer(isPlayComplete: Boolean) {
+        videoCoverLayout?.visibility = View.VISIBLE
+        videoCover?.visibility = View.VISIBLE
+        isPrepared = false
+        cancel()
     }
 
     override fun onInfo(what: Int, extra: Int) {
+    }
+
+    private fun stringForTime(timeMs: Long): String {
+        val totalSeconds = timeMs / 1000
+        val seconds = totalSeconds % 60
+        val minutes = totalSeconds / 60 % 60
+        val hours = totalSeconds / 3600
+        mFormatBuilder?.setLength(0)
+        return if (hours > 0) {
+            mFormatter?.format("%d:%02d:%02d", hours, minutes, seconds).toString()
+        } else {
+            mFormatter?.format("%02d:%02d", minutes, seconds).toString()
+        }
     }
 
     fun cancel() {
@@ -173,11 +213,25 @@ class VideoItemController : BaseVideoController {
     }
 
     override fun onLoadStart() {
+        progress?.visibility = View.VISIBLE
     }
 
     override fun onLoadEnd() {
+        progress?.visibility = View.GONE
     }
 
     override fun onFullScreenChange(isFullScreen: Boolean) {
+        //记录控制器状态
+        val visable = controlView?.visibility == View.VISIBLE
+        removeAllViews()
+        LayoutInflater.from(context).inflate(if (isFullScreen) {
+            R.layout.item_video_feed_media_control_port
+        } else {
+            R.layout.item_video_feed_media_control_land
+        }, this)
+        configViews()
+        if (visable) {
+            showMediaControl()
+        }
     }
 }
