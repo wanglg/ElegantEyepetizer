@@ -19,6 +19,7 @@ import com.android.leo.toutiao.mvp.model.NewsListModel
 import com.android.leo.toutiao.mvp.model.entity.News
 import com.android.leo.toutiao.mvp.presenter.NewsListPresenter
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leo.android.videplayer.IjkVideoView
 import com.leo.android.videplayer.PlayerListManager
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -72,27 +73,34 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mNewsAdapter?.setOnItemClickListener({ adapter, view, position ->
             LogUtils.d("position->" + position)
         })
-        mRecyclerView.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
-            override fun onChildViewDetachedFromWindow(p0: View) {
-                val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
-                if (ijkVideoView != null && !ijkVideoView.isFullScreen) {
-                    ijkVideoView.release()
+        mNewsAdapter?.setOnItemChildClickListener(object : BaseQuickAdapter.OnItemChildClickListener {
+            override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                if (view.id == R.id.video_play_img) {
+                    val ijkVideoView = linearLayoutManager.findViewByPosition(position)?.findViewById<IjkVideoView>(R.id.video_player)
+                    ijkVideoView?.let {
+                        videoListManager.setCurrentVideoView(it)
+                        videoListManager.start()
+                    }
+
                 }
             }
 
-            override fun onChildViewAttachedToWindow(p0: View) {
-                val videoPlayImg = p0.findViewById<ImageView>(R.id.video_play_img)
-                if (videoPlayImg != null) {
-                    videoPlayImg.setOnClickListener({
-                        if (videoPlayImg.visibility == View.VISIBLE) {
-                            val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
-                            videoListManager.setCurrentVideoView(ijkVideoView)
-                            videoListManager.start()
-                        }
-                    })
-                }
-            }
         })
+        if (TextUtils.equals(mChannelCode, TouTiaoApp.context.mChannelCodes[1])) {
+            mRecyclerView.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewDetachedFromWindow(p0: View) {
+                    val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
+                    if (ijkVideoView != null && !ijkVideoView.isFullScreen) {
+                        ijkVideoView.release()
+                    }
+                }
+
+                override fun onChildViewAttachedToWindow(p0: View) {
+
+                }
+            })
+        }
+
     }
 
     override fun onFragmentPause() {

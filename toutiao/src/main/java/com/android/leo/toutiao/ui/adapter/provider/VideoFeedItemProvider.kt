@@ -22,20 +22,29 @@ class VideoFeedItemProvider(val mChannelCode: String) : BaseItemProvider<NewsFee
     override fun convert(helper: BaseViewHolder, data: NewsFeedMultipleEntity, position: Int) {
         val videoView = helper.getView<IjkVideoView>(R.id.video_player)
         val news = data.news
-        if (!videoView.haveControlView()) {
-            val controlView = VideoFeedItemController(mContext)
-            controlView.setNew(news!!)
-            videoView.attachMediaControl(controlView)
-        } else {
-            val controlView = videoView.getVideoController() as VideoFeedItemController
-            controlView.setNew(news!!)
-        }
+//        if (!videoView.haveControlView()) {
+//            val controlView = VideoFeedItemController(mContext)
+//            controlView.setNew(news!!)
+//            videoView.attachMediaControl(controlView)
+//        } else {
+//            val controlView = videoView.getVideoController() as VideoFeedItemController
+//            controlView.setNew(news!!)
+//        }
         videoView.setVideoPath("http://qc.cdn.kaiyanapp.com/1545199831687_e8a3c0a1.mp4?bfTime=5c1a82c0&bfKey=a864ee3ca68cd7169c71a11f2d7c9c26")
-        val avatarOption = ImageLoaderOptions.Builder(helper.getView(R.id.iv_avatar), news.video_detail_info.detail_video_large_image.url).isCircle
-                .isCrossFade(true).build()
-        ImageLoader.showImage(avatarOption)
-        helper.setText(R.id.tv_author, news.user_info.name)//昵称
-                .setText(R.id.tv_comment_count, news.comment_count.toString())//评论数
+        if (news?.user_info != null && news.user_info.avatar_url != null) {
+            val avatarOption = ImageLoaderOptions.Builder(helper.getView(R.id.iv_avatar), news.user_info.avatar_url).isCircle
+                    .isCrossFade(true).build()
+            ImageLoader.showImage(avatarOption)
+        }
+        if (news?.video_detail_info != null && news.video_detail_info.detail_video_large_image != null) {
+            val coverOption = ImageLoaderOptions.Builder(helper.getView(R.id.vidoeCover), news.video_detail_info.detail_video_large_image.url)
+                    .isCrossFade(true).build()
+            ImageLoader.showImage(coverOption)
+        }
+        helper.setText(R.id.tv_author, news?.user_info?.name)//昵称
+                .setText(R.id.tv_comment_count, news?.comment_count.toString())//评论数
+        helper.setText(R.id.video_cover_title, news?.title)
+        helper.addOnClickListener(R.id.video_play_img)
 
     }
 

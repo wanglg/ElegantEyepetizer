@@ -129,7 +129,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     fun initSurface() {
         renderView = findViewById<View>(R.id.renderView) as IRenderView
-//        renderView?.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT)
         renderView?.addRenderCallback(this)
     }
 
@@ -238,6 +237,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     fun startPlay() {
         mVideoUri?.let {
             startPlay(it)
+
+            for (i in 0..childCount - 1) {
+                LogUtils.d(TAG, "I->" + i)
+                val view = getChildAt(i)
+                LogUtils.w(TAG, view.toString())
+            }
         }
 
     }
@@ -528,17 +533,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
         initSurface()
     }
-
-//    private fun resetPlayer() {
-//        playScheduleSubscription?.clear()
-//        stop()
-//        mediaPlayer?.reset()
-//        mediaPlayer?.release()
-//        //TextureView不能复用，每次加载下一个video的时候都会把前一个TextureView移除掉，然后新建一个TextureView
-//        removeView(renderView as View)
-//        LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
-//        initSurface()
-//    }
 
 
     fun sendPlayPosition() {
