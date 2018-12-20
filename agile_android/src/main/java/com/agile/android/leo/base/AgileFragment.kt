@@ -183,6 +183,10 @@ abstract class AgileFragment<P : IPresenter> : RxFragment(), IFragment {
         return fragmentParentView?.findViewById(id)
     }
 
+    override fun onBack(): Boolean {
+        return false
+    }
+
     fun addDispose(disposable: Disposable) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = CompositeDisposable()

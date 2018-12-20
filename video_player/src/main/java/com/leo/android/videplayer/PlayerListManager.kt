@@ -48,6 +48,10 @@ class PlayerListManager : IMediaPlayerControl {
         }
     }
 
+    override fun detachMediaControl() {
+        videoView?.detachMediaControl()
+    }
+
     override fun getCurrentPosition(): Long {
         if (videoView == null) {
             return 0

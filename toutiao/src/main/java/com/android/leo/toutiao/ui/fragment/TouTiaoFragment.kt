@@ -3,6 +3,7 @@ package com.android.leo.toutiao.ui.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.LinearLayout
+import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
 import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
@@ -62,6 +63,16 @@ class TouTiaoFragment : BaseFragment<IPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         initChannelFragments()
+    }
+
+    override fun onBack(): Boolean {
+        if (mChannelPagerAdapter != null) {
+            val fragment = mChannelPagerAdapter!!.getItem(vp_content.currentItem)
+            if (fragment is AgileFragment<*>) {
+                return fragment.onBack()
+            }
+        }
+        return false
     }
 
     override fun requestData() {

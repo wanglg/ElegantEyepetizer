@@ -2,18 +2,15 @@ package com.leo.elegant.trunk.activity
 
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
+import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
-import com.agile.android.leo.utils.FileUtils
 import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.ui.activities.BaseActivity
 import com.android.leo.base.utils.StatusBarUtils
-import com.cundong.utils.PatchUtils
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.manager.TabManager
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity<IPresenter>() {
 
@@ -37,12 +34,6 @@ class MainActivity : BaseActivity<IPresenter>() {
         StatusBarUtils.with(this).init()
         initTab()
         switchFragment(mIndex)
-//        addDispose(Observable.timer(5, TimeUnit.SECONDS).subscribe({
-//            val result = PatchUtils.patch(FileUtils.getExternalCacheDir(this).absolutePath + "/template.zip"
-//                    , FileUtils.getExternalCacheDir(this).absolutePath + "/abc.patch",
-//                    FileUtils.getExternalCacheDir(this).absolutePath + "/demo.patch")
-//            LogUtils.e("result->" + result)
-//        }))
     }
 
     //初始化底部菜单
@@ -86,6 +77,16 @@ class MainActivity : BaseActivity<IPresenter>() {
         TabManager.clearFragment()
     }
 
+    override fun onBackPressed() {
+        val currentFragment = TabManager.getFragment(mIndex)
+        if (currentFragment is AgileFragment<*>) {
+            if (currentFragment.onBack()) {
+                return
+            }
+        }
+        super.onBackPressed()
+    }
+
     /**
      * 隐藏所有的Fragment
      * @param transaction transaction
@@ -97,8 +98,5 @@ class MainActivity : BaseActivity<IPresenter>() {
 
     }
 
-    init {
-        System.loadLibrary("ApkPatchLibrary");
-    }
 
 }

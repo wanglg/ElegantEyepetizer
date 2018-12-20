@@ -56,6 +56,10 @@ class PlayerAttachListManager : IMediaPlayerControl {
         videoView.setMute(isMute)
     }
 
+    override fun detachMediaControl() {
+        videoView.detachMediaControl()
+    }
+
     override fun play(videoUri: Uri, position: Long) {
         videoView.play(videoUri, position)
     }

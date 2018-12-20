@@ -63,6 +63,11 @@ public interface IMediaPlayerControl {
      */
     void attachMediaControl(BaseVideoController baseVideoController);
 
+    /**
+     * detach 控制view
+     */
+    void detachMediaControl();
+
     void addMediaPlayerListener(IMediaPlayerListener iMediaPlayerListener);
 
 }

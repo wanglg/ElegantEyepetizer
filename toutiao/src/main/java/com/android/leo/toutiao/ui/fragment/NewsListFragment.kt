@@ -1,5 +1,6 @@
 package com.android.leo.toutiao.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -19,9 +20,12 @@ import com.android.leo.toutiao.mvp.model.NewsListModel
 import com.android.leo.toutiao.mvp.model.entity.News
 import com.android.leo.toutiao.mvp.presenter.NewsListPresenter
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter
+import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
+import com.android.leo.toutiao.ui.widget.VideoFeedItemController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leo.android.videplayer.IjkVideoView
 import com.leo.android.videplayer.PlayerListManager
+import com.leo.android.videplayer.SimpleMediaPlayerListener
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import java.util.*
 
@@ -29,7 +33,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
 
     private val mNewsList = ArrayList<News>()
     private var mChannelCode: String? = null
-    private var isVideoList: Boolean? = false
+    private var isVideoList: Boolean = false
     /**
      * 是否是推荐频道
      */
@@ -43,6 +47,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
     }
 
     override fun resultError(exception: ApiException) {
+        mRefreshLayout.finishRefresh()
         showToast(exception.message!!)
     }
 
@@ -76,9 +81,44 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mNewsAdapter?.setOnItemChildClickListener(object : BaseQuickAdapter.OnItemChildClickListener {
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 if (view.id == R.id.video_play_img) {
-                    val ijkVideoView = linearLayoutManager.findViewByPosition(position)?.findViewById<IjkVideoView>(R.id.video_player)
+                    val itemView = linearLayoutManager.findViewByPosition(position)
+                    if (itemView == null) {
+                        return
+                    }
+                    view.visibility = View.GONE
+                    val ijkVideoView = itemView.findViewById<IjkVideoView>(R.id.video_player)
+                    val vidoeCover = itemView.findViewById<ImageView>(R.id.vidoeCover)
+                    val video_cover_layout = itemView.findViewById<View>(R.id.video_cover_layout)
+                    val item_loading_progress = itemView.findViewById<View>(R.id.item_loading_progress)
                     ijkVideoView?.let {
                         videoListManager.setCurrentVideoView(it)
+                        it.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
+                            override fun startPrepare(uri: Uri?) {
+                                super.startPrepare(uri)
+                                view.visibility = View.GONE
+                                item_loading_progress.visibility = View.VISIBLE
+                            }
+
+                            override fun onFirstFrameStart() {
+                                super.onFirstFrameStart()
+                                video_cover_layout.visibility = View.GONE
+                                vidoeCover.visibility = View.GONE
+                                item_loading_progress.visibility = View.GONE
+                            }
+
+                            override fun stopPlayer(isPlayComplete: Boolean) {
+                                super.stopPlayer(isPlayComplete)
+                                view.visibility = View.VISIBLE
+                                video_cover_layout.visibility = View.VISIBLE
+                                vidoeCover.visibility = View.VISIBLE
+                                item_loading_progress.visibility = View.GONE
+                            }
+
+                        })
+                        val newsFeedMultipleEntity = adapter.getItem(position) as NewsFeedMultipleEntity
+                        val control = VideoFeedItemController(activity!!);
+                        control.setNew(newsFeedMultipleEntity.news!!)
+                        it.attachMediaControl(control)
                         videoListManager.start()
                     }
 
@@ -100,7 +140,9 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
                 }
             })
         }
-
+        mRefreshLayout.setOnRefreshListener({
+            mPresenter?.requestNewsList(mChannelCode!!)
+        })
     }
 
     override fun onFragmentPause() {
@@ -108,6 +150,16 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         if (TextUtils.equals(mChannelCode, TouTiaoApp.context.mChannelCodes[1])) {
             videoListManager.onPause()
         }
+    }
+
+    override fun onBack(): Boolean {
+        if (isVideoList) {
+            if (videoListManager.isFullScreen) {
+                videoListManager.toggleFullScreen()
+                return true
+            }
+        }
+        return false
     }
 
     override fun onFragmentResume(isFirst: Boolean, isViewDestroyed: Boolean) {
@@ -119,7 +171,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
 
     override fun initData(savedInstanceState: Bundle?) {
         mChannelCode = arguments?.getString(Constant.CHANNEL_CODE)
-        isVideoList = arguments?.getBoolean(Constant.IS_VIDEO_LIST, false)
+        isVideoList = arguments?.getBoolean(Constant.IS_VIDEO_LIST, false)!!
         val channelCodes = resources.getStringArray(R.array.channel_code)
         isRecommendChannel = mChannelCode == channelCodes[0]//是否是推荐频道
     }
@@ -149,6 +201,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
     }
 
     override fun onGetNewsListSuccess(newList: ArrayList<News>, tipInfo: String) {
+        mRefreshLayout.finishRefresh()
         //如果是第一次获取数据
         if (ListUtils.isEmpty(mNewsList)) {
             if (ListUtils.isEmpty(newList)) {
@@ -167,8 +220,12 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
             newList.removeAt(0)
         }
         dealRepeat(newList)//处理新闻重复问题
+        mNewsList.clear()
         mNewsList.addAll(0, newList)
-        mNewsAdapter?.addItemData(mNewsList)
+        if (isVideoList) {
+            videoListManager.release()
+        }
+        mNewsAdapter?.replaceData(mNewsList)
     }
 
 }

@@ -617,10 +617,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             keepScreenOn = false
             mAudioFocusHelper?.abandonFocus()
             LogUtils.d(TAG, "stop-->" + mVideoUri?.toString())
-            iMediaPlayerListeners?.let {
-                for (item in it) {
-                    item.stopPlayer(isPlayComplete)
-                }
+        }
+        iMediaPlayerListeners?.let {
+            for (item in it) {
+                item.stopPlayer(isPlayComplete)
             }
         }
         mCacheServer?.unregisterCacheListener(cacheListener)
@@ -789,7 +789,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         return this.controlView
     }
 
-    fun detachMediaControl() {
+    override fun detachMediaControl() {
         if (this.controlView != null) {
             this.controlView?.resetView()
             this.removeView(this.controlView)

@@ -14,4 +14,9 @@ interface IFragment {
     fun configViews()
     fun initData(savedInstanceState: Bundle?)
     fun requestData()
+    /**
+     * 处理back事件。
+     * @return True: 表示已经处理; False: 没有处理，让基类处理。
+     */
+    fun onBack(): Boolean
 }
