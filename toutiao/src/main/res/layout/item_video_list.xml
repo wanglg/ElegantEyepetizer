@@ -10,11 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-        <com.leo.android.videplayer.IjkVideoView
-            android:id="@+id/video_player"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black" />
+            android:layout_height="match_parent">
+
+            <com.leo.android.videplayer.IjkVideoView
+                android:id="@+id/video_player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black" />
+        </FrameLayout>
         <!-- video image cover 层-->
         <ImageView
             android:id="@+id/vidoeCover"
