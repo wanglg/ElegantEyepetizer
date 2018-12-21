@@ -567,8 +567,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     override fun accept(t: Long?) {
                         currentPosition = t;
                         iMediaPlayerListeners?.let {
+                            val duration = mediaPlayer?.duration
                             for (item in it) {
-                                item.updatePlayDuration(currentPosition!!, mediaPlayer?.duration!!)
+                                item.updatePlayDuration(currentPosition!!, duration!!)
                             }
                         }
                     }
