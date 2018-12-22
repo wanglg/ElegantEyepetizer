@@ -82,6 +82,11 @@ dependencies {
         exclude module: 'okio'
         exclude module: 'retrofit'
     }
+    api(rootProject.ext.dependencies["retrofit-converter-scalars"]) {
+        exclude module: 'okhttp'
+        exclude module: 'okio'
+        exclude module: 'retrofit'
+    }
     api(rootProject.ext.dependencies["retrofit-adapter-rxjava2"]) {
         exclude module: 'rxjava'
         exclude module: 'okhttp'

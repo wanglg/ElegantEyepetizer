@@ -2,9 +2,9 @@ package com.android.leo.toutiao.api
 
 import android.content.Context
 import com.agile.android.leo.integration.IRepositoryManager
+import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.BaseApplication
-import com.android.leo.base.BuildConfig
-import com.leo.android.api.logger.HttpLogger
+import com.android.leo.toutiao.BuildConfig
 import com.leo.android.api.logger.HttpLoggingInterceptor
 import com.leo.android.api.retrofit.ApiConfig
 import com.leo.android.api.retrofit.RetrofitManager
@@ -15,13 +15,15 @@ object RepositoryManager : IRepositoryManager {
         val apiConfig = ApiConfig.Builder().setBaseUrl(ApiConstant.BASE_SERVER_URL).setTimeOut(30)
                 .addInterceptor(addHeaderInterceptor())
 //                .addInterceptor(addQueryParameterInterceptor())
-                .addNetInterceptor(HttpLoggingInterceptor(HttpLogger()).setLevel(if (BuildConfig.DEBUG) {
+                .addNetInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
                 } else {
                     HttpLoggingInterceptor.Level.NONE
                 }))
 
         return RetrofitManager.getRetrofit(apiConfig.build()).create(service)
+
+
     }
 
     override fun getContext(): Context {
@@ -45,6 +47,43 @@ object RepositoryManager : IRepositoryManager {
 //        }
 //    }
 
+
+    private fun getLoggerInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val startTime = System.currentTimeMillis()
+            val response = chain.proceed(chain.request())
+            val endTime = System.currentTimeMillis()
+            val duration = endTime - startTime
+            val mediaType = response.body()!!.contentType()
+            val content = response.body()!!.string()
+            LogUtils.e("HTTP_LOG", "----------Request Start----------------")
+            LogUtils.e("HTTP_LOG", "| " + request.toString())
+            LogUtils.e("HTTP_LOG", "| Response:$content")
+            LogUtils.e("HTTP_LOG", "----------Request End:" + duration + "毫秒----------")
+            response.newBuilder()
+                    .body(okhttp3.ResponseBody.create(mediaType, content))
+                    .build()
+        }
+    }
+//
+//    /**请求访问quest和response拦截器 */
+//    private val mLogInterceptor = { chain ->
+//        val request = chain.request()
+//        val startTime = System.currentTimeMillis()
+//        val response = chain.proceed(chain.request())
+//        val endTime = System.currentTimeMillis()
+//        val duration = endTime - startTime
+//        val mediaType = response.body()!!.contentType()
+//        val content = response.body()!!.string()
+//        LogUtils.e("----------Request Start----------------")
+//        LogUtils.e("| " + request.toString())
+//        LogUtils.json("| Response:$content")
+//        LogUtils.e("----------Request End:" + duration + "毫秒----------")
+//        response.newBuilder()
+//                .body(okhttp3.ResponseBody.create(mediaType, content))
+//                .build()
+//    }
 
     /**
      * 设置头

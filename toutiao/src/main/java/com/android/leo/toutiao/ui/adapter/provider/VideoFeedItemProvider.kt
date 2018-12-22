@@ -19,9 +19,9 @@ class VideoFeedItemProvider(val mChannelCode: String) : BaseItemProvider<NewsFee
     }
 
     override fun convert(helper: BaseViewHolder, data: NewsFeedMultipleEntity, position: Int) {
-        val videoView = helper.getView<IjkVideoView>(R.id.video_player)
+//        val videoView = helper.getView<IjkVideoView>(R.id.video_player)
         val news = data.news
-        videoView.setVideoPath("http://qc.cdn.kaiyanapp.com/1545199831687_e8a3c0a1.mp4?bfTime=5c1a82c0&bfKey=a864ee3ca68cd7169c71a11f2d7c9c26")
+//        videoView.setVideoPath("http://qc.cdn.kaiyanapp.com/1545199831687_e8a3c0a1.mp4?bfTime=5c1a82c0&bfKey=a864ee3ca68cd7169c71a11f2d7c9c26")
         if (news?.user_info != null && news.user_info.avatar_url != null) {
             val avatarOption = ImageLoaderOptions.Builder(helper.getView(R.id.iv_avatar), news.user_info.avatar_url).isCircle
                     .isCrossFade(true).build()

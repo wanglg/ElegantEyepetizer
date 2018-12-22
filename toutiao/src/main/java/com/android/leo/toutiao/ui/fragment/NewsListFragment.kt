@@ -22,6 +22,7 @@ import com.android.leo.toutiao.mvp.presenter.NewsListPresenter
 import com.android.leo.toutiao.ui.adapter.NewsListAdapter
 import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
 import com.android.leo.toutiao.ui.widget.VideoFeedItemController
+import com.android.leo.toutiao.utils.VideoPathParser
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leo.android.videplayer.IjkVideoView
 import com.leo.android.videplayer.PlayerListManager
@@ -90,9 +91,14 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
                     val vidoeCover = itemView.findViewById<ImageView>(R.id.vidoeCover)
                     val video_cover_layout = itemView.findViewById<View>(R.id.video_cover_layout)
                     val item_loading_progress = itemView.findViewById<View>(R.id.item_loading_progress)
-                    ijkVideoView?.let {
-                        videoListManager.setCurrentVideoView(it)
-                        it.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
+                    val newsFeedMultipleEntity = adapter.getItem(position) as NewsFeedMultipleEntity
+                    item_loading_progress.visibility = View.VISIBLE
+                    //解析播放地址
+                    addDispose(VideoPathParser.decodePath(newsFeedMultipleEntity.news!!.url).subscribe({
+                        ijkVideoView.setVideoPath(it)
+                        LogUtils.d("setVideoPath->" + it)
+                        videoListManager.setCurrentVideoView(ijkVideoView)
+                        ijkVideoView.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
                             override fun startPrepare(uri: Uri?) {
                                 super.startPrepare(uri)
                                 view.visibility = View.GONE
@@ -115,12 +121,19 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
                             }
 
                         })
-                        val newsFeedMultipleEntity = adapter.getItem(position) as NewsFeedMultipleEntity
+
                         val control = VideoFeedItemController(activity!!);
                         control.setNew(newsFeedMultipleEntity.news!!)
-                        it.attachMediaControl(control)
+                        ijkVideoView.attachMediaControl(control)
                         videoListManager.start()
-                    }
+                    }, {
+                        showToast(it.message!!)
+                        view.visibility = View.VISIBLE
+                        item_loading_progress.visibility = View.GONE
+                    }, {
+
+                    }))
+
 
                 }
             }
@@ -140,9 +153,10 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
                 }
             })
         }
-        mRefreshLayout.setOnRefreshListener({
-            mPresenter?.requestNewsList(mChannelCode!!)
-        })
+        mRefreshLayout.setOnRefreshListener(
+                {
+                    mPresenter?.requestNewsList(mChannelCode!!)
+                })
     }
 
     override fun onFragmentPause() {

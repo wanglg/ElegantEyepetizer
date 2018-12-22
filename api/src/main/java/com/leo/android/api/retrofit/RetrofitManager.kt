@@ -4,13 +4,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 
 object RetrofitManager {
 
 
-    public fun getRetrofit(apiConfig: ApiConfig): Retrofit {
+    fun getRetrofit(apiConfig: ApiConfig): Retrofit {
         // 获取retrofit的实例
         return Retrofit.Builder()
                 .baseUrl(apiConfig.baseUrl)  //自己配置
@@ -19,8 +20,10 @@ object RetrofitManager {
                 } else {
                     apiConfig.okHttpClient!!
                 })
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                //两者顺序不能调换，否则抓取网页内容会出错
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
 
     }
