@@ -21,7 +21,6 @@ class NewsListPresenter(model: NewsListContract.Model, rootView: NewsListContrac
             //如果为空，则是从来没有刷新过，使用当前时间戳
             lastTime = System.currentTimeMillis() / 1000
         }
-        mRootView?.showLoading()
         mModel?.getNewsLst(channelCode, lastTime, System.currentTimeMillis() / 1000)?.compose(SchedulersUtil.applyApiSchedulers())
                 ?.subscribe(object : ApiSubscriber<NewsResponse>() {
                     override fun onFailure(t: ApiException) {
@@ -50,5 +49,9 @@ class NewsListPresenter(model: NewsListContract.Model, rootView: NewsListContrac
                     }
 
                 })
+    }
+
+    fun loadMore(channelCode: String) {
+
     }
 }

@@ -30,7 +30,7 @@ import com.leo.android.videplayer.SimpleMediaPlayerListener
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import java.util.*
 
-class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.View {
+class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
     private val mNewsList = ArrayList<News>()
     private var mChannelCode: String? = null
@@ -76,6 +76,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mNewsAdapter?.setData(mNewsList)
         mRecyclerView.layoutManager = linearLayoutManager
         mRecyclerView.adapter = mNewsAdapter
+        mNewsAdapter?.setOnLoadMoreListener(this, mRecyclerView)
         mNewsAdapter?.setOnItemClickListener({ adapter, view, position ->
             LogUtils.d("position->" + position)
         })
@@ -166,6 +167,10 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         }
     }
 
+    private fun clickPlayImg() {
+
+    }
+
     override fun onBack(): Boolean {
         if (isVideoList) {
             if (videoListManager.isFullScreen) {
@@ -194,6 +199,9 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mChannelCode?.let {
             mPresenter?.requestNewsList(it)
         }
+    }
+
+    override fun onLoadMoreRequested() {
     }
 
     /**
@@ -234,7 +242,6 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
             newList.removeAt(0)
         }
         dealRepeat(newList)//处理新闻重复问题
-        mNewsList.clear()
         mNewsList.addAll(0, newList)
         if (isVideoList) {
             videoListManager.release()

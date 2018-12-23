@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit
 class VideoFeedItemController : BaseVideoController {
     var news: News? = null
     var progress: ProgressBar? = null
+    var playProgress: ProgressBar? = null
     var seekbar: SeekBar? = null
     var pauseOrPlay: ImageView? = null
     var fullscreen: ImageView? = null
@@ -48,6 +49,8 @@ class VideoFeedItemController : BaseVideoController {
         mFormatBuilder = StringBuilder()
         mFormatter = Formatter(mFormatBuilder, Locale.getDefault())
         progress = findViewById(R.id.loading_progress)
+        playProgress = findViewById(R.id.play_progress)
+        playProgress?.visibility = View.VISIBLE
         fullscreen = findViewById(R.id.fullscreen)
         pauseOrPlay = findViewById(R.id.pauseOrPlay)
         videoTitleTv = findViewById(R.id.videoText)
@@ -77,6 +80,7 @@ class VideoFeedItemController : BaseVideoController {
                 showMediaControl()
             } else {
                 controlView?.visibility = View.GONE
+                playProgress?.visibility = View.VISIBLE
             }
         }
         fullscreen?.setOnClickListener {
@@ -107,6 +111,7 @@ class VideoFeedItemController : BaseVideoController {
             }
             if (isPrepared) {
                 updatePlayDuration(it.currentPosition, it.duration)
+                playProgress?.setProgress((it.currentPosition * 100 / it.duration).toInt())
             }
 
         }
@@ -115,10 +120,12 @@ class VideoFeedItemController : BaseVideoController {
     fun showMediaControl() {
         cancel()
         controlView?.visibility = View.VISIBLE
+        playProgress?.visibility = View.GONE
         controlDisposable = Observable.timer(5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     controlView?.visibility = View.GONE
+                    playProgress?.visibility = View.VISIBLE
                 })
     }
 
@@ -145,7 +152,9 @@ class VideoFeedItemController : BaseVideoController {
     }
 
     override fun updatePlayDuration(currentDuration: Long, videoDuration: Long) {
-        seekbar?.setProgress((currentDuration * 100 / videoDuration).toInt())
+        val progress = (currentDuration * 100 / videoDuration).toInt()
+        seekbar?.setProgress(progress)
+        playProgress?.setProgress(progress)
         seekbar?.setSecondaryProgress((videoControl?.bufferPercentage!!))
         mVideoDuration?.setText(stringForTime(videoDuration))
         mCurrentTime?.setText(stringForTime(currentDuration))

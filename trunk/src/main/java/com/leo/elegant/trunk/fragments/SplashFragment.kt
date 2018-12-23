@@ -6,10 +6,10 @@ import android.os.Bundle
 import com.agile.android.leo.mvp.IPresenter
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.leo.elegant.trunk.R
-import com.leo.elegant.trunk.R.id.splash_im
 import com.leo.elegant.trunk.activity.MainActivity
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_splash.*
 import java.util.concurrent.TimeUnit
 
 class SplashFragment : BaseFragment<IPresenter>() {
