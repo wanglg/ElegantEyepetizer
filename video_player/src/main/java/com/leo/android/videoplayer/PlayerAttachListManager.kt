@@ -1,13 +1,13 @@
-package com.leo.android.videplayer
+package com.leo.android.videoplayer
 
 import android.content.Context
 import android.net.Uri
 import android.view.ViewGroup
 import com.danikula.videocache.HttpProxyCacheServer
-import com.leo.android.videplayer.core.BaseVideoController
-import com.leo.android.videplayer.core.IMediaPlayerControl
-import com.leo.android.videplayer.core.IMediaPlayerListener
-import com.leo.android.videplayer.ijk.PlayerConfig
+import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaPlayerControl
+import com.leo.android.videoplayer.core.IMediaPlayerListener
+import com.leo.android.videoplayer.ijk.PlayerConfig
 
 /**
  * attach模式

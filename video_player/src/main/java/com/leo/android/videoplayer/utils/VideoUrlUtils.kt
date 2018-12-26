@@ -1,4 +1,4 @@
-package com.leo.android.videplayer.utils
+package com.leo.android.videoplayer.utils
 
 import android.net.Uri
 import android.text.TextUtils

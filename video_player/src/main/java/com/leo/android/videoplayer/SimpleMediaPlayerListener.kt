@@ -1,7 +1,7 @@
-package com.leo.android.videplayer
+package com.leo.android.videoplayer
 
 import android.net.Uri
-import com.leo.android.videplayer.core.IMediaPlayerListener
+import com.leo.android.videoplayer.core.IMediaPlayerListener
 
 open class SimpleMediaPlayerListener : IMediaPlayerListener {
     override fun onBufferingUpdate(percent: Int) {

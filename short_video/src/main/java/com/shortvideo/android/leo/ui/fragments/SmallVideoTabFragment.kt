@@ -10,11 +10,11 @@ import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.chad.library.adapter.base.BaseViewHolder
-import com.leo.android.videplayer.IjkVideoView
-import com.leo.android.videplayer.PlayerAttachListManager
-import com.leo.android.videplayer.SimpleMediaPlayerListener
-import com.leo.android.videplayer.ijk.PlayerConfig
-import com.leo.android.videplayer.utils.VideoUrlUtils
+import com.leo.android.videoplayer.IjkVideoView
+import com.leo.android.videoplayer.PlayerAttachListManager
+import com.leo.android.videoplayer.SimpleMediaPlayerListener
+import com.leo.android.videoplayer.ijk.PlayerConfig
+import com.leo.android.videoplayer.utils.VideoUrlUtils
 import com.leowang.shortvideo.R
 import com.sankuai.waimai.router.annotation.RouterService
 import com.shortvideo.android.leo.mvp.contract.SmallVideoContract

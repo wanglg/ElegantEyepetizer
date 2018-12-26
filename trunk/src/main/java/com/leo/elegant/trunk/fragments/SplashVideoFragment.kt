@@ -7,8 +7,8 @@ import android.view.View
 import com.agile.android.leo.mvp.IPresenter
 import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.ui.fragments.BaseFragment
-import com.leo.android.videplayer.ijk.IRenderView
-import com.leo.android.videplayer.ijk.PlayerConfig
+import com.leo.android.videoplayer.ijk.IRenderView
+import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.activity.MainActivity
 import com.leo.elegant.trunk.adapter.SplashVideoTextAdapter

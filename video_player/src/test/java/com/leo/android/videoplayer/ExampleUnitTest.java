@@ -1,4 +1,4 @@
-package com.leo.android.videplayer;
+package com.leo.android.videoplayer;
 
 import org.junit.Test;
 

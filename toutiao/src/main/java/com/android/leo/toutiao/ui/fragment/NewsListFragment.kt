@@ -24,9 +24,9 @@ import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
 import com.android.leo.toutiao.ui.widget.VideoFeedItemController
 import com.android.leo.toutiao.utils.VideoPathParser
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.leo.android.videplayer.IjkVideoView
-import com.leo.android.videplayer.PlayerListManager
-import com.leo.android.videplayer.SimpleMediaPlayerListener
+import com.leo.android.videoplayer.IjkVideoView
+import com.leo.android.videoplayer.PlayerListManager
+import com.leo.android.videoplayer.SimpleMediaPlayerListener
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import java.util.*
 

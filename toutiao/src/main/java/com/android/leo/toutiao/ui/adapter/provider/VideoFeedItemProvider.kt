@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
-import com.leo.android.videplayer.IjkVideoView
 
 class VideoFeedItemProvider(val mChannelCode: String) : BaseItemProvider<NewsFeedMultipleEntity, BaseViewHolder>() {
     override fun layout(): Int {

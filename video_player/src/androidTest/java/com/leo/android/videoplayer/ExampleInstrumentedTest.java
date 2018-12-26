@@ -1,4 +1,4 @@
-package com.leo.android.videplayer;
+package com.leo.android.videoplayer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

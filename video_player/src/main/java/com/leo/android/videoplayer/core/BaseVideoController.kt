@@ -1,4 +1,4 @@
-package com.leo.android.videplayer.core
+package com.leo.android.videoplayer.core
 
 import android.content.Context
 import android.util.AttributeSet

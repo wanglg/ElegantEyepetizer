@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.leo.android.videplayer.ijk;
+package com.leo.android.videoplayer.ijk;
 
 import android.annotation.TargetApi;
 import android.content.Context;

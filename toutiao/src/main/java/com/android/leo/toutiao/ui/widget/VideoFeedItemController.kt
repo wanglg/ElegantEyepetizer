@@ -11,7 +11,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.android.leo.toutiao.R
 import com.android.leo.toutiao.mvp.model.entity.News
-import com.leo.android.videplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.BaseVideoController
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

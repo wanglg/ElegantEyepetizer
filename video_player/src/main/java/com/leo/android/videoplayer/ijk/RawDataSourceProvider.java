@@ -1,4 +1,4 @@
-package com.leo.android.videplayer.ijk;
+package com.leo.android.videoplayer.ijk;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;

@@ -2,7 +2,6 @@ package com.leowong.project.eyepetizer.ui.view.widgets
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.net.Uri
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -13,9 +12,7 @@ import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.events.NetChangeEvent
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
-import com.leo.android.videplayer.core.BaseVideoController
-import com.leo.android.videplayer.core.IMediaPlayerControl
-import com.leo.android.videplayer.core.IMediaPlayerListener
+import com.leo.android.videoplayer.core.BaseVideoController
 import com.leowong.project.eyepetizer.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

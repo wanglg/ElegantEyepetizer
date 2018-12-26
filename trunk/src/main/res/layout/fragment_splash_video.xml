@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <com.leo.android.videplayer.IjkVideoView
+    <com.leo.android.videoplayer.IjkVideoView
         android:id="@+id/ijkvideo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

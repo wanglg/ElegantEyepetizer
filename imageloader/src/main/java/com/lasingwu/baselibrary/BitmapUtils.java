@@ -15,8 +15,6 @@ import android.provider.MediaStore;
 
 /**
  * 图片工具类
- *
- * @author andy
  */
 public class BitmapUtils {
 

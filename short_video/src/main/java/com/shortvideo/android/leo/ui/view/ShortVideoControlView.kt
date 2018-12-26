@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import com.leo.android.videplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.BaseVideoController
 import com.leowang.shortvideo.R
 import com.shortvideo.android.leo.ui.view.widgets.ClipProgressBar
 

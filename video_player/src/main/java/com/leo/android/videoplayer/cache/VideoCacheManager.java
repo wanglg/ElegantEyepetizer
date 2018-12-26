@@ -1,4 +1,4 @@
-package com.leo.android.videplayer.cache;
+package com.leo.android.videoplayer.cache;
 
 import android.content.Context;
 

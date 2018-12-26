@@ -1,9 +1,9 @@
-package com.leo.android.videplayer
+package com.leo.android.videoplayer
 
 import android.net.Uri
-import com.leo.android.videplayer.core.BaseVideoController
-import com.leo.android.videplayer.core.IMediaPlayerControl
-import com.leo.android.videplayer.core.IMediaPlayerListener
+import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaPlayerControl
+import com.leo.android.videoplayer.core.IMediaPlayerListener
 
 class PlayerListManager : IMediaPlayerControl {
     val TAG = "PlayerListManager"

@@ -1,4 +1,4 @@
-package com.leo.android.videplayer.ijk
+package com.leo.android.videoplayer.ijk
 
 class PlayerConfig private constructor() {
     var isLooping: Boolean = false//是否循环播放

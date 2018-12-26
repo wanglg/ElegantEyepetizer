@@ -1,4 +1,4 @@
-package com.leo.android.videplayer
+package com.leo.android.videoplayer
 
 import android.app.Activity
 import android.content.Context
@@ -14,13 +14,13 @@ import android.widget.FrameLayout
 import com.agile.android.leo.utils.LogUtils
 import com.danikula.videocache.CacheListener
 import com.danikula.videocache.HttpProxyCacheServer
-import com.leo.android.videplayer.cache.VideoCacheManager
-import com.leo.android.videplayer.core.BaseVideoController
-import com.leo.android.videplayer.core.IMediaPlayerControl
-import com.leo.android.videplayer.core.IMediaPlayerListener
-import com.leo.android.videplayer.ijk.IRenderView
-import com.leo.android.videplayer.ijk.PlayerConfig
-import com.leo.android.videplayer.ijk.RawDataSourceProvider
+import com.leo.android.videoplayer.cache.VideoCacheManager
+import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaPlayerControl
+import com.leo.android.videoplayer.core.IMediaPlayerListener
+import com.leo.android.videoplayer.ijk.IRenderView
+import com.leo.android.videoplayer.ijk.PlayerConfig
+import com.leo.android.videoplayer.ijk.RawDataSourceProvider
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -10,7 +10,7 @@ import com.android.leo.base.utils.StatusBarUtils
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette
 import com.github.florent37.glidepalette.GlidePalette
-import com.leo.android.videplayer.ijk.PlayerConfig
+import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseActivity
 import com.leowong.project.eyepetizer.events.VideoDetailItemClickEvent
