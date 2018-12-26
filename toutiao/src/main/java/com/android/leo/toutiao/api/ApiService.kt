@@ -19,8 +19,7 @@ interface ApiService {
      * @return
      */
     @GET(GET_ARTICLE_LIST)
-    fun getNewsList(@Query("category") category: String, @Query("min_behot_time") lastTime: Long,
-                    @Query("last_refresh_sub_entrance_interval") currentTime: Long): Observable<NewsResponse>
+    fun getNewsList(@Query("category") category: String, @Query("max_behot_time") max_behot_time: Long): Observable<NewsResponse>
 
     /**
      * 获取视频页的html代码

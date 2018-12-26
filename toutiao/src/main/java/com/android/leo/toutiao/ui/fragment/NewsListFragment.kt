@@ -27,8 +27,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leo.android.videoplayer.IjkVideoView
 import com.leo.android.videoplayer.PlayerListManager
 import com.leo.android.videoplayer.SimpleMediaPlayerListener
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -202,6 +204,9 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
     }
 
     override fun onLoadMoreRequested() {
+        mChannelCode?.let {
+            mPresenter?.loadMore(it)
+        }
     }
 
     /**
@@ -221,6 +226,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
             }
         }
     }
+
 
     override fun onGetNewsListSuccess(newList: ArrayList<News>, tipInfo: String) {
         mRefreshLayout.finishRefresh()
@@ -247,6 +253,28 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
             videoListManager.release()
         }
         mNewsAdapter?.replaceData(mNewsList)
+    }
+
+    override fun addToEndListFailed(e: ApiException) {
+        showToast(e.message!!)
+        mNewsAdapter?.loadMoreFail()
+    }
+
+    override fun addToEndListSuccess(newList: ArrayList<News>) {
+        if (ListUtils.isEmpty(newList)) {
+            showToast(getString(R.string.no_news_now))
+            mNewsAdapter?.loadMoreEnd()
+        } else {
+            val filterList = ArrayList<News>()
+            for (news in newList) {
+                if (!mNewsList.contains(news)) {
+                    filterList.add(news)
+                }
+            }
+            mNewsList.addAll(filterList)
+            mNewsAdapter?.loadMoreComplete()
+            mNewsAdapter?.addItemData(filterList)
+        }
     }
 
 }

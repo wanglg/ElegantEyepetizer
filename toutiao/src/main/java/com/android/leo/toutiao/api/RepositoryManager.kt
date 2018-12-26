@@ -9,12 +9,13 @@ import com.leo.android.api.logger.HttpLoggingInterceptor
 import com.leo.android.api.retrofit.ApiConfig
 import com.leo.android.api.retrofit.RetrofitManager
 import okhttp3.Interceptor
+import okhttp3.Request
 
 object RepositoryManager : IRepositoryManager {
     override fun <T : Any?> obtainRetrofitService(service: Class<T>): T {
         val apiConfig = ApiConfig.Builder().setBaseUrl(ApiConstant.BASE_SERVER_URL).setTimeOut(30)
                 .addInterceptor(addHeaderInterceptor())
-//                .addInterceptor(addQueryParameterInterceptor())
+                .addInterceptor(addQueryParameterInterceptor())
                 .addNetInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
                 } else {
@@ -97,6 +98,23 @@ object RepositoryManager : IRepositoryManager {
             builder.addHeader("X-Requested-With", "XMLHttpRequest")
             builder.addHeader("Cookie", "uuid=\"w:f2e0e469165542f8a3960f67cb354026\"; __tasessionId=4p6q77g6q1479458262778; csrftoken=7de2dd812d513441f85cf8272f015ce5; tt_webid=36385357187")
             chain.proceed(builder.build())
+        }
+    }
+
+    /**
+     * 设置公共参数
+     */
+    private fun addQueryParameterInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val originalRequest = chain.request()
+            val request: Request
+            val modifiedUrl = originalRequest.url().newBuilder()
+                    // Provide your custom parameter here
+                    .addQueryParameter("device_id", "12345678955")
+//                    .addQueryParameter("deviceModel", AppUtils.getMobileModel())
+                    .build()
+            request = originalRequest.newBuilder().url(modifiedUrl).build()
+            chain.proceed(request)
         }
     }
 

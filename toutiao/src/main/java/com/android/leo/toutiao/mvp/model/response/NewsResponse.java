@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 
-
 public class NewsResponse {
 
     /**
@@ -34,6 +33,7 @@ public class NewsResponse {
     public String message;
     public boolean has_more_to_refresh;
     public TipEntity tips;
+
     public ArrayList<NewsData> data;
 
     @Override

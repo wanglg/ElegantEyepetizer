@@ -1,5 +1,7 @@
 package com.android.leo.toutiao.mvp.model.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -94,6 +96,16 @@ public class News implements Serializable {
     public ImageEntity middle_image;
     public List<ImageEntity> image_list;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof News)) {
+            return false;
+        }
+        return TextUtils.equals(((News) obj).item_id, this.item_id);
+    }
 
     @Override
     public String toString() {

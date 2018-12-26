@@ -8,7 +8,7 @@ import com.android.leo.toutiao.mvp.model.response.NewsResponse
 import io.reactivex.Observable
 
 class NewsListModel : BaseModel(), NewsListContract.Model {
-    override fun getNewsLst(channelCode: String, lastTime: Long, currentTIme: Long): Observable<NewsResponse> {
-        return RepositoryManager.obtainRetrofitService(ApiService::class.java).getNewsList(channelCode, lastTime, currentTIme)
+    override fun getNewsLst(channelCode: String, max_behot_time: Long): Observable<NewsResponse> {
+        return RepositoryManager.obtainRetrofitService(ApiService::class.java).getNewsList(channelCode, max_behot_time)
     }
 }
