@@ -29,6 +29,7 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     protected var videoDetailMediaControlView: VideoDetailMediaControlView? = null
     protected var footView: View? = null
 
+    private var playPosition = 0
     private val linearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
@@ -38,6 +39,38 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
         ijkvideo.setVideoPath(url)
         initVideoControl()
         ijkvideo.startPlay()
+//        ijkvideo.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
+//            override fun onCompletion() {
+//                val videoBean = videoDetailAdapter?.getItem(3)?.videoBean
+//                val playInfo = videoBean?.data?.playInfo
+//
+//                val netType = NetworkManager.instance.isWifiConnected()
+//                if (playInfo!!.size > 1) {
+//                    // 当前网络是 Wifi环境下选择高清的视频
+//                    if (netType) {
+//                        for (i in playInfo) {
+//                            if (i.type == "high") {
+//                                val playUrl = i.url
+//                                setVideo(playUrl)
+//                                break
+//                            }
+//                        }
+//                    } else {
+//                        //否则就选标清的视频
+//                        for (i in playInfo) {
+//                            if (i.type == "normal") {
+//                                val playUrl = i.url
+//                                setVideo(playUrl)
+//
+//                                break
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    setVideo(videoBean.data.playUrl)
+//                }
+//            }
+//        })
     }
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {

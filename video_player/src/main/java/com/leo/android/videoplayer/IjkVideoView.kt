@@ -36,10 +36,9 @@ import tv.danmaku.ijk.media.player.TextureMediaPlayer
 import java.util.concurrent.TimeUnit
 
 /**
- * User: wanglg
+ * Author: wanglg
  * Date: 2018-05-11
  * Time: 18:57
- * FIXME
  */
 class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.OnCompletionListener,
         IMediaPlayer.OnErrorListener, IMediaPlayer.OnBufferingUpdateListener, IMediaPlayerControl, IMediaPlayer.OnInfoListener, IRenderView.IRenderCallback, IMediaPlayer.OnVideoSizeChangedListener {
@@ -237,12 +236,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     fun startPlay() {
         mVideoUri?.let {
             startPlay(it)
-
-            for (i in 0..childCount - 1) {
-                LogUtils.d(TAG, "I->" + i)
-                val view = getChildAt(i)
-                LogUtils.w(TAG, view.toString())
-            }
         }
 
     }
@@ -367,7 +360,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
 
-    //TODO 播放视频
+    /**
+     * 播放视频
+     */
     fun startPlay(videoUri: Uri, seekPosition: Long) {
         LogUtils.d(videoUri.toString())
         if (context == null) {
@@ -406,12 +401,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                         }
                         LogUtils.d(TAG, "mediaPlayer path--》" + videoPath)
                         mediaPlayer?.dataSource = videoPath
-                        mediaPlayer?.prepareAsync()
                         iMediaPlayerListeners?.let {
                             for (item in it) {
                                 item.startPrepare(videoUri)
                             }
                         }
+                        mediaPlayer?.prepareAsync()
                     }
                 } else if (TextUtils.equals("assert", host)) {
                     val videoPath = videoUri.getQueryParameter("path") as String
@@ -419,12 +414,12 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                     val afd = am.openFd(videoPath)
                     val rawDataSourceProvider = RawDataSourceProvider(afd)
                     mediaPlayer?.setDataSource(rawDataSourceProvider);
-                    mediaPlayer?.prepareAsync()
                     iMediaPlayerListeners?.let {
                         for (item in it) {
                             item.startPrepare(videoUri)
                         }
                     }
+                    mediaPlayer?.prepareAsync()
                 }
             }
         } catch (ex: Exception) {
@@ -561,8 +556,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
                 return t > 0
             }
 
-        }).subscribeOn(Schedulers.single())
-                .observeOn(AndroidSchedulers.mainThread())
+        }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Consumer<Long> {
                     override fun accept(t: Long?) {
                         currentPosition = t;
@@ -708,6 +702,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun toggleFullScreen() {
+        //锁定方向传感器一秒
+        if (playerConfig.mAutoRotate) {
+            lockOrientationTransitory()
+        }
         if (isFullScreen) {
             switchScreenOrientation(1)
         } else {
@@ -920,27 +918,26 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if (context == null || isLockFullScreen || isLockOrientation) return
             if (orientation >= 340) { //屏幕顶部朝上
                 LogUtils.d(TAG, "屏幕顶部朝上")
-                isLockOrientation = true
+                lockOrientationTransitory()
                 switchScreenOrientation(1)
-                if (playerConfig.mAutoRotate) {
-                    releaseOrientation()
-                }
             } else if (orientation >= 260 && orientation <= 280) { //屏幕左边朝上
                 LogUtils.d(TAG, "屏幕左边朝上")
-                isLockOrientation = true
+                lockOrientationTransitory()
                 switchScreenOrientation(2)
-                if (playerConfig.mAutoRotate) {
-                    releaseOrientation()
-                }
             } else if (orientation >= 70 && orientation <= 90) { //屏幕右边朝上
                 LogUtils.d(TAG, "屏幕右边朝上")
-                isLockOrientation = true
+                lockOrientationTransitory()
                 switchScreenOrientation(3)
-                if (playerConfig.mAutoRotate) {
-                    releaseOrientation()
-                }
             }
         }
+    }
+
+    /**
+     * 暂时锁定方向传感器
+     */
+    fun lockOrientationTransitory() {
+        isLockOrientation = true
+        releaseOrientation()
     }
 
     /**

@@ -25,7 +25,7 @@ abstract class BaseNewsItemProvider(val mChannelCode: String) : BaseItemProvider
                 .setText(R.id.tv_time, TimeUtils.getShortTime(news.behot_time * 1000));
         //根据情况显示置顶、广告和热点的标签
         val isTop = position == 0 && mChannelCode == mChannelCodes[0] //属于置顶
-        val isHot = news.hot === 1//属于热点新闻
+        val isHot = news.hot == 1//属于热点新闻
         val isAD = if (!TextUtils.isEmpty(news.tag)) news.tag.equals(Constant.ARTICLE_GENRE_AD) else false//属于广告新闻
         val isMovie = if (!TextUtils.isEmpty(news.tag)) news.tag.equals(Constant.TAG_MOVIE) else false//如果是影视
         helper.setVisible(R.id.tv_tag, isTop || isHot || isAD)//如果是上面任意一个，显示标签

@@ -278,7 +278,7 @@ class StatusBarUtils(private val mActivity: Activity) {
                 val statusBarView = View(view.context)
                 statusBarView.id = R.id.status_bar_view
                 statusBarView.setBackgroundColor(statusBarColor)
-                linearLayout.addView(statusBarView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(view.context)))
+                linearLayout.addView(statusBarView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(view.context)))
                 parent.removeView(view)
                 linearLayout.addView(view)
                 parent.addView(linearLayout, -1, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
