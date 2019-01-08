@@ -17,16 +17,22 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation project(':agile_android')
+    api rootProject.ext.dependencies["annotations"]
     //Ijkplayer
     api 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
 //    api 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'

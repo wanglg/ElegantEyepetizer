@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
-import com.agile.android.leo.utils.LogUtils
 import com.danikula.videocache.CacheListener
 import com.danikula.videocache.HttpProxyCacheServer
 import com.leo.android.videoplayer.cache.VideoCacheManager
@@ -21,10 +20,7 @@ import com.leo.android.videoplayer.core.IMediaPlayerListener
 import com.leo.android.videoplayer.ijk.IRenderView
 import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leo.android.videoplayer.ijk.RawDataSourceProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import com.leo.android.videoplayer.utils.LogUtils
 import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import tv.danmaku.ijk.media.player.TextureMediaPlayer
@@ -90,12 +86,15 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      * 是否锁定传感器，防止太快
      */
     protected var isLockOrientation: Boolean = false
-    /**
-     * 释放锁定传感器计时器
-     */
-    private var disposable: Disposable? = null
 
+
+    /**
+     * 更新播放位置计时调度器
+     */
     var es: ScheduledExecutorService? = null
+    /**
+     * 用于取消计时任务
+     */
     var future: ScheduledFuture<*>? = null
 
     constructor(context: Context) : super(context) {
@@ -626,7 +625,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (playerConfig.mAutoRotate) {
             orientationEventListener.disable()
             isLockOrientation = false
-            disposable?.dispose()
+            removeCallbacks(lockRunnable)
         }
     }
 
@@ -760,12 +759,20 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
 
     }
 
+    private val lockRunnable = object : Runnable {
+        override fun run() {
+            isLockOrientation = false
+        }
+    }
+
     private fun releaseOrientation() {
-        disposable?.dispose()
-        disposable = Observable.timer(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    isLockOrientation = false
-                })
+//        disposable?.dispose()
+//        disposable = Observable.timer(1, TimeUnit.SECONDS)
+//                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+//                    isLockOrientation = false
+//                })
+        removeCallbacks(lockRunnable)
+        postDelayed(lockRunnable, 1000)
     }
 
     fun savePortraitData() {

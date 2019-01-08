@@ -2,9 +2,9 @@ package com.leo.android.videoplayer.cache;
 
 import android.content.Context;
 
-import com.agile.android.leo.utils.FileUtils;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.Md5FileNameGenerator;
+import com.leo.android.videoplayer.utils.FileUtils;
 
 import java.io.File;
 
