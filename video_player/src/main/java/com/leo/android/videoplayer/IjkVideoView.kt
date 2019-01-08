@@ -21,18 +21,16 @@ import com.leo.android.videoplayer.core.IMediaPlayerListener
 import com.leo.android.videoplayer.ijk.IRenderView
 import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leo.android.videoplayer.ijk.RawDataSourceProvider
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
-import io.reactivex.functions.Predicate
-import io.reactivex.schedulers.Schedulers
 import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import tv.danmaku.ijk.media.player.TextureMediaPlayer
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 /**
@@ -59,7 +57,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     var mCurrentBufferPercentage: Int = 0
     var isSurfaceDestroy = false
     var isPlayingOnPause: Boolean = false
-    var playScheduleSubscription: CompositeDisposable? = null
     /**
      * 当player未准备好，并且当前activity经过onPause()生命周期时，此值为true
      */
@@ -97,6 +94,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      * 释放锁定传感器计时器
      */
     private var disposable: Disposable? = null
+
+    var es: ScheduledExecutorService? = null
+    var future: ScheduledFuture<*>? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -351,7 +351,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         LogUtils.d(TAG, "release over->")
         removeAllMediaPlayerListener()
         mediaPlayer = null
-        playScheduleSubscription?.clear()
+        cancelSendSchedule()
         isPrepared = false
     }
 
@@ -521,7 +521,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun reset() {
-        playScheduleSubscription?.clear()
+        cancelSendSchedule()
         stop()
         mediaPlayer?.reset()
         removeView(renderView as View)
@@ -529,48 +529,52 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         initSurface()
     }
 
-
-    fun sendPlayPosition() {
-        playScheduleSubscription?.clear()
-        if (playScheduleSubscription == null) {
-            playScheduleSubscription = CompositeDisposable()
-        }
-        playScheduleSubscription?.add(Flowable.interval(1, TimeUnit.SECONDS).filter(object : Predicate<Long> {
-            override fun test(t: Long): Boolean {
-                return mediaPlayer != null && isPrepared && !isSurfaceDestroy && isPlaying && mediaPlayer?.duration!! > 0
-            }
-
-        }).map(object : Function<Long, Long> {
-            override fun apply(t: Long): Long {
+    private val updatePositionRunnable = object : Runnable {
+        override fun run() {
+            if (mediaPlayer != null && isPrepared && !isSurfaceDestroy && isPlaying && mediaPlayer?.duration!! > 0) {
                 try {
-                    return mediaPlayer?.currentPosition ?: 0
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    return 0L
-                }
-
-            }
-
-        }).filter(object : Predicate<Long> {
-            override fun test(t: Long): Boolean {
-                return t > 0
-            }
-
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Consumer<Long> {
-                    override fun accept(t: Long?) {
-                        currentPosition = t;
-                        iMediaPlayerListeners?.let {
-                            val duration = mediaPlayer?.duration
-                            for (item in it) {
-                                item.updatePlayDuration(currentPosition!!, duration!!)
-                            }
+                    val position = mediaPlayer?.currentPosition
+                    currentPosition = position
+                    val duration = mediaPlayer?.duration
+                    iMediaPlayerListeners?.let {
+                        for (item in it) {
+                            item.updatePlayDuration(currentPosition!!, duration!!)
                         }
                     }
+                } catch (e: Exception) {
+                    LogUtils.e(e.localizedMessage)
+                }
+            }
+        }
 
-                }))
     }
 
+
+    fun sendPlayPosition() {
+        cancelSendSchedule()
+        if (es == null) {
+            es = Executors.newScheduledThreadPool(10)
+        }
+        future = es?.scheduleAtFixedRate({
+            try {
+                if (mediaPlayer != null && isPrepared && !isSurfaceDestroy && isPlaying && mediaPlayer?.duration!! > 0) {
+                    val position = mediaPlayer?.currentPosition ?: 0
+                    if (position > 0) {
+                        post(updatePositionRunnable)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }, 0, 1L, TimeUnit.SECONDS)
+    }
+
+    private fun cancelSendSchedule() {
+        future?.cancel(true)
+        future = null
+        removeCallbacks(updatePositionRunnable)
+    }
 
     //保存播放状态
     private fun savePlayerState() {
@@ -768,7 +772,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         mInitialParent = parent
         mInitWidth = this.width
         mInitHeight = this.height
-        LogUtils.d("mInitWidth->" + mInitWidth + ", mInitHeight->" + mInitHeight)
+        LogUtils.d(TAG, "mInitWidth->" + mInitWidth + ", mInitHeight->" + mInitHeight)
     }
 
 
