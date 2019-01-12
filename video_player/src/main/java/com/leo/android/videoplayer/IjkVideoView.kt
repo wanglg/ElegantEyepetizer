@@ -15,6 +15,7 @@ import com.danikula.videocache.CacheListener
 import com.danikula.videocache.HttpProxyCacheServer
 import com.leo.android.videoplayer.cache.VideoCacheManager
 import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaIntercept
 import com.leo.android.videoplayer.core.IMediaPlayerControl
 import com.leo.android.videoplayer.core.IMediaPlayerListener
 import com.leo.android.videoplayer.ijk.IRenderView
@@ -96,6 +97,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
      * 用于取消计时任务
      */
     var future: ScheduledFuture<*>? = null
+    /**
+     * 拦截逻辑
+     */
+    var iMediaIntercept: IMediaIntercept? = null
 
     constructor(context: Context) : super(context) {
         LayoutInflater.from(context).inflate(R.layout.layout_ijk_video_view, this)
@@ -224,6 +229,10 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         this.iMediaPlayerListeners?.add(iMediaPlayerListener)
     }
 
+    override fun setMediaIntercept(mediaIntercept: IMediaIntercept) {
+        this.iMediaIntercept = mediaIntercept
+    }
+
     fun removeMediaPlayerListener(iMediaPlayerListener: IMediaPlayerListener) {
         this.iMediaPlayerListeners?.remove(iMediaPlayerListener)
     }
@@ -232,15 +241,14 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         this.iMediaPlayerListeners?.clear()
     }
 
-    fun startPlay() {
+    override fun play() {
         mVideoUri?.let {
-            startPlay(it)
+            play(it)
         }
-
     }
 
-    fun startPlay(videoUri: Uri) {
-        startPlay(videoUri, 0)
+    override fun play(videoUri: Uri) {
+        play(videoUri, 0)
     }
 
     override fun preLoad(videoUri: Uri?) {
@@ -362,17 +370,27 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     /**
      * 播放视频
      */
-    fun startPlay(videoUri: Uri, seekPosition: Long) {
+    override fun play(videoUri: Uri, seekPosition: Long) {
         LogUtils.d(videoUri.toString())
         if (context == null) {
             return
         }
         setVideoUri(videoUri)
+        //拦截播放
+        if (iMediaIntercept != null && mVideoUri != null) {
+            if (iMediaIntercept?.interceptPlay(mVideoUri!!)!!) {
+                return
+            }
+        }
         initPlayer()
         isPrepared = false
         isCompleted = false
         currentPosition = seekPosition
         mCurrentBufferPercentage = 0
+        //添加控制面板监听播放器状态
+        if (controlView != null && iMediaPlayerListeners != null && !iMediaPlayerListeners!!.contains(controlView!!)) {
+            iMediaPlayerListeners?.add(controlView!!)
+        }
         try {
             val scheme = videoUri.scheme;
             if (TextUtils.equals(scheme, "common")) {
@@ -441,6 +459,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         }
         if (arg1 == IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
             iMediaPlayerListeners?.let {
+                LogUtils.d(TAG, "onFirstFrameStart---》" + arg2)
                 for (item in it) {
                     item.onFirstFrameStart()
                 }
@@ -587,14 +606,17 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     override fun start() {
+        if (iMediaIntercept != null && mVideoUri != null) {
+            if (iMediaIntercept?.interceptPlay(mVideoUri!!)!!) {
+                return
+            }
+        }
         isTryPause = false
         if (isPrepared) {
             LogUtils.d(TAG, "start-->" + mVideoUri?.toString())
             mediaPlayer?.start()
             mAudioFocusHelper?.requestFocus()
             keepScreenOn = true
-        } else {
-            startPlay()
         }
     }
 
@@ -674,10 +696,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         } else {
             mediaPlayer?.seekTo(pos)
         }
-    }
-
-    override fun play(videoUri: Uri, position: Long) {
-        startPlay(videoUri, position)
     }
 
     override fun getBufferPercentage(): Int {
@@ -813,7 +831,9 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         if (isEnterFullScreen) {
             val mDecorView = (context as Activity).window.decorView
             (mDecorView as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(-1, -1))
-
+        } else if (iMediaIntercept?.interceptAttachView() != null) {
+            val v = iMediaIntercept?.interceptAttachView()
+            v?.addView(this, -1, ViewGroup.LayoutParams(-1, -1))
         } else if (mInitialParent != null) {
             (mInitialParent as ViewGroup).addView(this, -1, ViewGroup.LayoutParams(mInitWidth, mInitHeight))
         }

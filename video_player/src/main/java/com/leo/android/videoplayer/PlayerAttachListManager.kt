@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.ViewGroup
 import com.danikula.videocache.HttpProxyCacheServer
 import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaIntercept
 import com.leo.android.videoplayer.core.IMediaPlayerControl
 import com.leo.android.videoplayer.core.IMediaPlayerListener
 import com.leo.android.videoplayer.ijk.PlayerConfig
@@ -20,8 +21,16 @@ class PlayerAttachListManager : IMediaPlayerControl {
         videoView.start()
     }
 
+    override fun setMediaIntercept(mediaIntercept: IMediaIntercept) {
+        videoView.setMediaIntercept(mediaIntercept)
+    }
+
     override fun pause() {
         videoView.pause()
+    }
+
+    override fun play() {
+        videoView.play()
     }
 
     override fun stop() {
@@ -50,6 +59,10 @@ class PlayerAttachListManager : IMediaPlayerControl {
 
     override fun seekTo(pos: Long) {
         videoView.seekTo(pos)
+    }
+
+    override fun play(videoUri: Uri) {
+        videoView.play(videoUri)
     }
 
     override fun setMute(isMute: Boolean) {

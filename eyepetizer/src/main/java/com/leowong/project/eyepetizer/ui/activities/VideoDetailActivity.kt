@@ -38,7 +38,7 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
         ijkvideo.release()
         ijkvideo.setVideoPath(url)
         initVideoControl()
-        ijkvideo.startPlay()
+        ijkvideo.play()
 //        ijkvideo.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
 //            override fun onCompletion() {
 //                val videoBean = videoDetailAdapter?.getItem(3)?.videoBean
