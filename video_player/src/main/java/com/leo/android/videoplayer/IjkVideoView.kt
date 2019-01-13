@@ -766,11 +766,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
     }
 
     private fun releaseOrientation() {
-//        disposable?.dispose()
-//        disposable = Observable.timer(1, TimeUnit.SECONDS)
-//                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-//                    isLockOrientation = false
-//                })
         removeCallbacks(lockRunnable)
         postDelayed(lockRunnable, 1000)
     }
