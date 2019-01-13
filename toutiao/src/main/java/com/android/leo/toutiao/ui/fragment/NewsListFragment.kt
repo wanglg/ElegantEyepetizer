@@ -80,6 +80,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         mRecyclerView.adapter = mNewsAdapter
         mNewsAdapter?.setOnLoadMoreListener(this, mRecyclerView)
         mNewsAdapter?.setOnItemClickListener({ adapter, view, position ->
+            val news = mNewsList[position]
             LogUtils.d("position->" + position)
         })
         mNewsAdapter?.setOnItemChildClickListener(object : BaseQuickAdapter.OnItemChildClickListener {

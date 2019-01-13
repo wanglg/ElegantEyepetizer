@@ -2,10 +2,13 @@ package com.leo.android.videoplayer
 
 import android.net.Uri
 import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaIntercept
 import com.leo.android.videoplayer.core.IMediaPlayerControl
 import com.leo.android.videoplayer.core.IMediaPlayerListener
 
 class PlayerListManager : IMediaPlayerControl {
+
+
     val TAG = "PlayerListManager"
     override fun start() {
         videoView?.start()
@@ -19,8 +22,20 @@ class PlayerListManager : IMediaPlayerControl {
         videoView?.stop()
     }
 
+    override fun play(videoUri: Uri) {
+        videoView?.play()
+    }
+
     override fun reset() {
         videoView?.reset()
+    }
+
+    override fun setMediaIntercept(mediaIntercept: IMediaIntercept) {
+        videoView?.setMediaIntercept(mediaIntercept)
+    }
+
+    override fun play() {
+        videoView?.play()
     }
 
     override fun isPlaying(): Boolean {

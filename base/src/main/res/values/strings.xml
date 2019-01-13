@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">base</string>
+    <string name="mobile_network_tip">当前是3/4G网络,是否使用流量观看视频?</string>
+    <string name="mobile_network_pause">暂停播放</string>
+    <string name="mobile_network_play">继续播放</string>
 </resources>

@@ -41,6 +41,10 @@ public interface IMediaPlayerControl {
 
     void play(Uri videoUri, Long position);
 
+    void play();
+
+    void play(Uri videoUri);
+
     void preLoad(Uri videoUri);
 
     int getBufferPercentage();
@@ -69,5 +73,7 @@ public interface IMediaPlayerControl {
     void detachMediaControl();
 
     void addMediaPlayerListener(IMediaPlayerListener iMediaPlayerListener);
+
+    void setMediaIntercept(IMediaIntercept mediaIntercept);
 
 }

@@ -7,12 +7,17 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.events.NetChangeEvent
+import com.android.leo.base.manager.NetworkManager
+import com.android.leo.base.ui.dialog.IosAlertDialog
 import com.lasingwu.baselibrary.ImageLoader
 import com.lasingwu.baselibrary.ImageLoaderOptions
 import com.leo.android.videoplayer.core.BaseVideoController
+import com.leo.android.videoplayer.core.IMediaIntercept
+import com.leo.android.videoplayer.core.IMediaPlayerControl
 import com.leowong.project.eyepetizer.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +28,9 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VideoDetailMediaControlView : BaseVideoController {
+class VideoDetailMediaControlView : BaseVideoController, IMediaIntercept {
+
+
     var progress: ProgressBar? = null
     var seekbar: SeekBar? = null
     var videoCover: ImageView? = null
@@ -42,6 +49,9 @@ class VideoDetailMediaControlView : BaseVideoController {
     var mVideoDuration: TextView? = null
     var mCurrentTime: TextView? = null
     var videoTitleTv: TextView? = null
+    var netType: Int = 0
+    var mobileNetTipDialog: IosAlertDialog? = null
+    var skip: Boolean = false
 
     constructor(context: Context) : this(context, null) {
     }
@@ -153,8 +163,13 @@ class VideoDetailMediaControlView : BaseVideoController {
             } else {
                 lockScreen?.setImageResource(R.mipmap.ic_action_lock_open)
             }
-
         }
+
+    }
+
+    override fun setMediaControl(player: IMediaPlayerControl) {
+        super.setMediaControl(player)
+        player.setMediaIntercept(this)
     }
 
     fun setVideoCover(cover: String) {
@@ -246,11 +261,33 @@ class VideoDetailMediaControlView : BaseVideoController {
     }
 
     override fun resetView() {
+        cancelDialog()
     }
 
     //网络状态变化处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNetChangeEvent(event: NetChangeEvent) {
+        netType = NetworkManager.instance.networkType
+        if (NetworkManager.instance.isMobileNetWorkConnected()) {
+            cancelDialog()
+            videoControl?.let {
+                if (it.isPlaying) {
+                    it.pause()
+                    mobileNetTipDialog = IosAlertDialog(context).builder().setMessage(R.string.mobile_network_tip)
+                            .setPositiveButton(R.string.mobile_network_play, object : View.OnClickListener {
+                                override fun onClick(v: View?) {
+                                    skip = true
+                                    if (isPrepared) {
+                                        it.start()
+                                    } else {
+                                        it.play()
+                                    }
+                                }
+                            }).setNegativeButton(R.string.mobile_network_pause, null)
+                    mobileNetTipDialog?.show()
+                }
+            }
+        }
         LogUtils.w("onNetChangeEvent-->")
     }
 
@@ -268,4 +305,41 @@ class VideoDetailMediaControlView : BaseVideoController {
         progress?.visibility = View.GONE
     }
 
+    override fun interceptPlay(uri: Uri): Boolean {
+        if (skip) {
+            return false
+        }
+        if (NetworkManager.instance.isNetWorkConnected()) {
+            if (NetworkManager.instance.isMobileNetWorkConnected()) {
+                cancelDialog()
+                mobileNetTipDialog = IosAlertDialog(context).builder().setMessage(R.string.mobile_network_tip)
+                        .setPositiveButton(R.string.mobile_network_play, object : View.OnClickListener {
+                            override fun onClick(v: View?) {
+                                skip = true
+                                videoControl?.let {
+                                    if (isPrepared) {
+                                        it.start()
+                                    } else {
+                                        it.play()
+                                    }
+                                }
+                            }
+                        }).setNegativeButton(R.string.mobile_network_pause, null)
+                mobileNetTipDialog?.show()
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
+    override fun interceptAttachView(): ViewGroup? {
+        return null
+    }
+
+    fun cancelDialog() {
+        mobileNetTipDialog?.dismiss()
+    }
 }
