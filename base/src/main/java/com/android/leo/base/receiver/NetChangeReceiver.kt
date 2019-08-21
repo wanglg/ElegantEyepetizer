@@ -1,15 +1,15 @@
-package  com.leowong.project.eyepetizer.receiver
+package  com.android.leo.base.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.events.NetChangeEvent
 import com.android.leo.base.manager.NetworkManager
 import com.android.leo.base.manager.NetworkManager.Companion.MOBILE_NETWORK
 import com.android.leo.base.manager.NetworkManager.Companion.NO_NETWORK
 import com.android.leo.base.manager.NetworkManager.Companion.WIFI_NETWORK
+import com.leo.android.log.core.LogUtils
 import org.greenrobot.eventbus.EventBus
 
 /**

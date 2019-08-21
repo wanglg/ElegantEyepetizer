@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.ui.activities.BaseActivity
 import com.android.leo.base.utils.StatusBarUtils
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.leo.android.log.core.LogUtils
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.manager.TabManager
 import kotlinx.android.synthetic.main.activity_main.*

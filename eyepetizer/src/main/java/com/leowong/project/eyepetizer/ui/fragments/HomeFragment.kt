@@ -12,6 +12,7 @@ import com.android.leo.base.GlobalConstant
 import com.android.leo.base.showToast
 import com.android.leo.base.utils.StatusBarUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.leo.android.log.core.LogUtils
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseFragment
 import com.leowong.project.eyepetizer.mvp.contract.HomeContract
@@ -102,6 +103,7 @@ class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefr
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
+        LogUtils.d("wang","onItemClick")
         val item = adapter.getItem(position) as HomeMultipleEntity;
         val intent = Intent(activity, VideoDetailActivity::class.java)
         intent.putExtra(VideoDetailActivity.BUNDLE_VIDEO_DATA, item.homeBean)

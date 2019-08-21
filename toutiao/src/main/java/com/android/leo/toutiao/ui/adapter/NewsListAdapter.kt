@@ -5,6 +5,7 @@ import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
 import com.android.leo.toutiao.ui.adapter.provider.*
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.MultipleItemRvAdapter
+import com.leo.android.log.core.LogUtils
 
 class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultipleEntity>) : MultipleItemRvAdapter<NewsFeedMultipleEntity, BaseViewHolder>(data) {
 
@@ -35,6 +36,11 @@ class NewsListAdapter(val mChannelCode: String, data: ArrayList<NewsFeedMultiple
 
     fun addItemData(item: ArrayList<News>) {
         addData(wrapList(item))
+    }
+
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        LogUtils.d("onViewDetachedFromWindow")
     }
 
     fun wrapList(itemList: List<News>): ArrayList<NewsFeedMultipleEntity> {

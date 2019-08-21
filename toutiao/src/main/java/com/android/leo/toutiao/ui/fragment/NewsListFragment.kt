@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageView
 import com.agile.android.leo.exception.ApiException
 import com.agile.android.leo.utils.ListUtils
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.showToast
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.android.leo.toutiao.Constant
@@ -24,13 +23,11 @@ import com.android.leo.toutiao.ui.adapter.entity.NewsFeedMultipleEntity
 import com.android.leo.toutiao.ui.widget.VideoFeedItemController
 import com.android.leo.toutiao.utils.VideoPathParser
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.leo.android.log.core.LogUtils
 import com.leo.android.videoplayer.IjkVideoView
 import com.leo.android.videoplayer.PlayerListManager
 import com.leo.android.videoplayer.SimpleMediaPlayerListener
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_news_list.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -146,6 +143,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), NewsListContract.Vie
         if (TextUtils.equals(mChannelCode, TouTiaoApp.context.mChannelCodes[1])) {
             mRecyclerView.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
                 override fun onChildViewDetachedFromWindow(p0: View) {
+                    LogUtils.d("onChildViewDetachedFromWindow")
                     val ijkVideoView = p0.findViewById<IjkVideoView>(R.id.video_player)
                     if (ijkVideoView != null && !ijkVideoView.isFullScreen) {
                         ijkVideoView.release()

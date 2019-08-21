@@ -20,4 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.dianping.android.sdk:logan:1.2.2'
+    //log库
+    implementation 'com.orhanobut:logger:2.2.0'
 }

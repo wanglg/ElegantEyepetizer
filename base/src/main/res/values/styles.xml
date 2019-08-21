@@ -19,6 +19,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--默认启动模式-->
         <item name="android:launchMode">singleTop</item>
+        <!--默认竖屏-->
+        <item name="android:screenOrientation">portrait</item>
         <!--<item name="android:contentDescription">@string/app_name</item>-->
     </style>
     <!-- Base application theme. -->

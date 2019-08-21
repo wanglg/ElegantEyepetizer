@@ -172,9 +172,6 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         currentPosition = 0
     }
 
-    fun setAspectRatio(aspectRatio: Int) {
-        renderView?.setAspectRatio(aspectRatio)
-    }
 
     fun setPlayerConfig(playerConfig: PlayerConfig) {
         this.playerConfig = playerConfig
@@ -296,7 +293,8 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
             if (isTryPause) {
                 pause()
                 isTryPause = false
-            } else {
+            }
+            else {
                 start()
             }
         } else {
@@ -356,6 +354,7 @@ class IjkVideoView : FrameLayout, IMediaPlayer.OnPreparedListener, IMediaPlayer.
         reset()
         mediaPlayer?.release()
         LogUtils.d(TAG, "release over->")
+        //防止多个视频源监听干扰
         removeAllMediaPlayerListener()
         mediaPlayer = null
         cancelSendSchedule()

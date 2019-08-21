@@ -14,7 +14,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
-import com.agile.android.leo.utils.LogUtils;
+import com.leo.android.log.core.LogUtils;
 
 import java.lang.reflect.Method;
 
@@ -41,7 +41,7 @@ public class LayoutHelper {
             @Override
             public void run() {
                 mLayoutComplete = true;
-                LogUtils.INSTANCE.d(TAG, "content 布局完成");
+                LogUtils.d(TAG, "content 布局完成");
             }
         });
         this.navigationBarVisibleListener = navigationBarVisibleListener;
@@ -61,7 +61,7 @@ public class LayoutHelper {
         //比较布局变化前后的View的可用高度
         if (usableHeightNow != usableHeightPrevious) {
             //如果两次高度不一致
-            LogUtils.INSTANCE.d(TAG, "onGlobalLayout-->");
+            LogUtils.d(TAG, "onGlobalLayout-->");
             if (navigationBarVisibleListener != null) {
                 navigationBarVisibleListener.onLayoutChange(usableHeightNow < usableHeightPrevious);
             }
@@ -106,7 +106,7 @@ public class LayoutHelper {
         } catch (Exception e) {
             hasNavBarFun = false;
         }
-        LogUtils.INSTANCE.d(TAG, "hasNavigationBarFun->" + hasNavBarFun);
+        LogUtils.d(TAG, "hasNavigationBarFun->" + hasNavBarFun);
         return hasNavBarFun;
     }
 

@@ -2,12 +2,12 @@ package com.android.leo.toutiao.api
 
 import android.content.Context
 import com.agile.android.leo.integration.IRepositoryManager
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.BaseApplication
 import com.android.leo.toutiao.BuildConfig
 import com.leo.android.api.logger.HttpLoggingInterceptor
 import com.leo.android.api.retrofit.ApiConfig
 import com.leo.android.api.retrofit.RetrofitManager
+import com.leo.android.log.core.LogUtils
 import okhttp3.Interceptor
 import okhttp3.Request
 

@@ -5,8 +5,8 @@ import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import com.agile.android.leo.mvp.IPresenter
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.ui.fragments.BaseFragment
+import com.leo.android.log.core.LogUtils
 import com.leo.android.videoplayer.ijk.IRenderView
 import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leo.elegant.trunk.R

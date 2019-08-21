@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import com.android.leo.base.BaseApplication
-import com.leowong.project.eyepetizer.receiver.NetChangeReceiver
+import com.android.leo.base.receiver.NetChangeReceiver
 
 /**
  * User: wanglg

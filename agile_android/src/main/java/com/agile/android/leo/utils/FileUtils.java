@@ -3,6 +3,8 @@ package com.agile.android.leo.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import com.leo.android.log.core.LogUtils;
+
 import java.io.File;
 
 import static android.os.Environment.MEDIA_MOUNTED;
@@ -68,7 +70,7 @@ public class FileUtils {
         }
         if (appCacheDir == null) {
             String cacheDirPath = context.getFilesDir().getPath() + context.getPackageName() + "/cache/";
-            LogUtils.INSTANCE.w("Can't define system cache directory! '" + cacheDirPath + "%s' will be used.");
+            LogUtils.w("Can't define system cache directory! '" + cacheDirPath + "%s' will be used.");
             appCacheDir = new File(cacheDirPath);
         }
         return appCacheDir;
@@ -79,7 +81,7 @@ public class FileUtils {
         File appCacheDir = new File(new File(dataDir, context.getPackageName()), "cache");
         if (!appCacheDir.exists()) {
             if (!appCacheDir.mkdirs()) {
-                LogUtils.INSTANCE.w("Unable to create external cache directory");
+                LogUtils.w("Unable to create external cache directory");
                 return null;
             }
         }

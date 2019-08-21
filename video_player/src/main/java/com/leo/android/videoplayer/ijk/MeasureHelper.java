@@ -19,6 +19,8 @@ package com.leo.android.videoplayer.ijk;
 
 import android.view.View;
 
+import com.leo.android.videoplayer.utils.LogUtils;
+
 import java.lang.ref.WeakReference;
 
 
@@ -204,6 +206,8 @@ public final class MeasureHelper {
 
         mMeasuredWidth = width;
         mMeasuredHeight = height;
+        LogUtils.INSTANCE.d("@", "mMeasuredWidth->" + mMeasuredWidth + " mMeasuredHeight->" + mMeasuredHeight);
+
     }
 
     public int getMeasuredWidth() {

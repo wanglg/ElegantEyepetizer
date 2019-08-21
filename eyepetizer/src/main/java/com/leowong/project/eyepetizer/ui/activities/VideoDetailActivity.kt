@@ -10,6 +10,8 @@ import com.android.leo.base.utils.StatusBarUtils
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette
 import com.github.florent37.glidepalette.GlidePalette
+import com.leo.android.log.core.LogUtils
+import com.leo.android.videoplayer.SimpleMediaPlayerListener
 import com.leo.android.videoplayer.ijk.PlayerConfig
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseActivity
@@ -35,42 +37,17 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     }
 
     override fun setVideo(url: String) {
+        LogUtils.d("wang","setVideo")
         ijkvideo.release()
         ijkvideo.setVideoPath(url)
         initVideoControl()
+        ijkvideo.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
+            override fun onFirstFrameStart() {
+                super.onFirstFrameStart()
+                LogUtils.d("wang","onFirstFrameStart")
+            }
+        })
         ijkvideo.play()
-//        ijkvideo.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
-//            override fun onCompletion() {
-//                val videoBean = videoDetailAdapter?.getItem(3)?.videoBean
-//                val playInfo = videoBean?.data?.playInfo
-//
-//                val netType = NetworkManager.instance.isWifiConnected()
-//                if (playInfo!!.size > 1) {
-//                    // 当前网络是 Wifi环境下选择高清的视频
-//                    if (netType) {
-//                        for (i in playInfo) {
-//                            if (i.type == "high") {
-//                                val playUrl = i.url
-//                                setVideo(playUrl)
-//                                break
-//                            }
-//                        }
-//                    } else {
-//                        //否则就选标清的视频
-//                        for (i in playInfo) {
-//                            if (i.type == "normal") {
-//                                val playUrl = i.url
-//                                setVideo(playUrl)
-//
-//                                break
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    setVideo(videoBean.data.playUrl)
-//                }
-//            }
-//        })
     }
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {

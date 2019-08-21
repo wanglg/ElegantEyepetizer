@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment
 import android.widget.LinearLayout
 import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.android.leo.base.utils.StatusBarUtils
@@ -13,6 +12,7 @@ import com.android.leo.toutiao.Constant
 import com.android.leo.toutiao.R
 import com.android.leo.toutiao.mvp.model.TouTiaoModel
 import com.android.leo.toutiao.ui.adapter.ChannelPagerAdapter
+import com.leo.android.log.core.LogUtils
 import com.sankuai.waimai.router.annotation.RouterService
 import kotlinx.android.synthetic.main.fragment_toutiao.*
 import java.util.*

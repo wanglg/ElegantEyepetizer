@@ -1,7 +1,7 @@
 package com.leo.android.api.logger;
 
 
-import com.agile.android.leo.utils.LogUtils;
+import com.leo.android.log.core.LogUtils;
 
 public class HttpLogger implements HttpLoggingInterceptor.Logger {
     private StringBuilder mMessage = new StringBuilder();
@@ -23,11 +23,11 @@ public class HttpLogger implements HttpLoggingInterceptor.Logger {
         mMessage.append(message.concat("\n"));
         // 请求或者响应结束，打印整条日志
         if (message.startsWith("<-- END HTTP")) {
-            LogUtils.INSTANCE.e("HTTP_LOG", "\n--------------------------------------------\n");
-            LogUtils.INSTANCE.d("HTTP_LOG", mMessage.toString());
-            LogUtils.INSTANCE.e("HTTP_LOG", "\n--------------------------------------------\n\n\n\n");
-            LogUtils.INSTANCE.json("HTTP_LOG", "\n" + json);
-            LogUtils.INSTANCE.e("HTTP_LOG", "--------------------------------------------\n\n\n\n");
+            LogUtils.e("HTTP_LOG", "\n--------------------------------------------\n");
+            LogUtils.d("HTTP_LOG", mMessage.toString());
+            LogUtils.e("HTTP_LOG", "\n--------------------------------------------\n\n\n\n");
+            LogUtils.json("HTTP_LOG", "\n" + json);
+            LogUtils.e("HTTP_LOG", "--------------------------------------------\n\n\n\n");
         }
     }
 }

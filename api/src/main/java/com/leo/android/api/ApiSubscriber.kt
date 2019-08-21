@@ -1,8 +1,8 @@
 package  com.leo.android.api
 
 import com.agile.android.leo.exception.ApiException
-import com.agile.android.leo.utils.LogUtils
 import com.google.gson.JsonParseException
+import com.leo.android.log.core.LogUtils
 import io.reactivex.Observer
 import org.json.JSONException
 import java.net.ConnectException

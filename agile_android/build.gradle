@@ -103,8 +103,7 @@ dependencies {
     api rootProject.ext.dependencies["gson"]
     api rootProject.ext.dependencies["eventbus"]
 
-    //log库
-    implementation 'com.orhanobut:logger:2.2.0'
+    api project(':log')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

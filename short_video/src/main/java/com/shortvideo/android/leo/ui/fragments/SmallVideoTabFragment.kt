@@ -6,10 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.agile.android.leo.exception.ApiException
-import com.agile.android.leo.utils.LogUtils
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
 import com.chad.library.adapter.base.BaseViewHolder
+import com.leo.android.log.core.LogUtils
 import com.leo.android.videoplayer.IjkVideoView
 import com.leo.android.videoplayer.PlayerAttachListManager
 import com.leo.android.videoplayer.SimpleMediaPlayerListener
@@ -97,6 +97,8 @@ class SmallVideoTabFragment : BaseFragment<ShortVideoPresenter>(), SmallVideoCon
             val nextVideoBean = shortVideoTabAdapter.getItem(position + 1)
             playerListManager.nextPath = VideoUrlUtils.convertRemoteUrl(nextVideoBean!!.url)
         }
+        val nextViewHolder = recycler_pager_view.findViewHolderForAdapterPosition(position + 1)
+        LogUtils.d("wang", "nextViewHolder->" + (nextViewHolder == null))
         playerListManager.attachMediaControl(ShortVideoControlView(activity!!))
         playerListManager.currentPath = VideoUrlUtils.convertRemoteUrl(videoBean!!.url)
         playerListManager.go()
