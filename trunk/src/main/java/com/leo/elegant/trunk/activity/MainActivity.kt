@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentTransaction
 import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
 import com.android.leo.base.ui.activities.BaseActivity
-import com.android.leo.base.utils.StatusBarUtils
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.gyf.immersionbar.ImmersionBar
 import com.leo.android.log.core.LogUtils
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.manager.TabManager
@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<IPresenter>() {
 
     override fun configViews() {
         window?.setBackgroundDrawable(null)
-        StatusBarUtils.with(this).init()
+        ImmersionBar.with(this).init()
         initTab()
         switchFragment(mIndex)
     }

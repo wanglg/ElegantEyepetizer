@@ -7,11 +7,11 @@ import com.agile.android.leo.base.AgileFragment
 import com.agile.android.leo.mvp.IPresenter
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.ui.fragments.BaseFragment
-import com.android.leo.base.utils.StatusBarUtils
 import com.android.leo.toutiao.Constant
 import com.android.leo.toutiao.R
 import com.android.leo.toutiao.mvp.model.TouTiaoModel
 import com.android.leo.toutiao.ui.adapter.ChannelPagerAdapter
+import com.gyf.immersionbar.ImmersionBar
 import com.leo.android.log.core.LogUtils
 import com.sankuai.waimai.router.annotation.RouterService
 import kotlinx.android.synthetic.main.fragment_toutiao.*
@@ -40,7 +40,7 @@ class TouTiaoFragment : BaseFragment<IPresenter>() {
     override fun configViews() {
         LogUtils.w("TouTiaoFragment configViews")
         val lp = status_bar_view.layoutParams as LinearLayout.LayoutParams
-        lp.height = StatusBarUtils.getStatusBarHeight(activity!!)
+        lp.height = ImmersionBar.getStatusBarHeight(activity!!)
         status_bar_view.layoutParams = lp
         mChannelPagerAdapter = ChannelPagerAdapter(mChannelFragments, mSelectedChannels, getChildFragmentManager())
         vp_content.setAdapter(mChannelPagerAdapter)

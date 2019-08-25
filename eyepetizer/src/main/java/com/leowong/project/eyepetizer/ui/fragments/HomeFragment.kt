@@ -10,8 +10,8 @@ import android.widget.RelativeLayout
 import com.agile.android.leo.exception.ApiException
 import com.android.leo.base.GlobalConstant
 import com.android.leo.base.showToast
-import com.android.leo.base.utils.StatusBarUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.gyf.immersionbar.ImmersionBar
 import com.leo.android.log.core.LogUtils
 import com.leowong.project.eyepetizer.R
 import com.leowong.project.eyepetizer.base.AppBaseFragment
@@ -53,7 +53,7 @@ class HomeFragment : AppBaseFragment<HomePresenter>(), HomeContract.View, OnRefr
         mRecyclerView.itemAnimator = DefaultItemAnimator()
         mRefreshLayout.setOnRefreshListener(this)
         val lp = status_bar_view.layoutParams as RelativeLayout.LayoutParams
-        lp.height = StatusBarUtils.getStatusBarHeight(activity!!)
+        lp.height = ImmersionBar.getStatusBarHeight(activity!!)
         status_bar_view.layoutParams = lp
     }
 
