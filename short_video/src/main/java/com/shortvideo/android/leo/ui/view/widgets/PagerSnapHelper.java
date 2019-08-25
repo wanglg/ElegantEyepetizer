@@ -20,9 +20,9 @@ package com.shortvideo.android.leo.ui.view.widgets;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.widget.LinearSmoothScroller;
+import androidx.appcompat.widget.OrientationHelper;
+import androidx.appcompat.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -32,9 +32,9 @@ import android.view.View;
  * <p>
  * <p>
  * <p>
- * PagerSnapHelper can help achieve a similar behavior to {@link android.support.v4.view.ViewPager}.
+ * PagerSnapHelper can help achieve a similar behavior to {@link androidx.core.view.ViewPager}.
  * Set both {@link RecyclerView} and the items of the
- * {@link android.support.v7.widget.RecyclerView.Adapter} to have
+ * {@link androidx.appcompat.widget.RecyclerView.Adapter} to have
  * {@link android.view.ViewGroup.LayoutParams#MATCH_PARENT} height and width and then attach
  * PagerSnapHelper to the {@link RecyclerView} using {@link #attachToRecyclerView(RecyclerView)}.
  */

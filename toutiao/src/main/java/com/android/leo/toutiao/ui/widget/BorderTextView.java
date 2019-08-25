@@ -13,7 +13,7 @@ import android.util.TypedValue;
 
 import com.android.leo.toutiao.R;
 
-public class BorderTextView extends android.support.v7.widget.AppCompatTextView {
+public class BorderTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public static final float DEFAULT_STROKE_WIDTH = 1.0f;    // 默认边框宽度, 1dp
     public static final float DEFAULT_CORNER_RADIUS = 2.0f;   // 默认圆角半径, 2dp

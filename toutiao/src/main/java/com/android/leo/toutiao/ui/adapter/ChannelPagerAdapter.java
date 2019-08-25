@@ -1,8 +1,8 @@
 package com.android.leo.toutiao.ui.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.core.app.Fragment;
+import androidx.core.app.FragmentManager;
+import androidx.core.app.FragmentStatePagerAdapter;
 
 import com.android.leo.toutiao.mvp.model.entity.Channel;
 import com.android.leo.toutiao.ui.fragment.NewsListFragment;

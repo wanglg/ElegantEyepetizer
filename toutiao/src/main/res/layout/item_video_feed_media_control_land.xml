@@ -70,7 +70,7 @@
                     android:textSize="9sp"
                     tools:text="00:00" />
 
-                <android.support.v7.widget.AppCompatSeekBar
+                <androidx.appcompat.widget.AppCompatSeekBar
                     android:id="@+id/mediacontroller_progress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"

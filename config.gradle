@@ -29,11 +29,12 @@ ext {
 
     dependencies = [
             //support
-            "appcompat-v7"              : "com.android.support:appcompat-v7:${version["androidSupportSdkVersion"]}",
-            "design"                    : "com.android.support:design:${version["androidSupportSdkVersion"]}",
-            "support-v4"                : "com.android.support:support-v4:${version["androidSupportSdkVersion"]}",
+            "appcompat-v7"              : 'androidx.appcompat:appcompat:1.0.0',
+            "design"                    : 'com.google.android.material:material:1.0.0',
+            "palette"                    : 'androidx.palette:palette:1.0.0',
+            "support-v4"                : 'androidx.legacy:legacy-support-v4:1.0.0',
             "cardview-v7"               : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
-            "annotations"               : "com.android.support:support-annotations:${version["androidSupportSdkVersion"]}",
+            "annotations"               : 'androidx.annotation:annotation:1.0.0',
             "recyclerview-v7"           : "com.android.support:recyclerview-v7:${version["androidSupportSdkVersion"]}",
 
             //network

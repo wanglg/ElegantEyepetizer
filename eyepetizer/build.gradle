@@ -33,7 +33,7 @@ dependencies {
     api('com.github.florent37:glidepalette:2.1.2') {
         exclude module: 'glide'
     }
-
+    implementation rootProject.ext.dependencies["palette"]
     //leakCanary
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]

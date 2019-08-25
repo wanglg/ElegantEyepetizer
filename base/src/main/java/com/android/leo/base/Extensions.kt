@@ -2,12 +2,11 @@ package com.android.leo.base
 
 import android.content.Context
 import android.graphics.Point
-import android.support.v4.app.Fragment
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.agile.android.leo.mvp.BasePresenter
-import com.android.leo.base.utils.PreferencesUtil
 
 
 fun Fragment.showToast(content: String): Toast {

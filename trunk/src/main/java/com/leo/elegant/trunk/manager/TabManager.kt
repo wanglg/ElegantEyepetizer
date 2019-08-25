@@ -1,6 +1,6 @@
 package com.leo.elegant.trunk.manager
 
-import android.support.v4.app.Fragment
+import androidx.core.app.Fragment
 import android.util.SparseArray
 import com.android.leo.base.GlobalConstant
 import com.flyco.tablayout.listener.CustomTabEntity

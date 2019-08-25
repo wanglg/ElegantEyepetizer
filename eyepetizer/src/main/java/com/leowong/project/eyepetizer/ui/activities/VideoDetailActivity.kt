@@ -6,10 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.agile.android.leo.exception.ApiException
 import com.android.leo.base.showToast
-import com.android.leo.base.utils.StatusBarUtils
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette
 import com.github.florent37.glidepalette.GlidePalette
+import com.gyf.immersionbar.ImmersionBar
 import com.leo.android.log.core.LogUtils
 import com.leo.android.videoplayer.SimpleMediaPlayerListener
 import com.leo.android.videoplayer.ijk.PlayerConfig
@@ -37,14 +37,14 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     }
 
     override fun setVideo(url: String) {
-        LogUtils.d("wang","setVideo")
+        LogUtils.d("wang", "setVideo")
         ijkvideo.release()
         ijkvideo.setVideoPath(url)
         initVideoControl()
         ijkvideo.addMediaPlayerListener(object : SimpleMediaPlayerListener() {
             override fun onFirstFrameStart() {
                 super.onFirstFrameStart()
-                LogUtils.d("wang","onFirstFrameStart")
+                LogUtils.d("wang", "onFirstFrameStart")
             }
         })
         ijkvideo.play()
@@ -131,8 +131,8 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
     }
 
     override fun configViews() {
-        StatusBarUtils.with(this).init()
-        StatusBarUtils.wrapStatusBarView(this, Color.BLACK)
+        ImmersionBar.with(this).statusBarColor(R.color.black).init()
+//        StatusBarUtils.wrapStatusBarView(this, Color.BLACK)
         initSlide()
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager

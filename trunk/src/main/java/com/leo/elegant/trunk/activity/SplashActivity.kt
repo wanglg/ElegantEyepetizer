@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.agile.android.leo.mvp.IPresenter
 import com.android.leo.base.ui.activities.BaseActivity
 import com.android.leo.base.utils.PreferencesUtil
-import com.android.leo.base.utils.StatusBarUtils
+import com.gyf.immersionbar.ImmersionBar
 import com.leo.elegant.trunk.R
 import com.leo.elegant.trunk.fragments.SplashFragment
 import com.leo.elegant.trunk.fragments.SplashVideoFragment
@@ -22,7 +22,7 @@ class SplashActivity : BaseActivity<IPresenter>() {
 
     override fun configViews() {
         window?.setBackgroundDrawable(null)
-        StatusBarUtils.with(this).init()
+        ImmersionBar.with(this).init()
 
         if (isFirstLaunch) {
             PreferencesUtil.writePreferences(this, IS_FIRST_LAUNCH, false)

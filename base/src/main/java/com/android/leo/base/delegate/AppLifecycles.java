@@ -17,7 +17,8 @@ package com.android.leo.base.delegate;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * 用于代理 {@link Application} 的生命周期

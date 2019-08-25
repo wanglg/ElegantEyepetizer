@@ -1,7 +1,7 @@
 package com.leo.elegant.trunk.fragments
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
+import androidx.core.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import com.agile.android.leo.mvp.IPresenter

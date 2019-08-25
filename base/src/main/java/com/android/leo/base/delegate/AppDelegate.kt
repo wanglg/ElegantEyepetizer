@@ -2,7 +2,7 @@ package com.android.leo.base.delegate
 
 import android.app.Application
 import android.content.Context
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import com.android.leo.base.integration.ConfigModule
 import com.android.leo.base.integration.ManifestParser
 import java.util.ArrayList

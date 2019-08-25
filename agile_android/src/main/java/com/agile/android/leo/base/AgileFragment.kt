@@ -2,10 +2,10 @@ package com.agile.android.leo.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.IdRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import com.agile.android.leo.integration.IFragment
 import com.agile.android.leo.mvp.IPresenter
 import com.trello.rxlifecycle2.components.support.RxFragment

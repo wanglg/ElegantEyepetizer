@@ -1,15 +1,14 @@
 package com.lasingwu.baselibrary;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 
-
+import androidx.annotation.NonNull;
 
 
 public interface IImageLoaderstrategy {
     void showImage(@NonNull ImageLoaderOptions options);
-    void hideImage(@NonNull View view,int visiable);
+    void hideImage(@NonNull View view, int visiable);
     void cleanMemory(Context context);
     void pause(Context context);
     void resume(Context context);
