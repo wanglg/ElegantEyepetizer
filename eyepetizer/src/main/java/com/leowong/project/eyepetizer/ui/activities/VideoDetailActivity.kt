@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.agile.android.leo.exception.ApiException
+import com.android.leo.base.getScreenWidth
 import com.android.leo.base.showToast
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette
@@ -134,6 +135,10 @@ class VideoDetailActivity : AppBaseActivity<VideoDetailPresenter>(), VideoDetail
         ImmersionBar.with(this).init()
         wrapStatusBarView(findViewById<View>(android.R.id.content), Color.BLACK)
         initSlide()
+        val layoutParams = mVideoView.getLayoutParams()
+        //按照16：9设置播放器视图
+        layoutParams.height = getScreenWidth(this) * 9 / 16
+        mVideoView.setLayoutParams(layoutParams)
         multipleStatusView = videoDetailMultipleStatusView
         mRecyclerView.layoutManager = linearLayoutManager
         videoDetailAdapter = VideoDetailAdapter(ArrayList())

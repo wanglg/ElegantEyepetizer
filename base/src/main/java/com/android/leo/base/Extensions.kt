@@ -7,7 +7,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.agile.android.leo.mvp.BasePresenter
-import com.android.leo.base.utils.PreferencesUtil
 
 
 fun Fragment.showToast(content: String): Toast {
